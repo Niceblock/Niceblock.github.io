@@ -1,0 +1,295 @@
+<extend name="Public/index"/>
+<block name="title">
+	<title>标签 {$res.tag_name} | 问答 | 果壳网 科技有意思</title>
+</block>
+<block name="nav">
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+				<li >
+				    <a href="{:U('Home/Question/index')}">问答首页</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/question')}">发现问答</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/waitque')}/">等待回答</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/newque')}">最新问题</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Quetag/index')}">标签广场</a>
+				</li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+	            <else />
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+	            </if>
+	            <a href="{:U('Home/Question/waitque')}" data-gaevent="ask_nav_button_answer:ask" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+	<!-- 编辑头像 -->
+	<div id="blockWindow" class="gui-block" style="position: fixed; top: 43px; left: 458.5px; display: none;">
+		<div class="gui-block-b">                               
+			<h4 class="gui-block-hd">                         
+				<span id="blockTitle">编辑图片</span>                                   
+				<a class="blockClose gui-block-close" href="#" title="关闭">X</a>
+			</h4>                               
+			<div id="blockContent" class="gui-block-bd">
+				<div id="avatar">                                    
+					<p class="gui-block-bd-hd">
+						<span class="gui-block-bd-hd-title">选择图片：</span>
+						<span class="gui-block-bd-hd-desc">图片大小不超过1M</span>
+					</p>
+					<form action="{:U('Home/Quetag/editPic')}" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="tag_id" value="{$res.tag_id}">
+						<p class="gui-block-uploader" style="margin:10px 0;">
+							<input type="file" size="32" class="" name="tp" id="trueFile">         
+						</p>                                    
+						<p class="gui-block-bd-do">                                        
+							<button id="changeImg" style="color:#333" class="gnbtn-primary" type="submit">上传</button>                                        
+							<a href="#" class="blockClose upload-avatar-cancel" style="margin-left:5px;">取消</a>
+						</p>                                    
+					</form>                                    
+					<p class="gui-block-error" id="avatarError">&nbsp;</p>                                
+				</div>
+			</div>                           
+		</div>                       
+	</div>
+	<div class="gwrap ask-tagcontent-page">
+	        
+	<div class="gmain">
+	    <div itemscope itemtype="http://rdfs.org/sioc/type#Tag" class="main-info" id="definition">
+	        <div class="main-info-sub">
+	            <div class="main-info-avatar">
+	            	<if condition="$res.tag_img eq '' ">
+		                <img src="__PUBLIC__/Home/assets/Images/tagimg.png" id="tagAvatar" alt="生活" width="48" height="48">
+	            	<else />
+		                <img src="__PUBLIC__{$res.tag_img}" id="tagAvatar" alt="生活" width="48" height="48">
+	            	</if>
+					<if condition="$uid neq '' ">
+			            <a href="javascript:void 0;" id="editPic">编辑图片</a>
+					</if>
+	            </div>
+	            <div class="main-info-title">
+	                <h1 id="tagName">{$res.tag_name}</h1>
+	                <p id="followCounter"><span id="num">{$res.follow_num}</span>人关注</p>
+	                <div>
+                        <!-- 判断有没有登入 -->
+                        <if condition="$uid eq '' ">
+                        	<a class="gnbtn-primary" href="{:U('Home/Login/index')}">
+                	        	<span>+</span>关注
+                        	</a>
+                        <!-- 判断用户是否关注 -->
+                        <elseif condition="$res.isfollow eq 1"/>
+                        	<a id="isfollow" tagid='{$res.tag_id}' class="gnbtn-primary" style="background:white;color:#A5A5A5;border:none;">
+                        		<span style="color:red;">-</span>取消
+                        	</a>
+                        <else />
+                            <a id="follow" class="gnbtn-primary" tagid="{$res.tag_id}">
+                	        	<span>+</span>关注
+                        	</a>
+                        </if>
+	                </div>
+	            </div>
+	            
+	        </div>
+	        <div class="main-info-board">
+	            <div id="tagmsg" class="main-board-editor">
+	            	{$res.tag_msg}
+	            </div>
+	        	<form action="{:U('Home/Quetag/editmsg')}" method="post">
+	        		<input type="hidden" name="tag_id" value="{$res.tag_id}">
+		            <div id="content" style="display:none;">
+		            	<script id="editor" name="tag_msg" type="text/plain" style="width:600px;height:400px;">{$msg}</script>
+		            </div>
+		            <div class="main-info-board" id="save" style="display:none;">
+	                	<p class="main-board-do" id="boardDo" style="display: block;">
+	                		<a class="cancel-edit" id="cancel">取消</a>
+	                		<button class="gnbtn-primary">保存</button>
+	                	</p>
+	                </div>
+	        	</form>
+		        <div class="main-info-ft" id="tagFt">
+	        		<if condition="$uid neq '' ">
+			            <a id="eidt">修改描述</a>
+	        		</if>
+	            </div>
+	        </div>
+	    </div>
+	    <ul class="gntabs">
+		    <li <if condition="$state eq 1"> class="gtabs-curr"</if> ><a href="{:U('Home/Quetag/tag',array('num'=>1,'tag_id'=>$res['tag_id']))}">最佳问答</a></li>
+		    <li <if condition="$state eq 2"> class="gtabs-curr"</if> ><a href="{:U('Home/Quetag/tag',array('num'=>2,'tag_id'=>$res['tag_id']))}">正在讨论</a></li>
+		    <li <if condition="$state eq 3"> class="gtabs-curr"</if> ><a href="{:U('Home/Quetag/tag',array('num'=>3,'tag_id'=>$res['tag_id']))}">等待回答</a></li>
+	    </ul>
+	    <ul class="ask-list-cp">
+	    	<!-- 该标签下暂无问题 -->
+	    	<if condition="$no  neq '' ">
+		    	{$no}
+	    	</if>
+	        <foreach name="que" item="vo" >
+		        <li>
+		        <div class="ask-hot-nums">
+		            <p class="ask-focus-nums">
+		            <span class="num">{$vo.follow_num}</span>关注
+		            </p>
+		            <p class="ask-answer-nums">
+		            <span class="num">{$vo.answer_num}</span>答案
+		            </p>
+		            
+		        </div>
+		        <div class="ask-list-detials">
+		            <h2><a target="_blank" href="{:U('Home/Question/subject',array('id'=>$vo['id']))}">{$vo.sub_name}</a></h2>
+		            <div class="ask-list-legend">
+		               <p class="ask-list-summary">
+		               {$vo.sub_msg}
+		               </p>
+		                <p class="ask-list-tags">
+		                标签：
+		                <foreach name="vo['tag_name']" item="val">
+							<a target="_blank" href="{:U('Home/Quetag/tag',array('tag_id'=>$val['tag_id']))}" class="tag">{$val.tag_name}</a>
+		                </foreach>
+		                </p>
+		            </div>
+		        </div>
+		        </li>
+	        </foreach>
+	    </ul>
+		<ul class="gpages">
+	        <div id="pages" style="margin-left:300px;">
+	           {$pages}
+	        </div>
+		</ul>
+
+	</div>
+
+	<div class="gside">
+	    <div class="side-title"> 
+	        <h2>相关标签</h2>
+	    </div>
+	    <ul class="side-tags">
+	        <foreach name="relevant" item="vo" >
+		        <li>
+		        	<a href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}">
+		        		<if condition="$vo.tag_img eq '' ">
+			        		<img src="__PUBLIC__/Home/assets/Images/tagimg.png" width="24" height="24">
+		        		<else /> 
+			        		<img src="__PUBLIC__{$vo.tag_img}" width="24" height="24">
+		        		</if>
+		        		{$vo.tag_name}
+		        	</a>
+		        	{$vo.sub_num}个问题
+		        </li>
+	        </foreach>
+	        
+	    </ul>
+	   
+	</div>
+	<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		// 绑定修改描述事件
+		$('#eidt').click(function(){
+			$('#content').css('display','block');
+			$('#save').css('display','block');
+			$(this).css('display','none');
+			$('#tagmsg').css('display','none');
+		})
+		// 绑定取消单击事件
+		$('#cancel').click(function(){
+			$('#content').css('display','none');
+			$('#save').css('display','none');
+			$('#eidt').css('display','block');
+			$('#tagmsg').css('display','block');
+		})
+		// 绑定关注单击事件
+		$('#follow').live('click',function(){
+			// 获取关注数量
+			var num=parseInt($('#num').html());
+			// 获取标签id
+			var tagid=$(this).attr('tagid');
+			// 设置url
+			var url='{:U("Home/Quetag/follow")}';
+			var follow=$(this);
+			// 发送ajax
+			$.get(url,{tag_id:tagid},function(data){
+				if(data==1){
+					follow.parent('div').html('<a id="isfollow" tagid='+tagid+' class="gnbtn-primary" style="background:white;color:#A5A5A5;border:none;"><span style="color:red;">-</span>取消</a>');
+					$('#num').html(num+1);
+				}else{
+					alert('关注失败');
+				}
+			})
+		})
+
+		// 绑定取消关注单击事件
+		$('#isfollow').live('click',function(){
+			// 获取关注数量
+			var num=parseInt($('#num').html());
+			// 获取标签id
+			var tagid=$(this).attr('tagid');
+
+			// 设置url
+			var url='{:U("Home/Quetag/isfollow")}';
+
+			var isfollow=$(this);
+			$.get(url,{tag_id:tagid},function(data){
+				if(data==1){
+					isfollow.parent('div').html('<a id="follow" class="gnbtn-primary" tagid='+tagid+'><span>+</span>关注</a>');
+					$('#num').html(num-1);
+				}else{
+					alert('取消失败');
+				}
+			})
+		})
+		// 绑定编辑头像
+		$('#editPic').click(function(){
+			$('#blockWindow').css('display','block');
+		})
+		// 关闭上传头像
+		$('.blockClose').click(function(){
+			$('#blockWindow').css('display','none');
+		})
+	</script>
+	<style type="text/css">
+		.gnbtn-primary:hover{cursor:pointer;}
+		#eidt:hover{cursor:pointer;}
+		#cancel:hover{cursor:pointer;}
+	    #pages a,#pages span{ background-color: #fff;
+            border: 1px solid #ddd;
+            color: #337ab7;
+            float: left;
+            line-height: 1.42857;
+            margin-left: -1px;
+            padding: 6px 12px;
+            position: relative;
+            text-decoration: none;}
+	    #pages span {
+          background-color: #337ab7;
+          border-color: #337ab7;
+          color: #fff;
+          cursor: default;
+          z-index: 2;}
+	</style>
+	<script type="text/javascript">
+	    //实例化编辑器
+	    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	    var ue = UE.getEditor('editor',{
+	     toolbars: [
+	         ['fullscreen', 'source', 'undo', 'redo'],
+	         ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+	     ]
+	    });
+	</script>
+</block>

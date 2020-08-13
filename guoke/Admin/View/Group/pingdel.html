@@ -1,0 +1,30 @@
+<extend name="Public/public"/>
+<block name="content">
+<div style="width:900px">
+<div class="panel panel-default bk-widget bk-border-off">
+<a href="{:U('Admin/Group/ping')}" style="float:right;color:green">返回</a>
+<br><br>
+	<div class="panel-body bk-padding-off-top bk-padding-off-bottom bk-noradius" >
+
+	<foreach name="res" item="v">
+			<div class="row" style="margin-bottom:30px">
+						<img style="width:50px;display:inline-block;" src="{$v.User_pic}" alt="">
+				<div class="col-xs-10 bk-vcenter">
+					<h6 class="bk-fg-danger bk-margin-off-bottom"><strong>{$v.User_Nickname}</strong></h6>
+					<p>
+						<small>{$v.Rp_Content}</small>
+					</p>
+				</div>
+				<a href="{:U('Admin/Group/pdel',array('id'=>$v['id']))}" type="button" class="bk-margin-5 btn btn-success btn-sm">删除</a>
+				<br><br>
+				<hr class="bk-margin-off">
+			</div>
+	</foreach>		
+			
+	</div>
+
+</div>
+</block>
+</extend>
+    
+

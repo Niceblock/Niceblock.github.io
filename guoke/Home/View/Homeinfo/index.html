@@ -1,0 +1,175 @@
+<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/me.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/gui.css" /></block>
+<block name="content">
+    <div class="sub-nav">
+        <div class="sub-nav-wrap logged gclear">
+            <h2 class="gnav-title">
+                <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a></h2>
+            <ul class="sub-nav-link gfl">
+                <li>
+                    <a href="{:U('Home/Index/index')}">首页</a></li>
+                <li>
+                    <a href="http://www.guokr.com/nuts/">果壳达人</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="gwrap-p index-page">
+
+        <div class="gside" style="width:250px">
+            <div class="side-wrap">
+                <div class="gside-head" >
+                    <a class="avatar" href="http://www.guokr.com/i/0772575393/">
+                        <img itemprop="image" width="160" height="160" src="{$touxiang}"></a>
+                    <p class="username">
+                        <a href="http://www.guokr.com/i/0772575393/">
+                            <span itemprop="name">{$tiezi[0]['User_Nickname']}</span></a>
+                    </p>
+                    <p itemprop="jobTitle" class="gtop-desc">{$tiezi[0]['User_Roleid']}</p>
+                    <p class="info-location"></p>
+                </div>
+                <div class="social-wrap">
+                    <ul class="side-userlist gclear">
+                        <li>
+                            <a href="/i/0772575393/followers/">
+                                <span class="count">0</span>
+                                <span class="count-desp">被关注</span></a>
+                        </li>
+                        <li>
+                            <a href="/i/0772575393/followings/">
+                                <span class="count">1</span>
+                                <span class="count-desp">关注</span></a>
+                        </li>
+                    </ul>
+                    <div class="gside-social" id="gtopBtns">
+                        <a href="{:U('Home/Homeinfo/gzhu')}" class="gbtn-focus" data-operation="follow" data-ukey="cryyzl" data-login="yes">关注</a>
+                        <a class="gbtn-nobg" href="/user/messages/0772575393/" data-login="http://www.guokr.com/user/messages/0772575393/" data-redirect="">
+                            <!-- <span class="gnicon-mail"></span> -->站内信</a></div>
+                </div>
+                <ul class="side-nav-normal">
+                    <li>
+                        <a class="side-title" href="/i/0772575393/blogs/">
+                            <span class="gicon-blog"></span>日志：
+                            <span class="side-title-more">0篇</span></a>
+                    </li>
+                    <li>
+                        <a class="side-title" href="/i/0772575393/activities/">
+                            <span class="gicon-news"></span>动态：
+                            <span class="side-title-more">5条</span></a>
+                    </li>
+                    <li>
+                        <a class="side-title" href="/i/0772575393/answers/">
+                            <span class="gicon-answer"></span>问答：
+                            <span class="side-title-more">0支持</span></a>
+                    </li>
+                    <li>
+                        <a class="side-title" href="/i/0772575393/posts/">
+                            <span class="gicon-post"></span>帖子：
+                            <span class="side-title-more">0篇</span></a>
+                    </li>
+                    <li>
+                        <a class="side-title" href="/i/0772575393/baskets/">
+                            <span class="gicon-basket"></span>果篮：
+                            <span class="side-title-more">0个</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="gmain">
+<!--             <div class="info gpack" id="info">
+            <div class="achieve-area" id="achieveArea">
+            <ul class="achieve-list gclear"></ul>
+            </div>
+            </div> -->
+            <div class="profile-block">
+                <div class="titleline">
+                    <h3>动态</h3></div>
+                <ul class="news_list">
+                    <foreach name="tiezi" item="v"> 
+                    <li class="new_my">
+                        <dl>
+                            <dt class="news-main gellipsis">
+                                <span class="news-action">发表帖子</span>
+                                <a target="_blank" href="{:U('Home/Reply/infolist',array('Post_id'=>$v['Post_Id'],'Post_Tid'=>$v['Post_Tid']))}">{$v.Post_Title}</a></dt>
+                            <dd class="news-content">
+                                <p class="news-time">{$v.Post_CTime}</p>
+                                <p class="news-quote" style="text-overflow:ellipsis;">内容:{$v.Post_Content}
+                                    <br>
+                                    <a target="_blank" href="{:U('Home/Reply/infolist',array('Post_id'=>$v['Post_Id'],'Post_Tid'=>$v['Post_Tid']))}">查看全文</a></p>
+                            </dd>
+                        </dl>
+                    </li>
+                   </foreach>
+                   <?php if (!empty($tiezi)):?>
+                    <li class="more-btn">
+                        <a href="javascript:void(0)" class="two">查看</a></li>
+                    <?php else: ?>
+                     <li >
+                         <a href="javascript:void(0)" class="two">没有动态</a></li>   
+                   <?php endif ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+
+    <script type="text/javascript">
+            $.ajax({
+                async:false
+            });
+            $(function(){
+                
+                    var p=2;
+                
+
+
+                function loadItem(p){
+                    $.get("{:U('Home/Homeinfo/index')}",{p:p},function(data){
+                        if(data!=1){
+                            isLoad=true;
+                            for (var i = 0; i < data.length; i++) {
+                                console.log(data[i]);
+                                var str=$('<li class="new_my">\n\
+                        <dl>\n\
+                            <dt class="news-main gellipsis">\n\
+                                <span class="news-action">发表帖子</span>\n\
+                                <a target="_blank" href="'+"{:U('Home/Reply/infolist')}"+'?Post_Tid='+data[i]['Post_Tid']+'&Post_id='+data[i]['Post_Id']+'">'+data[i]['Post_Title']+'</a></dt>\n\
+                            <dd class="news-content">\n\
+                                <p class="news-time">'+data[i]['Post_CTime']+'</p>\n\
+                                <p class="news-quote" style="text-overflow:ellipsis;">内容:'+data[i]['Post_Content']+'\n\
+                                    <br><a target="_blank" href="http://www.guokr.com/post/735511/">查看全文</a></p>\n\
+                            </dd>\n\
+                        </dl>\n\
+                    </li>');
+                                $('.more-btn').before(str);
+                            }
+                        }else{
+                            $('.more-btn').remove();
+                        }
+                        console.log(data);
+                    },'JSON');
+                }
+
+
+                $('.two').click(function(){
+                    var isLoad=false;
+                    loadItem(p++);
+                })
+                // $(window).scroll(function(){
+                //     if(!isLoad){return;}
+                //     var sT=$(window).scrollTop();
+                //     var sH=$(window).height();
+                //     var dH=$(document).height();
+                //     if(sT+sH+100>=dH){
+                //         isLoad=false;
+                //         loadItem(++p);
+                //     }
+                //     // console.log(sT,sH,dH);
+                // });
+
+            })
+        </script>
+
+</block>
+</extend>

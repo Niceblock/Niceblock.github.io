@@ -1,0 +1,170 @@
+<extend name="Public/public"/>
+<block name="content">
+  
+<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+        <div class="textareas" style="width:400px;height:300px;position:fixed!important;top:300px;left:620px;z-index:999;background:#fff;border:1px solid #ccc;display:none;">
+          <form class="text-center" action="{:U('Admin/Scienceaudit/repulse')}" method="post">
+            <h4><b>打回意见</b></h4>
+            <input class="repulsehdn" type="hidden" name="id" value="0">
+            <textarea class="textcontent" name="Text" id="" cols="50" rows="10"></textarea>
+            <button class="bk-margin-5 btn btn-default repulsebtn" type="submit">确定</button>
+          </form>
+        </div>
+
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>文章审核</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-2 number">
+                      <div class="bk-margin-bottom-10">
+                        <button type="button" class="btn btn-default dropdown-toggle" 
+                           data-toggle="dropdown" style="background-color: #B8ECE5;">
+                           <if condition="$Think.get.num eq 2"> 
+                               显示条数:2
+                           <elseif condition="$Think.get.num eq 5" />
+                               显示条数:5
+                           <elseif condition="$Think.get.num eq 10" />
+                               显示条数:10
+                           <else /> 
+                               显示条数
+                           </if>
+                           <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                           <li><a href="{:U('Admin/Scienceaudit/index',array('num'=>2))}">显示条数:2</a></li>
+                           <li><a href="{:U('Admin/Scienceaudit/index',array('num'=>5))}">显示条数:5</a></li>
+                           <li><a href="{:U('Admin/Scienceaudit/index',array('num'=>10))}">显示条数:10</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="btn-group col-sm-6"></div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Scienceaudit/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius seekcname" name="keyword" id="q" placeholder="请输入文章标题...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+
+
+                  <?php if (empty($res)): ?>
+                    <script type="text/javascript">
+                      $('.number').find('.bk-margin-bottom-10').remove();
+                    </script>
+                    <p>无记录</p>
+                  <?php else: ?>
+                    <foreach name="res" item="v"> 
+                      <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                        <thead>
+                          <tr>
+                            <th width="300px">缩略图</th>
+                            <th width="20%">文章ID</th>
+                            <th width="30%">发表用户账号</th>
+                            <th>上传时间</th>
+                          </tr>
+                        </thead>
+                        <tr class="gradeX">
+                          <td rowspan="3" class="sid">{$v.Img}</td>
+                          <td class="ssid edit_name classname">{$v.id}</td>
+                          <td class="disp">{$v.User_Email}</td>
+                          <td>{$v.Time}</td>
+                          
+                        </tr>
+                        <tr>
+                          <th>文章标题</th>
+                          <th>文章分类</th>
+                          <th>操作 (查看文章,审核通过,打回)</th>
+                        </tr>
+                        <tr>
+                          <td>{$v.Title}</td>
+                          <td>{$v.Class_Title}</td>
+                          <td class="actions">
+                            <a href="{:U('Admin/Scienceaudit/content',array('id'=>$v['id']))}" class="on-default remove-row btn_del" title="查看文章"><i class="fa fa-folder-open"></i></a>　
+
+                            <a href="javascript:love(0);" class="on-default edit-row btn_edit compile" title="通过审核"><i class="fa fa-gavel"></i></a>
+                            　
+                            <a href="#" class="on-default edit-row btn_edit repulse" title="打回文章"><i class="fa fa-reply"></i></a>
+                            　
+                          </td>
+                        </tr>
+                      </table>
+                      <hr>
+                    </foreach>
+                  <?php endif ?>
+                  
+
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!--  compileajax删除 -->
+          <script type="text/javascript">
+            // 通过审核按钮
+            $('.compile').click(function(){
+              //获取id
+              var id=$(this).parents('table').find('.ssid').html();
+              //this赋值
+              var td=$(this);
+              //url
+              var url="{:U('Admin/Scienceaudit/ajaxaudit')}";
+              //ajax审核通过
+              $.post(url, {id:id},function(data){
+                if (data==1) {
+                  //淡出
+                  td.parents('table').fadeTo("slow", 0.01, function(){
+                  //删除水平线
+                  td.parents('table').next('hr').remove();
+                  //删除表格
+                  td.parents('table').remove();
+                  });  
+                } else if(data==0){
+                  alert('系统繁忙,请稍后重试');                  
+                };
+              });
+            });
+            
+            //点击弹出文本域层
+            $('.repulse').click(function() {
+              var id=$(this).parents('table').find('.ssid').html();
+              $('.textareas').fadeIn();
+              $('.repulsehdn').val(id);
+            });
+            
+            $('.repulsebtn').click(function() {
+              var textcontent=$('.textcontent').val();
+              if (textcontent=='') {
+                $('.textareas').fadeOut();
+                return false;
+              };
+            });
+            
+            //动态更改缩略图大小
+            $('.sid').find('img').css('width','280px');
+          </script>            
+
+</block>
+

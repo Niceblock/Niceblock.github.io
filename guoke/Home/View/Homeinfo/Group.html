@@ -1,0 +1,77 @@
+<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/me.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/gui.css" /></block>
+<block name="content">
+       <div class="sub-nav">
+           <div class="sub-nav-wrap logged gclear">
+               <h2 class="gnav-title">
+                   <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a></h2>
+               <ul class="sub-nav-link gfl">
+                   <li>
+                       <a href="{:U('Home/Index/index')}">首页</a></li>
+               </ul>
+           </div>
+       </div>
+       <div class="gwrap-p index-page">
+           <div class="gside" style="width:250px">
+               <div class="side-wrap">
+                   <div class="gside-head">
+                       <a class="avatar" href="http://www.guokr.com/i/0772575393/">
+                           <img itemprop="image" width="160" height="160" src="__PUBLIC__/{$tiezi['Group_Src']}"></a>
+                       <p class="username">
+                           <a href="http://www.guokr.com/i/0772575393/">
+                               <span itemprop="name">{$tiezi['Group_Name']}</span></a>
+                       </p>
+                       <p itemprop="jobTitle" class="gtop-desc">{$tiezi['User_Roleid']}</p>
+                       <p class="info-location"></p>
+                   </div>
+                   <ul class="side-nav-normal">
+                       <li>
+                           <a class="side-title" href="{:U(Home/Homeinfo/Group)}">
+                               <span class="gicon-blog"></span>帖子管理
+                               <span class="side-title-more">{$count}篇</span></a>
+                       </li>
+                       <li>
+                           <a class="side-title" href="{:U('Home/Homeinfo/shezhi')}">
+                               <span class="gicon-blog"></span>小组设置
+                               <span class="side-title-more">0篇</span></a>
+                       </li>
+                   </ul>
+               </div>
+           </div>
+
+           <block name="cc">
+           <div class="gmain">
+            <?php if(empty($info)): ?>
+                当前无信息!
+            <?php else: ?>
+               <div class="profile-block">
+                        <table class="table table-bordered table-striped mb-none ziti lh" id="datatable-editable" style="text-align:center">
+                        <thead>
+                          <tr>
+                            <th class="ct">主题</th>
+                            <th class="ct">好评数</th>
+                            <th class="ct">链接</th>
+                            <th class="ct">操作</th>
+                          </tr>
+                        </thead>
+                            <tbody>
+                                <foreach name="info" item="v">
+                            <tr class="gradeX">
+                                <td class="edit_name lh" width="10%" height="45px">{$v['Post_Title']}</td>
+                                <td id="sid" width="10%" class="lh">{$v['Post_Good']}</td>
+                                <td width="5%" id="edit_sex" class="lh"><a style="color:#666" href="http://guoke/Home/Reply/infolist/Post_Tid/{$v['Post_Tid']}/Post_id/{$v['Post_Id']}.html">点击查看</a></td>
+                                <!-- <td width="15%" id="edit_NK" class="lh">李国江</td> -->
+                                <td width="15%" id="edit_Addre" class="lh"><a href="/Home/Homeinfo/tiezidel/id/{$v['Post_Id']}.html">删除</a></td>
+                              </tr>
+                              </foreach>
+                            </tbody>
+                        </table>
+               </div>
+            <?php endif; ?>
+           </div>
+           </block>
+       </div>
+</block>
+</extend>

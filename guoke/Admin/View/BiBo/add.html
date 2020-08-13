@@ -1,0 +1,85 @@
+<extend name="Public/public"/>
+<block name="content">
+
+  <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+                  <form action="{:U('Admin/BiBo/add')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                    
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="text-input">模块名:</label>
+                      <div class="col-md-9">
+                        <input type="text" style="width:70%" id="text-input" name="BiBo_title"  class="form-control" placeholder="请输入模块名">
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">模块路径</label>
+                      <div class="col-md-9">
+                        <input type="text" style="width:70%" id="password-input" name="BiBo_Controller" readmin="请输入密码" class="form-control" placeholder="请输入控制器路径">
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label">是否显示</label>
+                      <div class="col-md-9">
+
+                        <div class="radio-custom radio-inline">
+                          <input type="radio" id="inline-radio1" name="Display" value="0" checked> 
+                          <label for="inline-radio1">显示</label>
+                        </div>
+
+                        <div class="radio-custom radio-inline">
+                          <input type="radio" id="inline-radio2" name="Display" value="1"> 
+                          <label for="inline-radio2">隐藏</label>
+                        </div>
+                      </div>
+                    </div>
+                    
+  
+
+                   <div class="center-block" style="width:90px">
+                    <button type="submit" class="bk-margin-5 btn btn-success btn-sm" style="margin:0px auto">添加</button>
+                   </div>
+                    <br>
+                  </form>
+                </div>
+        </div>
+      <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+
+      <script>
+         $('form').submit(function(){
+          var title=$('input[name="BiBo_title"]').val();
+          var Controller=$('input[name="BiBo_Controller"]').val();
+          var Display=$('input[name="Display"]:checked').val();
+          if(title.length==0||Controller.length==0||Display.length==0){
+            alert('不能为空!');
+            return false;
+          }
+          $.ajax({
+            url:'{:U(Admin/BiBo/add)}',
+            type:'post',
+            data:{BiBo_title:title,BiBo_Controller:Controller,Display:Display},
+            success:function(date){
+              // console.log(date);
+              
+                if(date==1){
+                  alert('添加成功!');
+                  var index="{:U('Admin/BiBo/index')}";
+                  window.location.href=index;
+                }else{
+                  alert('模块已经存在!');
+                }
+
+            }
+          })
+
+           return  false;
+        })
+
+
+
+      </script>
+</block>
+

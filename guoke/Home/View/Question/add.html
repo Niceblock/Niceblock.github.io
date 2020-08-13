@@ -1,0 +1,189 @@
+<extend name="Public/index"/>
+<block name="nav">
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li>
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+	            <else />
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+	            </if>
+	            <a href="{:U('Home/Question/waitque')}" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+<div class="gwrap ask-new-page" style="margin-bottom:200px;">
+    <div class="gmain">
+            
+    <div>
+        <div class="page-title">
+            <h2>提新问题</h2>
+        </div>
+        <form id="newAsk" class="gform" action="{:U('Home/Question/insert')}" method="POST">
+		<div id="tagid"><!-- <input type="hidden" name="tags" value="水"> --></div>
+		    <label style="float:left;">问题</label>
+			<div style="margin: 40px;">
+		        <textarea id="question" name="question" cols="80" rows="5"></textarea>
+		    <span class="tip"></span>
+		        </div>
+
+        <div class="ask" style="margin:0 0 30px 40px;">
+            <a href="javascript:void 0;" id="explain">
+            	<span style="font-size: 16px;color:#4ba733;font-weight: bold;margin:0 7px 20px 0;float:left;">+</span>添加补充说明
+            </a>
+        	<div class="editor" style="display:none;">
+				<script id="editor" name="sub_msg" type="text/plain" style="width:580px;height:400px;"></script>
+        	</div>
+        </div>
+        <label style="float:left;margin-right:15px;">标签</label>
+        <div style="margin:30px;">
+            <div>
+                <p class="post-tags tags tags-edit" id="tagContent" >
+                     <!-- <span class="tag"><a href="">水</a><a href="javascript: void 0;" class="gnicon-close-small" title="移除标签" data-operation="delete">X</a></span>  -->
+                 </p>
+                <div class="hide post-autoComp_tags gclear">
+                    <div style="position:relative;z-index:1;_zoom:1;float:left;">
+	                    <input type="text" id="tagAdd">
+                    </div>
+                    <span style="font:13px 'Microsoft Yahei';float:left;margin-left: 10px;">给问题打上正确的标签有助于更快获得解答</span>
+                </div>
+            </div>
+        </div>
+            <div style="float: right;">
+                <input type="submit" class="submit" value="发布">
+                <a href="javascript:history.go(-1);" style="color:#3B3B3B;float: right;margin-top:10px;">取消</a>
+                <div class="cmts-share" id="checkAlias" style="position: relative;">
+			    <span class="tip"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+        </div>
+        
+    <div class="gside" style="margin-top:60px;background:#f4f4f4;border-radius:6px;padding:10px;">
+        <div >
+            <h2 style="color:#88C932;">如何更快得到靠谱答案</h2>
+            以下要点可以方便你更快寻求到靠谱答案：
+            <ol>
+                <li>
+                    1.请先搜索是否已经有同类问题得到解决;
+                </li>
+                <li>
+                    2.请在提问时精确描述你的问题，不要写与问题无关的内容，也不要用“详情请入内”之类无意义的语句；
+                </li>
+                <li>
+                    3.果壳er们更热衷于回答能引起思考和讨论的知识性问题；
+                </li>
+                <li>
+                    4.提问时，@相关领域的果壳达人，会让他们更快关注到你的问题。
+                </li>
+            </ol>
+            <a href="http://www.guokr.com/question/446444/">果壳问答详细指南 &gt;</a>
+        </div>
+    </div>
+    </div>
+	<style type="text/css">
+		.gside div ol li{
+			width:270px;
+			margin:10px 0;
+		}
+		.submit{
+			float: right;margin:0 30px 0 15px;background:#88C932;color:white;width:70px;height:30px;border:none;
+		}
+		.submit:hover{
+			background:#08A51C;
+		}
+	</style>
+	<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+	var id='';
+	var arr=[];
+		// 绑定添加说明单击事件
+		$('#explain').click(function(){
+			$(this).css('display','none');
+			$('.editor').css('display','block');
+		})
+		// 绑定标签input失去焦点事件
+		$('#tagAdd').blur(function(){
+			var url="{:U('Home/Question/ajaxtag')}";
+			// 获取标签的值
+			var tags=$(this).val();
+			var url='{:U("/Home/Question/addtag")}';
+			$.post(url,{tag_name:tags},function(data){
+				if(data!=''){
+					// 判断数组中是否有该标签id
+					if(arr.indexOf(data)==-1){
+						var tag="{:U('Home/Quetag/tag')}?tag_id="+data;
+						// 将id压入数组
+						arr.push(data);
+						id=arr.join(',');
+						$('#tagContent').append('<span class="tag"><a href="'+tag+'">'+tags+'</a><a href="javascript: void 0;" class="gnicon-close-small" title="移除标签" id="del" num="'+data+'">X</a></span>');
+						$('#tagid').html('<input type="hidden" name="tags" value="'+id+'">');
+					}
+				}
+			})
+			
+		})
+		// 删除标签
+		$('#del').live('click',function(){
+			// 获取id
+			var id=$(this).attr('num');
+			// 找出id对应的数组下标
+			var key=arr.indexOf(id);
+			arr.splice(key,1);
+			id=arr.join(',');
+			$('#tagid').html('<input type="hidden" name="tags" value="'+id+'">');
+			$(this).parent().remove();	
+		})
+
+		// 绑定提交单击事件
+		$('input[type=submit]').click(function(){
+			var question=$('#question').val();
+			if(question == ''){
+				alert('问题不能为空');
+				return false;
+			}
+		})
+
+	</script>
+	<style type="text/css">
+		#put:hover{cursor:pointer;}
+		.submit:hover{cursor:pointer;}
+	</style>	
+	<script type="text/javascript">
+	    //实例化编辑器
+	    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	    var ue = UE.getEditor('editor',{
+	     toolbars: [
+	         ['fullscreen', 'source', 'undo', 'redo'],
+	         ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload', 'insertimage']
+	     ]
+	    });
+	</script>
+</block>
+</extends>

@@ -1,0 +1,131 @@
+<extend name="Public/public"/>
+<block name="content">
+
+<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>会话管理</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-2 number">
+                      <div class="bk-margin-bottom-10">
+                        <button type="button" class="btn btn-default dropdown-toggle" 
+                           data-toggle="dropdown" style="background-color: #B8ECE5;">
+                           <if condition="$Think.get.num eq 2"> 
+                               显示条数:2
+                           <elseif condition="$Think.get.num eq 5" />
+                               显示条数:5
+                           <elseif condition="$Think.get.num eq 10" />
+                               显示条数:10
+                           <else /> 
+                               显示条数
+                           </if>
+                           <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                           <li><a href="{:U('Admin/Chat/index',array('num'=>2))}">显示条数:2</a></li>
+                           <li><a href="{:U('Admin/Chat/index',array('num'=>5))}">显示条数:5</a></li>
+                           <li><a href="{:U('Admin/Chat/index',array('num'=>10))}">显示条数:10</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="btn-group col-sm-6"></div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Chat/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius seekcname" name="keyword" id="q" placeholder="请输入会话内容...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+
+
+                  <?php if (empty($res)): ?>
+                    <script type="text/javascript">
+                      $('.number').remove();
+                    </script>
+                    <p>查询不到搜索的内容</p>
+                  <?php else: ?>
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                        <tr>
+                          <th width="10%">id</th>
+                          <th width="10%">会话成员</th>
+                          <th width="10%">当前成员</th>
+                          <th width="45%">会话内容</th>
+                          <th>会话状态</th>
+                          <th>操作(删除)</th>
+                        </tr>
+                  <foreach name="res" item="v"> 
+                      <tr class="gradeX">
+                        <td class="sid">{$v.id}</td>
+                        <td class="ssid edit_name classname actions">{$v.uid}</td>
+                        <td class="disp actions">{$v.User_Nickname}</td>
+                        <td class="actions">{$v.chattext}</td>
+                        <td class="actions">{$v.display}</td>
+                        <td class="actions">
+                          　
+                          <a href="#" class="del on-default remove-row btn_del" title="删除"><i class="fa fa-trash-o"></i></a>
+                          　
+                        </td>
+                      </tr>
+                      
+                  </foreach>
+                    </table>
+                  <?php endif ?>
+
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!--  compileajax删除 -->
+          <script type="text/javascript">
+            // 删除
+            $('.del').click(function(){
+              //获取id
+              var id=$(this).parents('tr').find('.sid').html();
+              //url
+              var url="{:U('Admin/Chat/ajaxdel')}";
+              //this赋值
+              var td=$(this);
+              //ajax删除
+              $.post(url, {id:id},function(data){
+                if (data==1) {
+                  //淡出
+                  td.parents('tr').fadeTo("slow", 0.01, function(){
+                    //删除行
+                    td.parents('tr').remove();
+                  });
+                } else if(data==0){
+                  alert('系统繁忙,请稍后重试');
+                };
+              });
+            });
+            //动态更改缩略图大小
+            $('.sid').find('img').css('width','280px');
+          </script>            
+
+</block>
+

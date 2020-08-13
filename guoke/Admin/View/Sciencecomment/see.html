@@ -1,0 +1,81 @@
+<extend name="Public/public"/>
+<block name="content">
+
+
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>用户管理</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>用户添加</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+        <!-- 头部结束 -->
+
+
+
+
+        <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+                  <form action="{:U('Admin/Sciencearticle/update')}" method="post" class="form-horizontal">
+                    
+                    <div class="for-group">
+                      <div class="col-md-12 text-center" style="height:40px">点赞用户</div>
+                    </div>
+
+                    <foreach name="res" item="v">
+                      <div class="form-group">
+                        <input class="hidden" type="hidden" value="{$v.id}">
+                        <label class="col-md-2 control-label" for="email-input"><i class="fa fa-bullhorn"></i></label>
+                        <div class="col-md-7">
+                          <input type="text" id="password-input" class="form-control" value="{$v.User_Email}" disabled="disabled">
+                        </div>
+                        <label class="col-md-2 control-label del" for="email-input" style="cursor:pointer">
+                          移除
+                        </label>
+                      </div>
+                    </foreach>
+
+
+                    
+
+                    <div class="center-block text-center">
+
+                   <a href="javascript:history.go(-1);" class="bk-margin-5 btn btn-success btn-sm subm" style="margin:0px auto">返 回</a>
+                   </div>
+                    <br>
+                  </form>
+                </div>
+        </div>
+
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script>
+    //删除点赞用户
+    $('.del').click(function() {
+      //获取id
+      var id=$(this).parents('.form-group').find('.hidden').val();
+      var uemail=$(this).parents('.form-group').find('#password-input').val();
+      //url
+      var url="{:U('Admin/Sciencecomment/ajaxdel')}"
+      //转移this
+      var td=$(this);
+      //ajax删除
+      $.post(url, {id:id}, function(data) {
+        if (data==1) {
+          //淡出动画
+          td.parents('.form-group').fadeTo("slow", 0.01, function(){
+            //删除表格
+            td.parents('.form-group').remove();
+          });
+        } else if(data==0){
+          alert('系统繁忙,请稍后重试');
+        };
+      });
+    });
+          
+    </script>
+</block>

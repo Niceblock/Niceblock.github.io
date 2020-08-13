@@ -1,0 +1,538 @@
+<!-- 头像备用语句 -->
+<!-- <img src="__PUBLIC__{$v.User_pic}" width="50px" alt=""> -->
+
+
+
+
+<extend name="Public/index"/>
+<block name="style">
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/affa772f.main.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/7a149cf0.skin.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/4ac1ff47.gbbcode.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/a0687475.article.css" />
+        <style type="text/css">
+        #pages{
+            text-align:center;font-size:25px;
+        }
+        #pages div{
+            margin-top: 10px;
+            letter-spacing: 10px;
+        }
+        
+        </style>
+</block>
+
+
+
+<block name="content">
+
+    
+
+    <!-- 引入百度编辑器 -->
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    
+
+    
+    
+
+<div class="container article-page" style="margin-top:40px;">
+    <div class="main">
+        <div class="content">
+            <div class="content-th">
+                
+
+                <h1 itemprop="http://purl.org/dc/terms/title"id="articleTitle"><a href="{:U('Home/Article/index')}<?php echo "?id=".$_GET['id'] ?>" style="color:#000;">{$res.Title}</a></h1>
+                <p itemprop="http://rdfs.org/sioc/ns#note" class="ghide"></p>
+               
+                
+                <div class="content-th-info">
+                    
+                        <a itemprop="http://rdfs.org/sioc/ns#has_creator" title="{$res.User_Nickname}" href="http://www.guokr.com/i/0721544490/" data-ukey="bxl7ai">{$res.User_Nickname}</a>
+                    
+                    
+                    <meta itemprop="http://purl.org/dc/terms/modified" content="2016-05-13T17:34:02+08:00" />
+                    
+                    <span>发表于 &nbsp;{$res.Time}</span>
+                    
+                    
+                </div>
+            </div>
+            <div itemprop="http://rdfs.org/sioc/ns#content" class="content-txt" id="articleContent">
+                
+                <div class="document">
+                    <p hidden>本文作者:{$res.User_Nickname}</p>
+                    <div>
+                        <p class="img-caption">
+                        {$res.Content}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="recommend-articles">
+                <div class="document-do">
+                    <div id="share" class="gfl share-box bdsharebuttonbox" data-author="{$res.User_Nickname} " data-tag="shareMain" data-xlnickname=""></div>
+                    <div itemprop="http://rdfs.org/sioc/ns#has_disccussion" itemscope itemtype="http://schema.org/UserLike" class="gfr">
+                        <meta itemprop="description" content="4" />
+                        
+
+
+
+                        <!-- 锚点链接,链接到网页最下方 -->
+                        <a data-gaevent="article_button_comment:article" href="#commentsReplyer" class="comment sccommit">发表评论</a>
+
+
+
+
+
+                    </div>  
+                </div>
+
+                <h2>你可能感兴趣</h2>
+                <ul class="recommend-articles-list" id="recommendArticleRelated" data-reckey="3db7">
+                        
+                        <!-- 遍历出4个 -->
+                        <foreach name="loveresule" item="v">
+                        <li>
+                            <a href="{:U('Home/Article/index',array('id'=>$v['id']))}" target="_blank" data-gaevent="article_interested:v1.1.1.1:article">
+                                <!-- 图片 -->
+                                {$v.Img}
+                            </a>
+                            <a href="#" target="_blank"  class="recommend-article-title"  data-gaevent="article_interested:v1.1.1.1:article"><!-- 内容 -->{$v.Content}</a>
+                        </li>
+                        </foreach>
+
+
+                        
+                    
+                        
+                        
+                        
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="cmts" id="comments">
+            <!-- 是否有热门评论 -->
+            <?php if (!empty($hot)): ?>
+                <div class="cmts-title">
+                    <p class="gfl">热门评论</p>
+                </div>
+                <ul class="cmts-list">
+                                
+                <foreach name="hot" item="v">
+                <li class="reply3001172">
+                    <div class="cmt-img cmtImg pt-pic">
+                        <a href="#" title="{$v.User_Nickname}" data-ukey="21gcae" target="_blank">
+                            <img width="48" height="48" src="__PUBLIC__{$v.User_pic}">
+                        </a>
+                        
+
+                    </div>
+                    <div class="pt-txt">
+                        <span class="cmt-info">{$v.Cm_Time}</span>
+                        <!-- 评论ID -->
+                        <span class="comid" style="display:none">{$v.id}</span>
+                        <!-- 用户ID -->
+                        <span class="uid" style="display:none">{$v.U_PID}</span>
+                        <!-- 用户名 -->
+                        <a class="cmt-author cmtAuthor" href="#" data-ukey="21gcae" target="_blank">{$v.User_Nickname}</a>
+                        
+                        <div class="cmt-content gbbcode-content cmtContent">{$v.Cm_Content}</div>
+                        <span class="cmt-do">
+                            
+                                
+                                
+                            
+                            
+                            
+                            <!-- 判断用户是否登录 -->
+                            <?php if (isset($_SESSION['Home']) && !empty($_SESSION['Home'])): ?>
+
+                                <?php if ($v['U_PID']==$_SESSION['Home']['Uid']) : ?>
+                                    <span class="commentdel" style="cursor:pointer;color:red;">删除</span>
+                                <?php endif ?>
+
+                                <!-- 判断当前评论点赞状态 -->
+                                <if condition="$v.ynz eq 0"> 
+                                    <a class="cmt-do-quote zambia" data-gaevent="article_comment_ding:article" href="javascript:void 0;" data-operation="likeComment" data-id="3001057">顶</a>
+                                    <span class="cancelzambia" style="display:none;cursor:pointer;">取消顶</span>
+                                <elseif condition="$v.ynz eq 1"/>
+                                    <a class="cmt-do-quote zambia" data-gaevent="article_comment_ding:article" href="javascript:void 0;" data-operation="likeComment" data-id="3001057" style="display:none;">顶</a>
+                                    <span class="cancelzambia"  style="cursor:pointer;">取消顶</span>
+                                </if>
+
+    
+                                [<span class="cmt-do-num">{$v.likeCount}</span>]
+                                
+                                <a data-gaevent="article_reply_comment:article" class="cmt-do-quote comment commit" id="comment" href="#commentsReplyer" data-operation="quoteComment">评论</a>
+                            <?php else: ?>
+                                <a class="cmt-do-quote" data-gaevent="article_comment_ding:article" href="{:U('Home/Login/index')}" data-operation="likeComment" data-id="3001057">顶</a>
+
+                                [<span class="cmt-do-num">{$v.likeCount}</span>]
+
+                                <a class="cmt-do-quote" href="{:U('Home/Login/index')}" data-operation="quoteComment">评论</a>
+                            <?php endif ?>
+                            
+                        </span>
+                    </div>
+                </li>
+                </foreach>
+            <?php endif ?>
+            
+
+                <!-- 显示所有评论按钮,js控制,点击会显示评论,隐藏按钮 -->
+                <p class="show-all-reply" {$style}>显示所有评论</p>
+
+            <div class="cmts-title cmts-hide" {$styles}>
+                <div class="gfl">全部评论</div>
+            </div>
+            <!-- 所有评论的ul,每个li是一条评论 -->
+            <ul class="cmts-list cmts-all cmts-hide" {$styles}>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php if (empty($commentres)): ?>
+    <div style="text-align:center;font-size:25px;margin-top:10px;">暂无评论</div>
+<?php else: ?>
+    
+
+<foreach name="commentres" item="v">
+                
+    <li class="reply3001172">
+        <div class="cmt-img cmtImg pt-pic">
+            <a href="http://www.guokr.com/i/0144802463/" title="{$v.User_Nickname}" data-ukey="2e7man" target="_blank">
+                <img width="48" height="48" src="__PUBLIC__{$v.User_pic}">
+            </a>
+            
+            <span class="cmt-floor">{$v.floor}楼</span>
+            
+        </div>
+        <div class="pt-txt">
+            <span class="cmt-info">{$v.Cm_Time}</span>
+            <!-- 评论ID -->
+            <span class="comid" style="display:none">{$v.id}</span>
+            <!-- 用户ID -->
+            <span class="uid" style="display:none">{$v.U_PID}</span>
+            <!-- 用户名 -->
+            <a class="cmt-author cmtAuthor" href="#" data-ukey="2e7man" target="_blank">{$v.User_Nickname}</a>
+            
+            <div class="cmt-content gbbcode-content cmtContent">{$v.Cm_Content}</div>
+            <span class="cmt-do">
+                
+
+
+
+                
+                
+                <!-- 判断用户是否登录 -->
+                <?php if (isset($_SESSION['Home']) && !empty($_SESSION['Home'])): ?>
+                    <?php if ($v['U_PID']==$_SESSION['Home']['Uid']) : ?>
+                        <span class="commentdel" style="cursor:pointer;color:red;">删除</span>
+                    <?php endif ?>
+
+                    <if condition="$v.ynz eq 0"> 
+                        <a class="cmt-do-quote zambia" data-gaevent="article_comment_ding:article" href="javascript:void 0;" data-operation="likeComment" data-id="3001057">顶</a>
+                        <span class="cancelzambia" style="display:none;cursor:pointer;">取消顶</span>
+                    <elseif condition="$v.ynz eq 1"/>
+                        <a class="cmt-do-quote zambia" data-gaevent="article_comment_ding:article" href="javascript:void 0;" data-operation="likeComment" data-id="3001057" style="display:none;">顶</a>
+                        <span class="cancelzambia" style="cursor:pointer;">取消顶</span>
+                    </if>
+
+                    [<span class="cmt-do-num">{$v.likeCount}</span>]
+                    
+                    <a data-gaevent="article_reply_comment:article" class="cmt-do-quote comment commit" id="comment" href="#commentsReplyer" data-operation="quoteComment">评论</a>
+                <?php else: ?>
+                    <a class="cmt-do-quote" data-gaevent="article_comment_ding:article" href="{:U('Home/Login/index')}" data-operation="likeComment" data-id="3001057">顶</a>
+
+                    [<span class="cmt-do-num">{$v.likeCount}</span>]
+
+                    <a class="cmt-do-quote" href="{:U('Home/Login/index')}" data-operation="quoteComment">评论</a>
+                <?php endif ?>
+
+                
+            </span>
+        </div>
+    </li>
+
+
+</foreach>
+
+<div id="pages">
+  {$pages}
+</div>
+
+
+<?php endif ?>
+
+
+            </ul>
+            <div class="cmts-hide" {$styles}>
+            
+
+
+
+            
+
+
+
+            </div>
+            <div id="commentsReplyer" class="cmts-do"><p></p>
+                <h3 id="replyer">你的评论</h3>
+           
+            </div>
+            
+
+            <input id="scid" type="hidden" name="Wid" value="{$res.id}">
+            
+            <!-- 判断用户是否登录 -->
+            <?php if (isset($_SESSION['Home']) && !empty($_SESSION['Home'])): ?>
+                <!-- 登录时启用评论框 -->
+                <form action="{:U('Home/Article/upload')}" method="post">
+                <!-- 隐藏域,传输用户ID -->
+                <input id="User_Id" type="hidden" name="Uid" value="<?php echo $_SESSION['Home']['Uid']; ?>">
+                <!-- 隐藏域,传输文章ID -->
+                <input id="scid" type="hidden" name="Wid" value="{$res.id}">
+                <!-- 隐藏域,传输被回复的用户的ID -->
+                <input id="pid" type="hidden" name="Pid" value="0">
+                <script id="editor" name="Cm_Content" type="text/plain" style="width:638px;height:300px;"></script>
+                <button style="border:1px solid green;background:#47B5E7;width:100px;height:30px;line-height:25px;cursor:pointer;margin-top:10px;" type="submit"><span class="icon-write"></span>发表</button>
+                </form>
+            <?php else: ?>
+                <!-- 未登录时禁用评论框 -->
+                <div class="reply-box" style="height:150px;padding:15px;border:1px solid #ccc;"><p class="reply-info">请 <a rel="nofollow" href="{:U('Home/Login/index')}">登录</a> 发表评论</p></div>
+            <?php endif ?>
+
+            
+
+        
+
+
+        </div>
+    </div>
+
+    <div class="side">
+        
+
+
+        <!-- 后期过来写联接到用户个人页 -->
+
+
+        <div class="author-info  clearfix">
+                <a class="author-pic" href="
+                #">
+                    <img src="__PUBLIC__{$res.User_pic}" alt="{$res.User_Nickname}">
+                </a>
+                <div class="author-intro clearfix">
+                    <span class="author-wrap">
+                        
+                        <a href="http://www.guokr.com/i/0721544490/" class="author" title="{$res.User_Nickname}" id="authorName" data-ukey="bxl7ai">{$res.User_Nickname}</a>
+                        
+                        
+                    </span>
+                </div>
+            </div>
+        
+        
+        <div class="side-title">
+            <h2>作者的其他文章</h2>
+        </div>
+        <ul class="related-article">
+            
+            <foreach name="other" item="v">
+                <li>
+                    <a href="{:U('Home/Article/index',array('id'=>$v['id']))}"  target="_blank" data-gaevent="article_same_author:v1.1.1.1:article">{$v['Title']}</a>
+                </li>
+            </foreach>            
+           
+            
+        </ul>
+        
+        <div class="side-qr-code">                                    
+            <img src="__PUBLIC__/Home/assets/Images/zqkqb0rvqhnvbjpa4qqsm5sstypta0t3gnay_b2vwgqyaaaasgaaaepq.jpg">        
+            <p>更多科研事,扫码早知道</p>
+        </div>
+    </div>
+</div>
+
+
+        
+        <div class="gbottom">
+</div>
+        <script type="text/javascript">
+    var g_obj_id = 441438,
+        tinymceContentCSS = "http:\/\/static.guokr.com\/apps\/minisite\/styles\/editor\/cc7d3765.content.css",
+        g_share_data = {
+            title : "\u7b2c\u8c37\u8d85\u65b0\u661f\u9057\u8ff9\uff0c\u52a8\u8d77\u6765\u4e86\uff01",
+            url : "http:\/\/www.guokr.com\/article\/441438\/",
+            image : "http:\/\/1.im.guokr.com\/0FhxrtLEd274x8tMZMB98qJsA1F6vFlYtg3BUIMpIaVKAQAABgEAAEdJ.gif?imageView2\/1\/w\/166\/h\/129",
+            summary : "400\u591a\u5e74\u524d\u7206\u70b8\u7684\u4e00\u9897\u6052\u661f\uff0c\u5982\u4eca\u5316\u4e3a\u4e00\u56e2\u788e\u5c51\uff0c\u4ecd\u5728\u6301\u7eed\u6269\u6563\u3002NASA\u82b1\u4e8615\u5e74\u65f6\u95f4\u6301\u7eed\u89c2\u6d4b\uff0c\u7ec8\u4e8e\u8ba9\u6211\u4eec\u80fd\u591f\u201c\u4eb2\u773c\u201d\u770b\u89c1\u8fd9\u56e2\u788e\u5c51\u7684\u6f14\u53d8\u8fc7\u7a0b\u3002"
+        },
+        g_is_positive = true,
+            g_weibo_nickname =  "\u827e\u9ea6\u4e50" ;
+
+    
+</script>
+<script src="__PUBLIC__/Home/assets/Scripts/476760c9.editor.js"></script>
+<script>
+            var g_page_name = 'unkownPage',
+            GJS_VERSION = 'doom',
+            ukey = null,
+            client_id = 32353,
+                url_signin = "http:\/\/www.guokr.com\/sso\/?suppress_prompt=1&lazy=y&success=http%3A%2F%2Fwww.guokr.com%2Farticle%2F441438%2F",
+                url_signin_mobile = "http:\/\/www.guokr.com\/sso\/mobile\/?suppress_prompt=1&lazy=y&success=http%3A%2F%2Fwww.guokr.com%2Farticle%2F441438%2F";
+                url_signup = "https:\/\/account.guokr.com\/sign_up\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Fgroup%252Fuser%252Frecent_replies%252F",
+                weibo_signin = "https:\/\/account.guokr.com\/weibo\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Farticle%252F441438%252F",
+                renren_signin = "https:\/\/account.guokr.com\/renren\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Farticle%252F441438%252F",
+                qq_signin = "https:\/\/account.guokr.com\/qq\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Farticle%252F441438%252F";
+                douban_signin = "https:\/\/account.guokr.com\/douban\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Farticle%252F441438%252F";
+        window["_BFD"] = window["_BFD"] || {};
+            _BFD.client_id = "Cguoke";
+            _BFD.BFD_INFO = {
+                "user_id" : ""
+            };
+            _BFD.script = document.createElement("script");
+            _BFD.script.type = "text/javascript";
+            _BFD.script.async = true;
+            _BFD.script.charset = "utf-8";
+            _BFD.script.src = (('https:' == document.location.protocol?'https://ssl-static1':'http://static1')+'.bfdcdn.com/service/guokewang/guokewang.js');
+            document.getElementsByTagName("head")[0].appendChild(_BFD.script);
+        </script>
+        <script src="__PUBLIC__/Home/assets/Scripts/aea9c4c1.base.js"></script>
+        <script src="__PUBLIC__/Home/assets/Scripts/b00a5135.main.js"></script>
+<script src="__PUBLIC__/Home/assets/Scripts/ad492e38.article.js"></script>
+<script type="text/javascript">
+    //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        var ue = UE.getEditor('editor'/*,{toolbars:[['bold','simpleupload']]}*/);
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/assets/Script/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+    //点击'显示所有评论'
+    $('.show-all-reply').click(function() {
+        //显示评论ul
+        $('.cmts-hide').css('display','block');
+        //隐藏'显示所有评论DIV'
+        $('.show-all-reply').css('display','none');
+        //文章ID
+        var wid=$('#scid').val();
+        //url
+        var url="{:U('Home/Article/ajaxCookie')}";
+        //ajax
+        $.post(url, {wid:wid});
+    });
+
+
+    //回复其他用户的回复
+    //单击'评论'事件
+    $('.commit').click(function(){
+        //获取用于传输被其回复的用户的用户ID
+        var pid=$(this).parents('.pt-txt').find('.uid').html();
+        //修改用于传输被其回复的用户的用户ID的隐藏域用于传输
+        $('#pid').val(pid);
+        //获取被其回复的用户的用户名
+        var uname=$(this).parents('.pt-txt').find('.cmtAuthor').html();
+        //获取被其回复的用户的回复内容
+        var ucontent=$(this).parents('.pt-txt').find('p').html();
+        //获取被其回复的用户的ID
+        var id=$(this).parents('.pt-txt').find('.uid').html();
+        //把上述内容拼接,放入百度编辑器   
+        UE.getEditor('editor').setContent('<blockquote>引用@'+'<a href="1">'+uname+'</a>'+' 的话：'+ucontent+' </blockquote><p>');
+    })
+    //单击文章评论清空百度编辑器内容
+    $('.sccommit').click(function(){
+        UE.getEditor('editor').setContent('');
+    })
+    //当用户登录时启用此js
+    <?php if (isset($_SESSION['Home']) && !empty($_SESSION['Home'])): ?>
+        //点赞
+        $('.zambia').click(function(){
+            //点赞+1
+            var znum=+$(this).parents('li').find('.cmt-do-num').html()+1;
+            //获取当前操作用户ID
+            var uid=<?php echo $_SESSION['Home']['Uid']; ?>;
+            //获取当前评论ID
+            var likeid=$(this).parents('li').find('.comid').html();
+            var td=$(this);
+            // url
+            var url="{:U('Home/Article/ajaxZambia')}";
+            //ajax添加用户点赞
+            $.post(url,{Like_Uid:uid,Like_Lid:likeid},function(data) {
+                if (data==1) {
+                    //成功,修改元素
+                    td.parents('li').find('.cmt-do-num').html(znum);
+                    td.parents('li').find('.zambia').css('display','none');            
+                    td.parents('li').find('.cancelzambia').css('display','inline-block');
+                } else if(data==0){
+                    //失败,提示
+                    alert('系统繁忙,请稍后重试');
+                };
+            });
+        })
+        //取消点赞
+        $('.cancelzambia').click(function(){
+            //点赞-1
+            var znum=+$(this).parents('li').find('.cmt-do-num').html()-1;
+            //获取当前操作用户ID
+            var uid=<?php echo $_SESSION['Home']['Uid']; ?>;
+            //获取当前评论ID
+            var likeid=$(this).parents('li').find('.comid').html();
+            var td=$(this);
+            // url
+            var url="{:U('Home/Article/ajaxCancelZambia')}";
+            //ajax删除用户点赞
+            $.post(url,{uid:uid,likeid:likeid},function(data) {
+                if (data==1) {
+                    //成功,修改元素
+                    td.parents('li').find('.cmt-do-num').html(znum);
+                    td.parents('li').find('.zambia').css('display','inline-block');            
+                    td.parents('li').find('.cancelzambia').css('display','none');
+                } else if(data==0){
+                    //失败,提示
+                    alert('系统繁忙,请稍后重试');
+                };
+            });
+        })
+        //删除评论
+        $('.commentdel').click(function(){
+            //获取要删除的ID
+            var delid=$(this).parents('.pt-txt').find('.comid').html();
+            //url
+            var url="{:U('Home/Article/ajaxcommentdel')}";
+            //this赋值
+            var td=$(this);
+            //ajax删除
+            $.post(url, {id:delid}, function(data) {
+                if (data==1) {
+                    //淡出
+                    td.parents('.reply3001172').fadeTo("slow", 0.01, function(){
+                    //删除表格
+                    td.parents('.reply3001172').remove();
+                    });  
+                } else if(data==0){
+                    alert('系统繁忙,请稍后重试');
+                };
+            });
+        })
+    <?php endif ?>
+
+    //动态改变'您可能喜欢的'图片大小
+    $('.recommend-articles-list').find('img').css('width','127px').css('height','90px');
+</script>
+</block>

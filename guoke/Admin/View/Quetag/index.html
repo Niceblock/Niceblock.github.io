@@ -1,0 +1,327 @@
+<extend name="Public/public"/>
+<block name="content">
+
+      <div class="row">
+        
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>标签列表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body" id="prent">
+                 <!--  <div id="detailed">
+                    sda
+                  </div> -->
+                  <div class="row">
+                    
+                    <div class="btn-group col-sm-8">
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background-color: #B8ECE5;">
+                          <if condition="$Think.get.page eq 5"> 
+                              5
+                          <elseif condition="$Think.get.page eq 10"/>
+                              10
+                          <elseif condition="$Think.get.page eq 15"/>
+                              15
+                          <else />
+                              显示条数
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/Quetag/index',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('page'=>10))}">10</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('page'=>15))}">15</a></li>
+                       </ul>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Quetag/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+                  <hr> 
+                 
+ 
+                  <div class="panel-body col-md-7">
+
+                  <if condition="$Think.get.state eq 1">
+
+                    排序方式:
+                      <a href="{:U(Admin/Quetag/index,array('name'=>'tag_id','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">ID <span class="glyphicon glyphicon-sort"></span></a>
+                      <a  href="{:U(Admin/Quetag/index,array('name'=>'sub_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">问题数<span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Quetag/index,array('name'=>'follow_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">关注数 <span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Quetag/index,array('name'=>'is_hot','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">热门 <span class="glyphicon glyphicon-sort"></span></a>
+
+                  </if>
+
+                    </div>
+                    <div class="btn-group col-sm-2" style="float:right;">
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background:#F57C7C;color:white;">
+                          <if condition="$Think.get.state eq 1"> 
+                              未分类标签
+                          <elseif condition="$Think.get.state eq 2"/>
+                              人文·社科
+                          <elseif condition="$Think.get.state eq 3"/>
+                              科学·技术
+                          <elseif condition="$Think.get.state eq 4"/>
+                              生活·娱乐
+                          <elseif condition="$Think.get.state eq 5"/>
+                              自然·生态
+                          <else />
+                              显示方式
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/Quetag/index',array('state'=>1))}">未分类标签</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('state'=>2))}">人文·社科</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('state'=>3))}">科学·技术</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('state'=>4))}">生活·娱乐</a></li>
+                          <li><a href="{:U('Admin/Quetag/index',array('state'=>5))}">自然·生态</a></li>
+                       </ul>
+                    </div>
+                  <foreach name="res" item="vo" key="k" >
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable" style="margin-top:15px;">
+                      <thead>
+                        <tr>
+                          <th class="text-center" width="150px">ID</th>
+                          <th class="text-center">标签名</th>
+                          <th class="text-center">问题数</th>
+                          <th class="text-center">关注数</th>
+                          <th class="text-center">分类</th>
+                          <th class="text-center" width="150px">操作</th>
+                        </tr>
+                        <tr class="text-center id">
+                          <td><h4>{$vo.tag_id}</h4></td>
+                          <td id="name" state="1"><h4>{$vo.tag_name}</h4></td>
+                          <td><h4>{$vo.sub_num}</h4></td>
+                          <td><h4>{$vo.follow_num}</h4></td>
+                          <td rowspan="2" style="width:150px;">
+                            <select style="height:30px;border-radius:4px;" id="class">
+                              <option value="1">标签分类</option>
+                              <option value="2">人文·社科</option>
+                              <option value="3">科学·技术</option>
+                              <option value="4">生活·娱乐</option>
+                              <option value="5">自然·生态</option>
+                              
+                            </select>
+                          </td>
+                          <td rowspan="2" class="text-center" style="vertical-align: middle;">
+                            <a href="{:U('Admin/Quetag/save',array('id'=>$vo['tag_id']))}" class="btn btn-warning">修改</a>
+                            <if condition="$vo.is_locking eq 0 ">
+                              <a num="{$vo.tag_id}" id="locking" class="btn btn-danger" lock="0">未锁定</a>
+                            <else />
+                              <a num="{$vo.tag_id}" id="locking" class="btn btn-danger" lock="1">已锁定</a>
+                            </if>
+                          </td>
+                        </tr>
+                        <tr class="text-center">
+                          <th class="text-center" style="vertical-align: middle;">头像</th>
+                          <td id="hp">
+                            <if condition="$vo.tag_img eq '' ">
+                              <img src="__PUBLIC__/Admin/assets/img/tagimg.png">
+                            <else />
+                              <img width="48px" height="48px" src="__PUBLIC__{$vo.tag_img}" alt="">
+                            </if>
+                          </td>
+                          
+                          <th class="text-center" style="vertical-align: middle;">是否热门</th>
+                          <td><h4>
+                            <if condition="$vo.is_hot eq 0 ">
+                              <a class="bk-margin-5 btn btn-warning btn-circle" state="0" id="is_hot"><i class="fa fa-times"></i></a>
+                            <else />
+                              <a class="bk-margin-5 btn btn-default btn-circle" state="1" id="is_hot"><i class="fa fa-check"></i></a>
+                            </if>
+                            </h4>
+                          </td>
+                        </tr>
+
+                          <th class="text-center" style="vertical-align: middle;">标签描述</th>
+                          <td colspan="4">
+
+                            {$vo.tag_msg|substr=0,300}
+
+                          </td>
+                          <td class="text-center" style="vertical-align: middle;">
+                            <a class="btn btn-info" id="msg" number="{$vo.tag_id}">详细描述</a>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </foreach>
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+          <style type="text/css">
+            #detailed{width:900px;height:auto;position:absolute;background:rgba(0,0,0,0.3);
+              z-index:10;}
+          </style>
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+          // 绑定详细描述
+          $('#msg').live('click',function(){
+            var url = "{:U('Admin/Quetag/ajaxdetailed')}";
+            var top = $(this).offset().top;
+            // alert(top);
+            // 获取当前id
+            var id=$(this).attr('number');
+            // 发送ajax
+            $.get(url,{id:id},function(data){
+              var div=$('<div id="detailed" style="top:'+top+'px">'+data+'</div>');
+              top=top-336;
+              $('#prent').append(div);
+              div.animate({
+                top:+top+"px",
+              },1300);
+              $(window).click(function(){
+                div.remove();
+              })
+            })
+          })
+          // 绑定锁定
+          $('#del').live('click',function(){
+            var url="{:U('Admin/Quetag/ajaxdel')}";
+            var id=$(this).attr('num');
+            // 获取当前$this
+            var del=$(this);
+            alert('确认删除');
+            $.get(url,{id:id},function(data){
+              // alert(data);
+              if(data==1){
+                del.parents('table').remove();
+              }else{
+                alert('删除失败');
+              }
+            })
+          })
+          // 绑定是否热门
+          $('#is_hot').live('click',function(){
+            // 获取id
+            var id=$(this).parents('tr').siblings('tr').find('td:eq(0)').find('h4').html();
+            // 获取状态
+            var state=$(this).attr('state');
+            // 设置url
+            var url="{:U('Admin/Quetag/ajaxhot')}";
+
+            var hot=$(this);
+            // 判断状态
+            if(state==1){
+              $.get(url,{id:id,state:0},function(data){
+                if(data==1){
+                  hot.parent().html('<a class="bk-margin-5 btn btn-warning btn-circle" state="0" id="is_hot"><i class="fa fa-times"></i></a>');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }else{
+              $.get(url,{id:id,state:1},function(data){
+                if(data==1){
+                  hot.parent().html('<a class="bk-margin-5 btn btn-default btn-circle" state="1" id="is_hot"><i class="fa fa-check"></i></a>');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }
+          })
+
+          // 绑定标签名双击单击事件
+          $('#name').live('dblclick',function(){
+            var td=$(this);
+            var url="{:U('Admin/Quetag/ajaxname')}";
+            // 获取状态
+            var state=$(this).attr('state');
+            // <q{1: cite=""}></q>
+            // 判断状态
+            if(state==1){
+              $(this).attr('state','0');
+              var name=$(this).find('h4').html();
+              var id=$(this).parent('tr').find('td:eq(0)').find('h4').html();
+              $(this).html('<input name="tag_name" value="'+name+'">');
+              // 获取input
+              var inp=$(this).find('input:eq(0)');
+              inp.select();
+
+              // 失去焦点
+              inp.blur(function(){
+                // 获取表单值
+                var val=inp.val();
+                // 发送ajax
+                $.get(url,{id:id,tag_name:val},function(data){
+                  if(data==1){
+                    td.html('<h4>'+val+'</h4>');
+                    td.attr('state','1');
+                  }else{
+                    alert('你输入的标签名已存在');
+                  }
+                })
+              })
+            }
+
+          })
+
+          // 绑定分类发送改变事件
+          $('#class').live('change',function(){
+            var url="{:U('Admin/Quetag/ajaxclass')}";
+            var id=$(this).parents('tr').find('td:eq(0)').find('h4').html();
+            var val=$(this).val();
+            var cla=$(this);
+            $.get(url,{id:id,state:val},function(data){
+              if(data==1){
+                cla.parents('table').remove();
+              }
+            })  
+
+          })
+
+          // 绑定是否锁定点击事件
+          $('#locking').live('click',function(){
+            var id=$(this).attr('num');
+            var lock=$(this).attr('lock');
+            var url="{:U('Admin/Quetag/ajaxlock')}";
+            var locking=$(this);
+            if(lock==0){
+              $.get(url,{id:id,is_locking:1},function(data){
+                if(data==1){
+                  locking.attr('lock','1');
+                  locking.html('已锁定');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }else{
+              $.get(url,{id:id,is_locking:0},function(data){
+                if(data==1){
+                  locking.attr('lock','0');
+                  locking.html('未锁定');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }
+          })
+          </script>
+          
+</block>
+

@@ -1,0 +1,128 @@
+<extend name="Public/index"/>
+ 
+<block name="title">
+	<title>古文_3854 | 问答个人页 | 问答 | 果壳网 科技有意思</title>
+</block>
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/Css/bc4bd704.main.css" />
+    <link rel="stylesheet" type="text/css" href=__PUBLIC__/Home/assets/"Css/aaf6035b.profile.css" />   
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Css/aaf6035b.profile.css" />
+</block>
+<block name="nav">
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li>
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	            <if condition="$uid neq '' ">
+		            <li class="current">
+		                <a href="{:U('Home/Question/center',array('mid'=>$uid))}">我的回答</a>
+		            </li>
+	            </if>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+		        <else />
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+		        </if>
+	            <a data-gaevent="ask_nav_button_answer:ask" href="{:U('Home/Question/waitque')}" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+	<div class="gwrap">
+	<div class="gmain">
+		<div class="profile-info">
+			<div class="profile-info-inner">
+				<a class="profile-user-avatar" href="http://www.guokr.com/i/1875258233/">
+					<img src="Picture/myvl6q1jt_zbgclkfc-jlpqyv5fzvxl2p-jvbhqgoxqgaaaaoaaaaepq.jpg" alt="古文_3854">
+				</a>
+				<div class="profile-info-detail">
+					<h3><a class="profile-user-name" href="http://www.guokr.com/i/1875258233/">古文_3854</a></h3>
+          
+					<p>
+						
+						
+					</p>
+					<p>个人简介：这家伙很懒，还没写简介</p>
+				</div>
+			</div>
+			<div class="profile-func">
+		        <a href="http://www.guokr.com/i/1875258233/" class="user-link">果壳主页</a>
+				<span class="user-like-num">获得<span class="icon-support"></span>0支持</span>
+			</div>
+		</div>
+
+		<ul class="tab-underline">
+            <li class="current">
+            	<a href="http://www.guokr.com/ask/i/1875258233/">问答主页</a>
+            </li>
+			<li>
+				<a href="/ask/i/1875258233/answers/">回答<span class="tab-info">(0)</span></a>
+			</li>
+						
+			<li>
+				<a href="/ask/i/1875258233/questions/">提问<span class="tab-info">(0)</span></a>
+			</li>
+			<li>
+				<a href="/ask/i/1875258233/supporting_answers/">支持<span class="tab-info">(1)</span></a>
+			</li>
+			<li>
+				<a href="/ask/i/1875258233/following_questions/">关注的问题<span class="tab-info">(20)</span></a>
+			</li>
+		</ul>
+		
+
+
+
+<h3 class="tab-title">支持<a href="/ask/i/1875258233/supporting_answers/">更多&gt;</a></h3>
+<ul class="ask-multi-list">
+    
+    <li class="gclear">
+		<span class="ask-multi-up">
+            <span class="ask-support-num">4</span>
+            <span class="icon-support"></span>
+        </span>
+		<div class="gfl">
+			<h4 class="gellipsis">
+            <a target="_blank" href="http://www.guokr.com/question/627330/">动物细胞身具叶绿素？光合作用走一波？</a>
+			</h4>
+			<p class="gellipsis">营养不良的人自然会面有菜色。
+			</p>
+					</div>
+			    </li>
+			    
+			</ul>
+	</div>
+	<div class="gside">
+		<h2 class="side-title">关注标签</h2>
+		<ul class="achieve-list">
+			<li>
+				<a class="achieve-name" title="果壳问答成就，发布1个评论即可得到" target="_blank" href="http://www.guokr.com/question/465174/">
+					<i class="icon-medal achieve-icon-copper"></i>噤若寒蝉
+                </a>
+			</li>
+		</ul>
+		
+	</div>
+</div>
+</block>
+</extends>

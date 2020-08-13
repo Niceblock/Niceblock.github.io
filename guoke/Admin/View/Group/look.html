@@ -1,0 +1,85 @@
+<extend name="Public/public"/>
+<block name="content">
+	<input type="hidden" value="{$id}">
+	<div class="panel-group " id="accordion2">
+		<div class="panel panel-accordion">
+			<div class="panel-heading bk-bg-primary">
+				<h4 class="panel-title">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse2One">
+						<i class="fa fa-star"></i><a class="ziti">{$name}</a>
+					</a>
+					<a href="{:U('Admin/Group/Gjoin')}" style="float:right" class="bk-margin-5 btn-sm">返回列表</a>
+				</h4>
+			</div>
+			<div id="collapse2One" class="accordion-body collapse in">
+				<div class="panel-body">
+	
+				{$res|htmlspecialchars_decode}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="margin-top:70px;text-align:center">
+	<h3>审核是否通过:</h3>
+	<if condition='($stats eq 0)'>
+		<button class="bk-margin-5 btn btn-default btn-circle btn-lg" type="button"><i class="fa fa-check"></i></button>
+		<button class="bk-margin-5 btn btn-warning btn-circle btn-lg" type="button"><i class="fa fa-times"></i></button>
+	<else />
+		<button class="bk-margin-5 btn btn-default btn-circle btn-lg disabled" type="button"><i class="fa fa-check"></i></button>
+		<button class="bk-margin-5 btn btn-warning btn-circle btn-lg disabled" type="button"><i class="fa fa-times"></i></button>
+	 </if>
+	</div>
+	 <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+	<script>
+	$('.btn-default').click(function(){
+		var id=$('input[type=hidden]').val();
+		var name=$('.ziti').html();
+		var me=$(this);
+		var he=$('.btn-warning');
+		$.post(
+			"{:U('Admin/Group/jointo')}",
+			{id:id,T:'true'},
+			function(data){
+				if(data==1){
+					alert(name+'小组创建成功');
+					location.href="{:U('Admin/Group/index')}";
+					me.attr('disabled','true');
+					he.attr('disabled','true');
+				}else{
+					alert('无法创建创建小组,请查看数据库!');
+					me.attr('disabled','true');
+					he.attr('disabled','true');
+				}
+			}
+			)
+	})
+
+	$('.btn-warning').click(function(){
+		var id=$('input[type=hidden]').val();
+		var name=$('.ziti').html();
+		// console.log(name);
+		var me=$(this);
+		var he=$('.btn-default');
+		$.post(
+			"{:U('Admin/Group/jointo')}",
+			{id:id,T:'false'},
+			function(data){
+				if(data==1){
+					alert('已通知用户');
+					me.attr('disabled','true');
+					he.attr('disabled','true');
+				}
+			}
+			)
+	})
+
+
+
+
+
+
+	</script>
+</block>
+
+      
+

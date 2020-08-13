@@ -1,0 +1,160 @@
+<extend name="Public/public"/>
+<block name="content">
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>文章分类</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-2">
+                      <div class="bk-margin-bottom-10">
+                        <a href="{:U('Admin/Scienceclass/add')}" id="addToTable" class="btn btn-info">Add <i class="fa fa-plus"></i></a>
+                      </div>
+                    </div>
+                    
+                    <div class="btn-group col-sm-10">
+
+                       
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/User/userlist',array('page'=>2))}">2</a></li>
+                          <li><a href="{:U('Admin/User/userlist',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/User/userlist',array('page'=>10))}">10</a></li>
+                       </ul>
+                    </div>
+                    
+                    
+                  </div>
+
+
+
+                  <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                    <thead>
+                      <tr>
+                        <th width="15%">ID</th>
+                        <th width="35%px">顶级分类名</th>
+                        <!-- <th>查看子分类</th> -->
+                        <th>是否显示(双击以更改)</th>
+                        <th width="30%">操作 ([查看子分类],编辑,删除)</th>
+                      </tr>
+                    </thead>
+                    <foreach name="res" item="v"> 
+                      <tr class="gradeX" height="40px">
+                        <td class="sid">{$v.id}</td>
+                        <td class="edit_name classname">{$v.Class_Title}</td>
+                        <td class="disp">{$v.display}</td>
+                        <td class="actions">
+                          <!-- if判断标志,是否显示显示子类按 -->
+                          <if condition="$v['son'] eq 1 ">　
+                            <a href="{:U('Admin/Scienceclass/subclass',array('id'=>$v['id']))}" class="on-default edit-row btn_edit" title="查看子分类"><i class="fa fa-bars"></i></a>
+                          </if>
+                          　
+                          <a href="javascript:love(0);" class="on-default edit-row btn_edit compile" title="编辑"><i class="fa fa-pencil"></i></a>
+                          <a href="javascript:love(0);" class="on-default edit-row btn_edit confirm" title="确定" style="display:none"><i class="fa fa-check"></i></a>
+                          　
+                          <a href="#" class="del on-default remove-row btn_del" title="删除"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                      </tr>
+                    </foreach>
+                  </table>
+
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!-- ajax删除 -->
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+            // 编辑按钮
+            $('.compile').click(function(){
+              //获取分类文本
+              var res=($(this).parents('tr').find('.classname').html());
+              //创建inp,替换成文本框
+              var inp=$('<input class="inptext" style="border:none;background-color:rgba(0,0,0,0);" type"text" value="'+res+'" name="Class_Title" />');
+              //把inp插入
+              var res=($(this).parents('tr').find('.classname').html(inp));
+              //让input处于选中状态
+              inp.select();
+              //隐藏
+              $(this).css('display','none');
+              //显示
+              $(this).parents('tr').find('.confirm').css('display','inline-block');
+            });
+            // 确定按钮
+            $('.confirm').click(function() {
+              var td=$(this).parents('tr').find('.classname');
+              //获取修改后的分类名
+              var val=($(this).parents('tr').find('.inptext').val());
+              //获取ID
+              var id=($(this).parents('tr').find('.sid').html());
+              // var td=$(this);
+              //ajax修改
+              var url="{:U('Admin/Scienceclass/ajaxReva')}";
+              $.post(url,{id:id,Class_Title:val},function(data) {
+                if (data==1) {
+                  td.html(val);
+                } else{
+                  alert('修改失败或与原名重复');
+                };
+              });
+              //隐藏
+              $(this).css('display','none');
+              //显示
+              $(this).parents('tr').find('.compile').css('display','inline-block');
+            });
+            //是否显示
+            $('.disp').dblclick(function() {
+              //获取当前状态文本
+              var dis=$(this).html();
+              //修改状态文本
+              if (dis=='是') {
+                $(this).html('否');
+              } else{
+                $(this).html('是');
+              };
+              //获取修改后的文本
+              var dis=$(this).html();
+              //获取id
+              var id=($(this).parents('tr').find('.sid').html());
+              //获取this
+              var td=$(this);
+              //ajax url
+              var url="{:U('Admin/Scienceclass/ajaxReva')}";
+              //ajax修改是否显示
+              $.post(url,{id:id,display:dis}, function(data) {
+                if (data!=1) {
+                  alert('修改失败');
+                };
+              });
+              return false;
+            });
+            //删除
+            $('.del').click(function(){
+              //获取id
+              var id=($(this).parents('tr').find('.sid').html());
+              var url="{:U('Admin/Scienceclass/ajaxDel')}";
+              var td=$(this);
+              //ajax删除
+              $.post(url, {id:id}, function(data) {
+                alert(data);
+                td.parents('tr').remove();
+              });
+            })
+          </script>            
+
+</block>
+

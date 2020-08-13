@@ -1,0 +1,49 @@
+<extend name="Public/index"/>
+<block name="title">
+ 	<title>404 - 找不到页面 | 问答 | 果壳网 科技有意思</title>           
+</block>
+<block name="nav">
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+				<li >
+				    <a href="{:U('Home/Question/index')}">问答首页</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/question')}">发现问答</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/waitque')}">等待回答</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Question/newque')}">最新问题</a>
+				</li>
+				<li >
+				    <a href="{:U('Home/Quetag/index')}">标签广场</a>
+				</li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+	            <else />
+	                <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+	            </if>
+	            <a href="{:U('Home/Question/waitque')}" data-gaevent="ask_nav_button_answer:ask" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+	<div class="grow error-page" style="margin:50px 0 0 450px;">
+	            <div class="main">
+	                <img src="__PUBLIC__/Home/assets/Images/4-404.png" alt="找不到页面">
+	                <p style="margin-left:130px;">找不到网页
+	                
+	                    <a href="{:U('Home/Question/index')}">回问答首页</a>
+	                
+	                </p>
+	            </div>
+	        </div>
+
+</block>

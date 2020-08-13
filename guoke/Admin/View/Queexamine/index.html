@@ -1,0 +1,194 @@
+<extend name="Public/public"/>
+<block name="content">
+      <style type="text/css">
+        .bg{background:#FFFC58;}
+      </style>
+      <div class="row">
+        
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>待审核问题列表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body" id="prent">
+                 <!--  <div id="detailed">
+                    sda
+                  </div> -->
+                  <div class="row">
+                    
+                    <div class="btn-group col-sm-8">
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background-color: #B8ECE5;">
+                          <if condition="$Think.get.page eq 5"> 
+                              5
+                          <elseif condition="$Think.get.page eq 10"/>
+                              10
+                          <elseif condition="$Think.get.page eq 15"/>
+                              15
+                          <else />
+                              显示条数
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/Queexamine/index',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/Queexamine/index',array('page'=>10))}">10</a></li>
+                          <li><a href="{:U('Admin/Queexamine/index',array('page'=>15))}">15</a></li>
+                       </ul>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Queexamine/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+                  <hr>  
+                  <div class="panel-body">
+                    排序方式:
+                      <a href="{:U(Admin/Queexamine/index,array('name'=>'id','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">ID <span class="glyphicon glyphicon-sort"></span></a>
+                      <a  href="{:U(Admin/Queexamine/index,array('name'=>'answer_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">回答数<span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Queexamine/index,array('name'=>'follow_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">关注数 <span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Queexamine/index,array('name'=>'sub_time','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">发布时间 <span class="glyphicon glyphicon-sort"></span></a>
+                    </div>
+  
+                  <foreach name="res" item="vo" key="k" >
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable" style="margin-top:15px;">
+                      <thead>
+                        <tr>
+                          <th class="text-center" width="150px">ID</th>
+                          <th class="text-center">发布用户</th>
+                          <th class="text-center">回答数</th>
+                          <th class="text-center">关注数</th>
+                          <th class="text-center" width="150px">操作</th>
+                        </tr>
+                        <tr class="text-center id">
+                          <td><h4>{$vo.id}</h4></td>
+                          <td><h4>{$vo.User_Email}</h4></td>
+                          <td><h4>{$vo.answer_num}</h4></td>
+                          <td><h4>{$vo.follow_num}</h4></td>
+                          <td rowspan="3" class="text-center" style="vertical-align: middle;">
+                            <a href="{:U('Admin/Queexamine/adopt',array('id'=>$vo['id']))}" class="btn btn-success">通过</a>
+                            <a num="{$vo.id}" uid="{$vo.user_id}" msg="{$vo.sub_name}" id="del" class="btn btn-danger">删除</a>
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">发布时间</th>
+                          <td colspan="3" class="text-center">
+                            <h4>{$vo.sub_time}</h4>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">题目</th>
+                          <td colspan="3">
+                            <h4>{$vo.sub_name}</h4>
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">问题描述</th>
+                          <td colspan="2" style="width:300px;overflow:hidden;">
+                            {$vo.sub_msg}
+                          </td>
+                          <td class="text-center" style="vertical-align: middle;">
+                            <a class="btn btn-info" id="msg" number="{$vo.id}">详细描述</a>
+                          </td>
+                          <td class="text-center">
+                            <if condition="$vo['merge'] neq '' ">
+                              <a num="{$vo.id}" id="merge" class="btn btn-warning"  pid="{$vo['merge'][0]['id']}" msg="{$vo['merge'][0]['sub_name']}" uid="{$vo['merge'][0]['user_id']}">合并</a>
+                            </if>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </foreach>
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+          <style type="text/css">
+            #detailed{width:900px;height:auto;position:absolute;background:rgba(0,0,0,0.3);
+              z-index:10;}
+          </style>
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+          // 绑定详细描述
+            $('#msg').live('click',function(){
+              var url = "{:U('Admin/Queexamine/ajaxdetailed')}";
+              var top = $(this).offset().top;
+              // alert(top);
+              // 获取当前id
+              var id=$(this).attr('number');
+              
+              // 发送ajax
+              $.get(url,{id:id},function(data){
+                var div=$('<div id="detailed" style="top:'+top+'px">'+data+'</div>');
+                top=top-370;
+                $('#prent').append(div);
+                div.animate({
+                  top:+top+"px",
+                },1300);
+                $(window).click(function(){
+                  div.remove();
+                })
+              })
+            })
+          // 绑定合并
+          $('#merge').live('click',function(){
+            // 获取当前id
+            var id=$(this).attr('num');
+            // 获取相同id
+            var pid=$(this).attr('pid');
+            // 获取当前用户id
+            var uid=$(this).attr('uid');
+            //问题名字
+            var msg=$(this).attr('msg');
+
+            var url="{:U('Admin/Queexamine/merge')}";
+            var merge=$(this);
+            // 发送ajax
+            $.post(url,{id:id,pid:pid,uid:uid,msg:msg},function(data){
+                merge.parents('table').remove();
+            })
+          })
+          // 绑定删除
+          $('#del').live('click',function(){
+            var url="{:U('Admin/Queexamine/ajaxdel')}";
+            var id=$(this).attr('num');
+            var uid=$(this).attr('uid');
+            var msg=$(this).attr('msg');
+            // 获取当前$this
+            var del=$(this);
+            alert('确认删除');
+
+            $.get(url,{id:id,uid:uid,msg:msg},function(data){
+              if(data==1){
+                del.parents('table').remove();
+              }else{
+                alert('删除失败');
+              }
+            })
+          })
+          </script>
+          
+</block>
+

@@ -1,0 +1,734 @@
+<extend name="Public/index"/>
+<block name="title">
+    <title>{$que.sub_name} | 问答 | 问答 | 果壳网 科技有意思</title>
+</block>
+<block name="nav">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/125ce332.gbbcode.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/637061c9.skin.css" />
+<link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f28074c9.contentpage.css" />
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li>
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+                    <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+                <else />
+                    <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+                </if>
+	            <a href="{:U('Home/Question/waitque')}" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+
+<div class="gwrap ask-content-page">
+    <div class="gmain">
+    <div class="post">
+        <div class="post-title">
+            <h1>
+                {$que.sub_name}
+            </h1>
+            <if condition="$uid eq $que.user_id ">
+                <a class="post-edit post-tags-edit" id="editname">
+                    <span class="gicon-profile"></span>修改
+                </a>
+            </if>
+        </div>
+        <form action="{:U('Home/Question/editname')}" method="post">
+            <input type="hidden" name="subid" value="{$que['id']}">
+            <div  class="post-title-edit" id="subname" style="display:none">
+                <p>
+                    <textarea id="newname" class="gbtxt" name="newname">{$que.sub_name}</textarea>
+                </p>
+                <p class="title-txt-do">
+                    <a href="javascript: void 0;" class="cancel cancel-title-edit">取消</a>
+                    <button class="gnbtn-primary edit-title-push" id="commit">确认</button>
+                </p>
+            </div>
+        </form>
+        <div style="display:none;" id="tagname">
+            <p class="post-tags tags tags-edit" id="tagContent" >
+                <span class="tag-title">标签：</span>
+                <foreach name="que['tag_name']" item="vo" >
+                     <span class="tag">
+                        <a href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="__blanck">{$vo.tag_name}</a>
+                        <a href="javascript: void 0;" id="del" class="gnicon-close-small" title="移除标签" subid="{$que.id}" num="{$vo.tag_id}">X</a>
+                    </span> 
+                </foreach>
+             </p>
+            <div class="hide post-autoComp_tags gclear">
+                <div style="position:relative;z-index:1;_zoom:1;float:left;">
+                    <input type="text" id="tagAdd" subid="{$que.id}">
+                    <button class="gnbtn-primary edit-title-push cancel">确认</button>
+                </div>
+            </div>
+        </div>
+        <p class="post-tags tags" id="tags">
+            <span class="tag-title">标签：</span>
+            <foreach name="que['tag_name']" item="vo" >    
+                <span class="tag"><a href="{:U('Home/Quetag/tag',array('tag_id'=>$que['id']))}" target="_blank">{$vo.tag_name}</a></span>
+            </foreach>
+            
+            <a  id='edittag' class="post-edit post-tags-edit">
+                <if condition="$que['tag_name'] eq '' ">
+                    给问题加个标签，让更多的人看到它
+                <else />
+                    修改
+                </if>
+            </a>
+        </p>
+        <div class="post-detail gbbcode-content" id="articleContent">
+            <div id="questionDesc" id="submsg">
+                {$que.sub_msg}
+            </div>
+            <if condition="$uid eq $que.user_id ">
+                <a class="post-edit post-tags-edit" id="editmsg">
+                    <span class="gicon-profile"></span>修改
+                </a>
+            </if>
+            <form action="{:U('Home/Question/editmsg')}" method="post">
+                <input type="hidden" name="subid" value="{$que['id']}">
+                <div  class="post-title-edit" id="msgsub" style="display:none">
+                    <p>
+                        <script id="editor1" name="sub_msg" type="text/plain" style="width:650px;height:400px;">{$que.sub_msg}</script>
+                    </p>
+                    <p class="title-txt-do">
+                        <a href="javascript: void 0;" class="cancel cancel-title-edit">取消</a>
+                        <button class="gnbtn-primary edit-title-push" id="commit">确认</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="cmtsBody" id="questionCmts">
+            <div class="cmts-t cmtsTitle">
+
+                <p class="gfr">
+                    <span class="post-user">
+                        <a id="articleAuthor" href="" target="_blank" >
+                            {$que.User_Nickname}
+                        </a>
+                    </span>
+                </p>
+                
+            </div>
+            <div class="cmtsList ghide cmts-bd gclear">
+                <b class="arrow_up">
+                    <s class="arrow_up"></s>
+                </b>
+                <div class="cmts-do cmtsDo">
+                    <textarea name="cmt" rows="10" cols="30" class="gbtxt"></textarea>
+                    <p>
+                        <a href="javascript:void 0;" class="cancel-cmt" data-operation="cancelCmt">取消</a>
+                        <input type="submit" value="讨论" class="gnbtn-primary" data-operation="newCmt" data-question="1" data-id="197525" data-type="question" data-login="yes">
+                    </p>
+                </div>
+                <ul class="cmts-list"></ul>
+            </div>
+            
+            
+        </div>
+
+    </div>
+    <div class="document-do">
+        <div id="share" class="gfl share-box bdsharebuttonbox" data-tag="shareMain">
+        </div>
+        <div class="gfr">
+                <if condition="$que.user_id neq $uid ">
+                    <a id="report" href="javascript:void(0)" class="red-link ghide" data-msgid="{$que.id}" data-uid="{$que.user_id}" data-type="1" data-title="{$que.sub_name}" <if condition="$que.User_pic eq '' "> data-img="__PUBLIC__/Home/assets/Images/handimg.jpg" <else /> data-img="__PUBLIC__/{$que.User_pic}"</if> style="display: inline;">
+                        举报
+                    </a>
+                </if>
+            <div class="basket-op">
+                <span class="gsplit">|</span>
+                <div id="basketTip" class="basket-tip-box" style="display: none;">
+                    <div class="basket-tip">
+                    + 加入我的果篮
+                    <b class="gnarrow-up"></b>
+                </div>
+                </div>
+            </div>
+            
+            <span class="focused-num" id="followNum"><span id="num">{$que.follow_num}</span>人关注</span>
+            <div style="display:inline;">
+                <!-- 判断有没有登入 -->
+                <if condition="$uid eq '' ">
+                    <a id="follow" class="gnbtn-plat follow-btn" href="{:U('Home/Login/index')}">
+                        <span>+</span>关注
+                    </a>
+                <elseif condition="$follow eq 1"/>
+                    <a id="isfollow" subid='{$que.id}' class="gnbtn-primary" style="background:white;color:#A5A5A5;border:none;">
+                        <span style="font-size:12px;color:red;margin-right:5px;">-</span>取消
+                    </a>
+
+                <else />
+                    <a id="follow" class="gnbtn-plat follow-btn" subid="{$que.id}">
+                        <span>+</span>关注
+                    </a>
+                </if>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="answers" id="answers">
+        
+        <div class="answers-do">
+            <span class="answers-num gfl">
+                <span class="ansnum">{$que.answer_num}</span>个答案
+            </span>
+        </div>
+        <if condition="$uans neq '' ">
+            <div class="answer gclear " >
+                <div class="answer-digg digg">
+                    <div class="answer-digg-box">
+                        <div class="answer-digg-wrap">
+                            <a id="zan" ansid="{$uans.ans_id}" data="1" href="javascript:void 0;" class="answer-digg-up" uname="{$uinfo.User_Nickname}" uid="{$uid}"><span class="answer-digg-num">{$uans.zan}</span><span style="float: left;font:12px '宋体';color:#6D6C6C;">赞</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="answer-r">
+                    <div class="answer-t">
+                        <a class="answer-img" href="" title="Ent" data-ukey="y4l9hp" target="_blank">
+                            <if condition="$uans.User_pic eq '' ">
+                                <img width="24" height="24" src="__PUBLIC__/Home/assets/Images/handimg.jpg">
+                            <else />
+                                <img width="24" height="24" src="__PUBLIC__/{$uans.User_pic}">
+                            </if>
+                        </a>
+                        <p class="answer-usr">
+                            <a class="answer-usr-name" href="" title="Ent" target="_blank" data-ukey="y4l9hp">{$uans.User_Nickname}</a>
+                          
+                        </p>
+                        <a name="uans" class="answer-date">{$uans.ans_time}</a>
+                    </div>
+                    <div class="answer-diggers diggers" id="zanname">
+                        <span>支持者：</span>
+                        <foreach name="uans['support']" item="vo" >
+                            <foreach name="vo" item="v">
+                                <span>
+                                    <a href="">{$v.User_Nickname}</a>
+                                </span>
+                            </foreach>
+                        </foreach>
+                    </div>
+                    <div class="answer-txt answerTxt gbbcode-content" style="display:block;">
+                        {$uans.ans_msg}
+                    </div>
+                    <div class="post-title-edit" id="answer" style="display:none">
+                        <form action="{:U('Home/Question/editans')}" method="post">
+                            <input type="hidden" name="ansid" value="{$uans.ans_id}">
+                            <input type="hidden" name="subid" value="{$que.id}">
+                            <p>
+                                <script id="editor3" name="ansname" type="text/plain" style="width:610px;height:400px;">{$uans.ans_msg}</script>
+                            </p>
+                            <p class="title-txt-do">
+                                <a href="javascript: void 0;" class="cancel cancel-title-edit">取消</a>
+                                <button class="gnbtn-primary edit-title-push" id="ansmsg">确认</button>
+                            </p>
+                        </form>
+                    </div>
+                    <div class="cmts cmtsBody">
+                        <div class="cmts-t cmtsTitle">
+                            <p class="gfl">
+                                <a id="delans" href="javascript:void 0;" subid="{$que.id}" ansid="{$uans.ans_id}">删除</a>
+                                
+                                <span class="split">|</span>
+                                <a href="javascript:void 0;" id="editans">修改</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </if>
+        
+        <if condition="$answers neq '' ">
+            <foreach name="answers" item="vo" >
+                <div class="answer gclear " >
+                    <div class="answer-digg digg">
+                        <div class="answer-digg-box">
+                            <div class="answer-digg-wrap">
+                                <a id="zan" ansid="{$vo.ans_id}" data="0" href="javascript:void 0;" class="answer-digg-up" uname="{$uinfo.User_Nickname}" uid="{$uid}"><span class="answer-digg-num">{$vo.zan}</span><span class="zan">赞</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="answer-r">
+                        <div class="answer-t">
+                            <a class="answer-img" href="" title="Ent" data-ukey="y4l9hp" target="_blank">
+                                <if condition="$vo.User_pic eq '' ">
+                                    <img width="24" height="24" src="__PUBLIC__/Home/assets/Images/handimg.jpg">
+                                <else />
+                                    <img width="24" height="24" src="__PUBLIC__/{$vo.User_pic}">
+                                </if>
+                            </a>
+                            <p class="answer-usr">
+                                <a class="answer-usr-name" href="" title="Ent" target="_blank" data-ukey="y4l9hp">{$vo.User_Nickname}</a>
+                              
+                            </p>
+                            <span class="answer-date">{$vo.ans_time}</span>
+                        </div>
+                        <div class="answer-diggers diggers" id="zanname">
+                            <span>支持者：</span>
+                            <foreach name="vo['sup']" item="val" >
+                                    <span>
+                                        <a href="">{$val.User_Nickname}</a>
+                                    </span>
+                            </foreach>
+                        </div>
+                        <div class="answer-txt answerTxt gbbcode-content" style="display:block;">
+                            {$vo.ans_msg}
+                        </div>
+                        <div class="cmts cmtsBody">
+                            <div class="cmts-t cmtsTitle">
+                                <p class="gfr">
+                            
+                            <a href="javascript:void(0)" id="report" class="red-link ghide" data-msgid="{$vo.ans_id}" data-uid="{$vo.user_id}" data-type="2" data-title="{$vo.ans_msg}" <if condition="$que.User_pic eq '' "> data-img="__PUBLIC__/Home/assets/Images/handimg.jpg" <else /> data-img="__PUBLIC__/{$vo.User_pic}"</if> style="display: inline;">举报</a>
+                            <span class="split answer-hover">|</span>
+                        </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </foreach>
+        </if>
+        <div class="post_commet addans" id="answerReplyer">
+            <h3 id="replyer">添加回答</h3>
+            <if condition="$uid eq '' ">
+                <p>请 <a rel="nofollow" href="{:U('Home/Login/index')}">登录</a> 后回答问题，你也可以用以下帐号直接登录</p>
+            <elseif condition="($uid neq '') AND ($isans eq '')"/>
+                <div class="reply-box" id="addanswer"><p class="reply-info">写答案…</p></div>
+            <elseif condition="($uid neq '') AND ($isans neq '')" /> 
+                <p id="answered">
+                    您已经回答过这个问题了，如果有新的想法，可以修改<a href="#uans">现有答案</a>。
+                </p>
+            </if>
+            
+        </div>
+        <form action="{:U('Home/Question/addanswer')}" method="post" >
+           <div style="display:none;height:465px;" id="addan">
+
+                <input type="hidden" name="sub_id" value="{$que.id}">
+                <p>
+                    <script id="editor2" name="answer" type="text/plain" style="width:650px;height:400px;"></script>
+                </p>
+                <button class="gnbtn-primary edit-title-push" style="float: right;margin:5px 0;">发布</button>
+           </div>
+        </form>
+        <div class="main-recommend-questions gclear">
+            <div class="recommend-best-question gfl" id="recommendQuestionBest">
+                <h2>最佳问答</h2>
+                <ul>
+                    <foreach name="optsub" item="vo" >
+                        <li>
+                            <a href="{:U('Home/Question/subject',array('id'=>$vo['id']))}" class="gellipsis" target="_blank">
+                                {$vo.sub_name}
+                            </a>{$vo.answer_num}回答
+                        </li>
+                    </foreach>
+                    
+                    
+                </ul>
+            </div>
+            <div class="recommend-relation-question gfr" id="recommendQuestion">
+                <h2>热门问答</h2>
+                <ul>
+                    <foreach name="hotsub" item="vo" >
+                        <li>
+                            <a href="{:U('Home/Question/subject',array('id'=>$vo['id']))}" class="gellipsis"  target="_blank">{$vo.sub_name}</a>{$vo.answer_num}回答
+                        </li>
+                    </foreach>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="gside">
+            <div id="bdadm-559153" class="side-advert"></div>
+
+            <div class="side-title">
+                <h2>相关问答</h2>
+            </div>
+            <ul class="side-question-titles" id="recommendQuestionRelated">
+                <foreach name="question" item="vo" >
+                    <li>
+                        <a href="{:U('Home/Question/subject',array('id'=>$vo['id']))}" target="_blank">
+                           {$vo.sub_name}
+                        </a>
+                        {$vo.answer_num}回答
+                    </li>
+                </foreach>
+            </ul>
+            
+        </div>
+    </div> 
+</div>
+<!-- 举报 -->
+<div id="blockWindow" class="gui-block" style="position: fixed; top: 140px; left: 458.5px; display: none;">
+    <div class="gui-block-b"> 
+        <h4 class="gui-block-hd">                                   
+            <span id="blockTitle">举报答案</span>                                   
+            <a class="blockClose gui-block-close" title="关闭">X</a>                               
+        </h4>                               
+        <div id="blockContent" class="gui-block-bd">
+            <div class="block-report-content">                                                  
+                <img src="" width="48" height="48">
+                <span>
+                </span>
+                <input type="hidden" name="buid" value="">                                              
+                <input type="hidden" name="type" value="">                                              
+                <input type="hidden" name="msgid" value="">                                              
+            </div>                     
+            <div class="block-report-reasons">                         
+                <h5>举报理由：</h5>                         
+                <ul id="reportReasons">                             
+                    <li>
+                        <input type="radio" id="reason1" name="reason" value="垃圾广告">
+                        <label for="reason1">垃圾广告</label>
+                    </li>                             
+                    <li>
+                        <input type="radio" id="reason2" name="reason" value="敏感或淫秽色情信息">
+                        <label for="reason2">敏感或淫秽色情信息</label>
+                    </li>                             
+                    <li>
+                        <input type="radio" id="reason3" name="reason" value="人身攻击">
+                        <label for="reason3">人身攻击</label>
+                    </li>                             
+                    <li>
+                        <input type="radio" id="reason4" name="reason" value="内容涉及抄袭及版权问题">
+                        <label for="reason4">内容涉及抄袭及版权问题</label>
+                    </li>                             
+                    <li class="block-report-reasons-o">
+                        <input type="radio" id="reason5" name="reason" value="0">
+                        <label for="reason5">其他理由</label>
+                        <input type="text" class="block-report-reasons-txt">
+                    </li>                         
+                </ul>                     
+            </div>                     
+            <div class="block-report-do">                         
+                <a id="reportSure">提交</a><a id="reportCancel">取消</a>
+            </div>
+        </div>                           
+    </div>                       
+</div>
+    
+	<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+        var id='';
+        var arr=[];
+        // 绑定举报提交单击事件
+        $('#reportSure').click(function(){
+            //获取举报信息
+            var title=$('.block-report-content').find('span').html();//举报内容
+            var buid=$('.block-report-content').find('input:eq(0)').val();//被举报用户id
+            var type=$('.block-report-content').find('input:eq(1)').val();//举报类型
+            var msgid=$('.block-report-content').find('input:eq(2)').val();//被举报内容id
+            // 获取举报理由
+            var rea=$('input[type="radio"]:checked').val();
+            // 获取输入框信息
+            var other=$('.block-report-reasons-txt').val();
+
+            // 判断是否选择其他理由
+            if(rea==0){
+                // 判断输入框是否为空
+                if(other==''){
+                    alert('请输入举报理由');
+                    return false;
+                }
+            }
+            var url="{:U('Home/Report/submit')}";
+            // 发送ajax
+            $.post(url,{title:title,buid:buid,rea:rea,other:other,type:type,msgid:msgid},function(data){
+                if(data==1){
+                    $('#blockWindow').css('display','none');
+                    alert('举报成功');
+                }else{
+                    alert('举报失败,请登入');
+                }
+            })
+        })
+        // 绑定举报
+        $('#report').live('click',function(){
+            // 获取相关信息
+            var title=$(this).attr('data-title');//举报内容
+            var buid=$(this).attr('data-uid');//被举报用户id
+            var type=$(this).attr('data-type');//举报类型
+            var img=$(this).attr('data-img');//被举报用户头像
+            var msgid=$(this).attr('data-msgid');//被举报内容id
+            // 初始化信息
+            $('.block-report-reasons-txt').val('');
+            $('input[name="reason"]').attr('checked','');
+
+            // 判断举报类型
+            if(type==1){
+                $('#blockTitle').attr('type','1');
+                $('#blockTitle').html('举报问题');
+            }else if(type==2){
+                $('#blockTitle').attr('type','2');
+                $('#blockTitle').html('举报答案');
+            }
+            // 放入用户头像
+            $('.block-report-content').find('img').attr('src',img);
+            // 放入举报信息   
+            $('.block-report-content').find('span').html(title);
+            // 放入被举报用户id
+            $('.block-report-content').find('input:eq(0)').val(buid);
+            // 放入举报类型
+            $('.block-report-content').find('input:eq(1)').val(type);
+            // 放入被举报内容id
+            $('.block-report-content').find('input:eq(2)').val(msgid);
+
+            $('#blockWindow').css('display','block');
+        })
+        // 关闭举报页面
+        $('.gui-block-close').click(function(){
+            $('#blockWindow').css('display','none');
+        })
+        // 取消举报页面
+        $('#reportCancel').click(function(){
+            $('#blockWindow').css('display','none');
+        })
+        // 删除自己的答案
+        $('#delans').click(function(){
+            if(confirm('确认删除')){
+                var ansid=$(this).attr('ansid');
+                var subid=$(this).attr('subid');
+                var num=parseInt($('.ansnum').html());
+                var url="{:U('Home/Question/delans')}";
+                var ans=$(this);
+                $.post(url,{ansid:ansid,subid:subid},function(data){
+                    if(data==1){
+                        $('.addans').html('<h3 id="replyer">添加回答</h3><div class="reply-box" id="addanswer"><p class="reply-info">写答案…</p></div>');
+                        $('.ansnum').html(num-1);
+                        ans.parents('.answer').remove();
+                    }else{
+                        alert('删除失败');
+                    }
+                })
+            }
+        })
+        // 修改自己的答案
+        $('#editans').click(function(){
+            $(this).parents('.answer').find('.answerTxt').css('display','none');
+            $(this).parents('.answer').find('#answer').css('display','block');
+        })
+        // 绑定支持单击事件
+        $('#zan').live('click',function(){
+            // 获取登入用户id
+            var uid=$(this).attr('uid');
+            // 获取登入用户名
+            var uname=$(this).attr('uname');
+            // 获取关注数量
+            var num=parseInt($(this).find('span:eq(0)').html());
+            // 获取答案id
+            var ansid=$(this).attr('ansid');
+            // 设置url
+            var url='{:U("Home/Question/zan")}';
+            var data=$(this).attr('data');
+            var zan=$(this);
+            if(data==1){
+                alert('不能给自己的回答点赞')
+            }else{
+                $.post(url,{ansid:ansid},function(data){
+                    if(data==1){
+                        zan.parents('.answer').find('.diggers').find('span:eq(0)').after('<span><a href="">'+uname+'</a></span>');
+                        num=num+1;
+                        zan.find('span:eq(0)').html(num);
+                    }else{
+                        num=num-1;
+                        zan.find('span:eq(0)').html(num);
+                    }
+                })
+            }
+        }) 
+        // 绑定添加答案单击事件
+        $('#addanswer').live('click',function(){
+            $(this).css('display','none');
+            $('#addan').css('display','block');
+        })
+        // 绑定添加说明单击事件
+        $('#explain').click(function(){
+        	$(this).css('display','none');
+        	$('.editor').css('display','block');
+        })
+        // 绑定标签input失去焦点事件
+        $('#tagadd').blur(function(){
+        	var url="{:U('Home/Question/ajaxtag')}";
+        	// 获取问题的值
+        	var tags=$(this).val();
+        	var url='{:U("/Home/Question/addtag")}';
+        	$.post(url,{tag_name:tags},function(data){
+        		if(data!=''){
+        			// 判断数组中是否有该标签id
+        			if(arr.indexOf(data)==-1){
+        				// 将id压入数组
+        				arr.push(data);
+        				id=arr.join(',');
+        				$('#tagContent').append('<span class="tag"><a href="">'+tags+'</a><a href="javascript: void 0;" class="gnicon-close-small" title="移除标签" id="del" num="'+data+'">X</a></span>');
+        				$('#tagid').html('<input type="hidden" name="tags" value="'+id+'">');
+        			}
+        		}
+        	})
+        	
+        })
+        // 绑定关注单击事件
+        $('#follow').live('click',function(){
+            // 获取关注数量
+            var num=parseInt($('#num').html());
+            // 获取标签id
+            var subid=$(this).attr('subid');
+            // 设置url
+            var url='{:U("Home/Question/follow")}';
+            var follow=$(this);
+            $.get(url,{sub_id:subid},function(data){
+                if(data==1){
+                    follow.parent('div').html('<a id="isfollow" subid='+subid+' class="gnbtn-primary" style="background:white;color:#A5A5A5;border:none;"><span style="color:red;">-</span>取消</a>');
+                    $('#num').html(num+1);
+                }else{
+                    alert('关注失败');
+                }
+            })
+        })
+       
+        // 绑定取消关注单击事件
+        $('#isfollow').live('click',function(){
+            // 获取关注数量
+            var num=parseInt($('#num').html());
+            // 获取标签id
+            var subid=$(this).attr('subid');
+            // 设置url
+            var url='{:U("Home/Question/isfollow")}';
+
+            var isfollow=$(this);
+            $.get(url,{sub_id:subid},function(data){
+                if(data==1){
+                    isfollow.parent('div').html('<a id="follow" class="gnbtn-primary" subid='+subid+'><span>+</span>关注</a>');
+                    $('#num').html(num-1);
+                }else{
+                    alert('取消失败');
+                }
+            })
+        })
+	    // 绑定修改问题名字单击事件
+        $('#editname').click(function(){
+            $(this).parent('div').css('display','none');
+            $('#subname').css('display','block');
+        })
+        // 绑定修改问题标签单击事件
+        $('#edittag').click(function(){
+            $(this).parent('p').css('display','none');
+            $('#tagname').css('display','block');
+        })
+        // 绑定修改问题描述单击事件
+        $('#editmsg').click(function(){
+            $(this).siblings('div:eq(0)').css('display','none');
+            $('#msgsub').css('display','block');
+        })
+        // 绑定取消按钮单击事件
+        $('.cancel').click(function(){
+            window.location.reload();
+        })
+        // 绑定问题名字确定单击事件
+        $('#commit').click(function(){
+            var name=$('#newname').val();
+            if(name==''){
+                alert('不能为空');
+                return false;
+            }
+        })
+        // 绑定标签input失去焦点事件
+        $('#tagAdd').blur(function(){
+            var url="{:U('Home/Question/edittag')}";
+            // 获取标签的值
+            var tags=$(this).val();
+            var subid=$(this).attr('subid');
+            $.post(url,{tag_name:tags,subid:subid},function(data){
+                if(data!=''){
+                    var tag="{:U('Home/Quetag/tag')}?tag_id="+data;
+                    $('#tagContent').append('<span class="tag"><a href="'+tag+'" target="__blanck">'+tags+'</a><a href="javascript: void 0;" class="gnicon-close-small" title="移除标签" id="del" num="'+data+'" >X</a></span>');
+                }
+            })
+        })
+        // 删除标签
+        $('#del').live('click',function(){
+            // 获取标签id
+            var tagid=$(this).attr('num');
+            // 获取问题id
+            var subid=$(this).attr('subid')
+            var url="{:U('Home/Question/deltag')}";
+            var del=$(this);
+            $.post(url,{tagid:tagid,subid:subid},function(data){
+                if(data==1){
+                    del.parent('span').remove();  
+                }else{
+                    alert('删除失败');
+                }
+            })
+        })
+	</script>
+	<style type="text/css">
+        #editname:hover{cursor:pointer;}
+        #reportSure:hover{cursor:pointer;}
+        #reportCancel:hover{cursor:pointer;}
+        .gui-block-close:hover{cursor:pointer;}
+        #editmsg:hover{cursor:pointer;}
+        #cancel:hover{cursor:pointer;}
+        #edittag:hover{cursor:pointer;}
+        #follow:hover{cursor:pointer;}
+		#isfollow:hover{cursor:pointer;}
+        button:hover{cursor:pointer;}
+        #tagadd{width:150px;}
+        #save{width: 60px;height: 30px;background: #50A200;
+            color:white;text-align: center;line-height:30px;border:none;
+            font:14px 'Microsoft Yahei';}
+        #tagcancel{color:#7D7C7C;margin:0 5px;}
+        #save:hover{background:#26A130;}
+        .zan{
+            float: left;font:12px '宋体';color:#6D6C6C;
+        }
+	</style>	
+	<script type="text/javascript">
+	    //实例化编辑器
+	    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	    var ue = UE.getEditor('editor1',{
+	     toolbars: [
+	         ['fullscreen', 'source', 'undo', 'redo'],
+	         ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
+	     ]
+	    });
+        var ue = UE.getEditor('editor2',{
+         toolbars: [
+             ['fullscreen', 'source', 'undo', 'redo'],
+             ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
+         ]
+        });
+        var ue = UE.getEditor('editor3',{
+         toolbars: [
+             ['fullscreen', 'source', 'undo', 'redo'],
+             ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc','simpleupload','insertimage']
+         ]
+        });
+	</script>
+</block>

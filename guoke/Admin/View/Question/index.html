@@ -1,0 +1,255 @@
+<extend name="Public/public"/>
+<block name="content">
+
+      <div class="row">
+        
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>问题列表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body" id="prent">
+                 <!--  <div id="detailed">
+                    sda
+                  </div> -->
+                  <div class="row">
+                    
+                    <div class="btn-group col-sm-8">
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background-color: #B8ECE5;">
+                          <if condition="$Think.get.page eq 5"> 
+                              5
+                          <elseif condition="$Think.get.page eq 10"/>
+                              10
+                          <elseif condition="$Think.get.page eq 15"/>
+                              15
+                          <else />
+                              显示条数
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/Question/index',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/Question/index',array('page'=>10))}">10</a></li>
+                          <li><a href="{:U('Admin/Question/index',array('page'=>15))}">15</a></li>
+                       </ul>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Question/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+                  <hr>  
+                  <div class="panel-body">
+                    排序方式:
+                      <a href="{:U(Admin/Question/index,array('name'=>'id','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">ID <span class="glyphicon glyphicon-sort"></span></a>
+                      <a  href="{:U(Admin/Question/index,array('name'=>'answer_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">回答数<span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Question/index,array('name'=>'follow_num','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">关注数 <span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Question/index,array('name'=>'is_hot','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">热门 <span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Question/index,array('name'=>'is_wonderful','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">精彩 <span class="glyphicon glyphicon-sort"></span></a>
+                      <a href="{:U(Admin/Question/index,array('name'=>'sub_time','num'=>$state))}" class="bk-margin-5 btn btn-default btn-xs">发布时间 <span class="glyphicon glyphicon-sort"></span></a>
+                    </div>
+  
+                  <foreach name="res" item="vo" key="k" >
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable" style="margin-top:15px;">
+                      <thead>
+                        <tr>
+                          <th class="text-center" width="150px">ID</th>
+                          <th class="text-center">发布用户</th>
+                          <th class="text-center">回答数</th>
+                          <th class="text-center">关注数</th>
+                          <th class="text-center" width="150px">操作</th>
+                        </tr>
+                        <tr class="text-center id">
+                          <td><h4>{$vo.id}</h4></td>
+                          <td><h4>{$vo.User_Email}</h4></td>
+                          <td><h4>{$vo.answer_num}</h4></td>
+                          <td><h4>{$vo.follow_num}</h4></td>
+                          <td rowspan="4" class="text-center" style="vertical-align: middle;">
+                            <a href="{:U('Admin/Question/save',array('id'=>$vo['id']))}" class="btn btn-warning">修改</a>
+                            <a num="{$vo.id}" uid="{$vo.user_id}" msg="{$vo.sub_name}" id="del" class="btn btn-danger">删除</a>
+                          </td>
+                        </tr>
+                        <tr class="text-center">
+                          <th class="text-center" style="vertical-align: middle;">是否热门</th>
+                          <td><h4>
+                            <if condition="$vo.is_hot eq 0 ">
+                              <a state="0" id="is_hot" class="bk-margin-5 btn btn-warning btn-circle"><i class="fa fa-times"></i></a>
+                            <else />
+                              <a state="1" id="is_hot" class="bk-margin-5 btn btn-default btn-circle"><i class="fa fa-check"></i></a>
+                            </if>
+                            </h4>
+                          </td>
+                          <th class="text-center" style="vertical-align: middle;">是否精彩</th>
+                          <td><h4>
+                            <if condition="$vo.is_wonderful eq 0 ">
+                              <a state="0" id="is_wonderful" class="bk-margin-5 btn btn-warning btn-circle"><i class="fa fa-times"></i></a>
+                            <else />
+                              <a state="1" id="is_wonderful" class="bk-margin-5 btn btn-default btn-circle"><i class="fa fa-check"></i></a>
+                            </if>
+                            </h4>
+                          </td>
+                          
+                        </tr>
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">发布时间</th>
+                          <td colspan="3" class="text-center">
+                            <h4>{$vo.sub_time}</h4>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">题目</th>
+                          <td colspan="3">
+                            <h4>{$vo.sub_name}</h4>
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">问题描述</th>
+                          <td colspan="3">
+                            {$vo.sub_msg|substr=0,300}
+                          </td>
+                          <td class="text-center" style="vertical-align: middle;">
+                            <a class="btn btn-info" id="msg" number="{$vo.id}">详细描述</a>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </foreach>
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+          <style type="text/css">
+            #detailed{width:900px;height:auto;position:absolute;background:rgba(0,0,0,0.3);
+              z-index:10;}
+          </style>
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+          // 绑定详细描述
+          $('#msg').live('click',function(){
+            var url = "{:U('Admin/Question/ajaxdetailed')}";
+            var top = $(this).offset().top;
+            // alert(top);
+            // 获取当前id
+            var id=$(this).attr('number');
+            
+            // 发送ajax
+            $.get(url,{id:id},function(data){
+              var div=$('<div id="detailed" style="top:'+top+'px">'+data+'</div>');
+              top=top-445;
+              $('#prent').append(div);
+              div.animate({
+                top:+top+"px",
+              },1300);
+              $(window).click(function(){
+                div.remove();
+              })
+            })
+          })
+
+          // 绑定删除
+          $('#del').live('click',function(){
+            var url="{:U('Admin/Question/ajaxdel')}";
+            var id=$(this).attr('num');
+            var uid=$(this).attr('uid');
+            var msg=$(this).attr('msg');
+            // 获取当前$this
+            var del=$(this);
+            alert('确认删除');
+            $.get(url,{id:id,uid:uid,msg:msg},function(data){
+              if(data==1){
+                del.parents('table').remove();
+              }else{
+                alert('删除失败');
+              }
+            })
+          })
+
+          // 绑定是否热门
+          $('#is_hot').live('click',function(){
+            // 获取id
+            var id=$(this).parents('tr').siblings('tr').find('td:eq(0)').find('h4').html();
+            // alert(id);
+            // 获取状态
+            var state=$(this).attr('state');
+            // 设置url
+            var url="{:U('Admin/Question/ajaxhot')}";
+
+            var hot=$(this);
+            // 判断状态
+            if(state==1){
+              $.get(url,{id:id,state:0},function(data){
+                if(data==1){
+                  hot.parent().html('<a class="bk-margin-5 btn btn-warning btn-circle" state="0" id="is_hot"><i class="fa fa-times"></i></a>');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }else{
+              $.get(url,{id:id,state:1},function(data){
+                if(data==1){
+                  hot.parent().html('<a state="1" id="is_hot" class="bk-margin-5 btn btn-default btn-circle"><i class="fa fa-check">');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }
+          })
+
+          // 绑定是否精彩
+          $('#is_wonderful').live('click',function(){
+            // 获取id
+            var id=$(this).parents('tr').siblings('tr').find('td:eq(0)').find('h4').html();
+            // 获取状态
+            var state=$(this).attr('state');
+            // alert(state);
+
+            // 设置url
+            var url="{:U('Admin/Question/ajaxwonderful')}";
+
+            var hot=$(this);
+            // 判断状态
+            if(state==1){
+              $.get(url,{id:id,state:0},function(data){
+                if(data==1){
+                  hot.parent().html('<a state="0" id="is_wonderful" class="bk-margin-5 btn btn-warning btn-circle"><i class="fa fa-times"></i></a>');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }else{
+              $.get(url,{id:id,state:1},function(data){
+                if(data==1){
+                  hot.parent().html('<a state="1" id="is_wonderful" class="bk-margin-5 btn btn-default btn-circle"><i class="fa fa-check">');
+                }else{
+                  alert('修改失败');
+                }
+              })
+            }
+          })
+
+          </script>
+          
+</block>
+

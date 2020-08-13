@@ -1,0 +1,567 @@
+<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f4ed78e3.index.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/ui2.css?2013032917">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/4ac1ff47.gbbcode.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/7a149cf0.skin.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/26b86cdf.post.css" />
+    <script src="__PUBLIC__/Home/assets/js/landing-min.js?2013032917"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+  <style>
+  .jubao{
+    color:#ccc;
+    line-height: 26px
+  }
+  .jubao:hover{
+    color:red;
+  }
+
+  </style>
+</block>
+<block name="content">
+    <div class="sub-nav">
+        <div class="sub-nav-wrap gclear">
+            <h2>
+                <a href="http://www.guokr.com/group/">
+                    <span class="gnav-logo">果壳</span>小组</a></h2>
+            <ul class="sub-nav-link gfl">
+                <li><a href="{:U('Home/Group/index')}" style="line-height:30px">小组热帖</a></li>
+                    <li><a href="{:U('Home/Group/Gprank')}" style="line-height:30px">小组排行</a></li>
+            </ul>
+            <div class="gh-search-wrap">
+                <form id="searchGroup" action="/post/search/" class="gh-search" method="get">
+                    <p>
+                        <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value="">
+                        <input type="submit" value="搜索" class="gnicon-search"></p>
+                </form>
+                <ul class="dropdown-group"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="gwrap">
+        <div class="group-info-small">
+            <div class="group-info-inner">
+                <div class="group-avatar">
+                    <a href="" target="_blank">
+                        <img src="__PUBLIC__/{$res['Group_Src']}" alt="不可能怎么破"></a>
+                </div>
+                <div class="group-info-detail">
+                    <div class="group-info-name">
+                        <h3>
+                            <a class="group-name" href="" target="_blank">{$res['Group_Name']}</a>
+                            <a class="gicon-super" title="此小组处于高维空间，拥有更多功能与玩法" href="http://www.guokr.com/question/495009/" target="_blank"></a>
+                        </h3>
+                        <if condition="$msgg eq true ">
+                       
+                        <if condition="$onn eq 1">
+                              <a class="add joingroup" style="cursor:pointer;width:60px;text-align:center" value="{$res.G_id}">+已加入</a></li>
+                        <elseif condition="$onn eq 3"/>
+                              
+                        <else/>
+                              <a class="add joingroup" style="cursor:pointer;width:60px;text-align:center" value="{$res.G_id}">+加入</a></li>
+                        </if>
+                        <else/>
+                              <a  class="add" id="newPostBtn" data-redirect="" class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes" >+加入</a>
+                          </if>
+                        
+                        <br>
+                    <span class="group-members">
+                        <span id="memberCounter">{$count}</span>人加入此小组</span></div>
+               
+
+                <if condition="$msgg eq true ">
+
+                <?php if($onn==1): ?>
+                    <a href="{:U('Home/Reply/index',array('id'=>$res['G_id']))}" class="new-post-btn" id="newPostBtn" data-redirect="" class="add">发新帖</a>
+                  <?php else: ?>
+                      <a class="new-post-btn" style="background-color:#ccc;border:none" id="newPostBtn" data-redirect="" class="add">发新帖</a>
+                  <?php endif ?>
+                <else/>
+                  <a  class="new-post-btn" id="newPostBtn" data-redirect="" class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes" >发新帖</a>
+                </if>
+
+
+                    
+            </div>
+        </div>
+        <div class="gmain">
+            <div class="post">
+                <meta itemprop="http://rdfs.org/sioc/ns#link" content="http://www.guokr.com/post/735511/" />
+                <div class="group-title-header gclear" style="margin-top:50px">
+                    <h1 itemprop="http://purl.org/dc/terms/title" id="articleTitle">{$content.Post_Title}</h1></div>
+                <div class="post-pic">
+                    <a href="{:U('Home/Homeinfo/index',array('u'=>$content['Post_Uid']))}" data-ukey="cryyzl" target="_blank">
+                        <img id="articleAuthorImg" src="{$content.User_pic}" width="48" height="48"></a>
+                </div>
+                <div class="post-txt">
+                    <div class="post-info">
+                        <p class="gfl">
+                            <a itemprop="http://rdfs.org/sioc/ns#has_creator" id="articleAuthor" href="http://www.guokr.com/group/i/0772575393/" title="萧山张国荣" target="_blank" data-ukey="cryyzl">{$content.User_Nickname}</a>
+                            <span class="gsplit focus-user" style="display: none">|</span>
+                            <a class="ghide focus-user" href="http://www.guokr.com/post/735511/focus/0772575393/">只看Ta</a></p>
+                        <meta itemprop="http://purl.org/dc/terms/modified" content="2016-05-26T21:00:56.312500+08:00" />
+                        <p class="gfr">{$content['ji']}</p></div>
+                    <div itemprop="http://rdfs.org/sioc/ns#content" id="articleContent" class="post-detail gbbcode-content">
+                        <br>
+                        <p>{$content.Post_Content}</p>
+                    </div>
+                </div>
+                <div class="post-do" id="controlPanel"></div>
+            </div>
+            <div class="document-do">
+                <div id="share" class="gfl share-box bdsharebuttonbox" data-tag="shareMain"></div>
+                <div class="gfr">
+                    <div class="basket-op">
+                        <a class="tieju"  href="javascript:void 0;">举报</a>
+                        <span class="gsplit">|</span>
+                        <a id="basketBtn" data-gaevent="post_join_basket:post" data-url="http://www.guokr.com/post/735511/" data-title="的温泉" data-login="yes" href="javascript:void 0;">收藏</a>
+                        <span class="gsplit">|</span>
+                        <div id="basketTip" class="basket-tip-box" style="display: none;">
+                            <div class="basket-tip">+ 加入我的果篮
+                                <b class="gnarrow-up"></b></div>
+                        </div>
+                    </div>
+                    <a href="#commentsReplyer" data-gaevent="post_button_comment:post" data-login="yes">发表评论</a>
+                    <a class="gnbtn-block post-like-btn" href="javascript:void 0;" data-gaevent="post_button_like:post" data-login="yes" data-id="735511">好评:{$p}</a>
+                        
+                </div>
+            </div>
+        <form id="ping">
+            <h2 class="small-title">评论
+                <span>(0)</span>
+               </h2>
+            <div class="cmts" id="comments">
+                <div class="cmts-title">
+                    <meta itemprop="http://rdfs.org/sioc/ns#num_replies" content="0" />
+                    <h3>全部评论</h3></div>
+              <ul class="cmts-list">
+                <foreach name="rp" item="v" key="k">
+                  <li itemscope="" style="height:80px">
+                          <meta itemprop="http://rdfs.org/sioc/ns#reply_of" content="http://www.guokr.com/post/735285/">
+                          <div class="cmt-img cmtImg pt-pic">
+                              <a href="{:U('Home/Homeinfo/index',array('u'=>$v['U_PID']))}">
+                                  <img width="48" height="48" src="{$v.User_pic}">
+                              </a>
+                              
+                              <span class="cmt-floor">{$k+1}楼</span>
+                              
+                          </div>
+                          <div class="pt-txt">
+                             
+                              <a class="cmt-info" target="_blank" href="/post/735285/reply/7161068/">{$v.ji}</a>
+                              <a itemprop="http://rdfs.org/sioc/ns#has_creator" class="cmt-author cmtAuthor" href="http://www.guokr.com/group/i/0772575393/" target="_blank" data-ukey="cryyzl">{$v.User_Nickname}</a>
+                              
+                              
+                              <span class="gsplit focus-user" style="display: none">|</span>
+                              
+                              <a class="ghide focus-user" href="">只看Ta</a>
+                              
+                              <div itemprop="http://rdfs.org/sioc/ns#content" class="cmt-content cmtContent gbbcode-content">{$v.Rp_Content}</div>
+                              <span class="cmt-do">
+                              <if condition="$msgg eq true ">
+                                    <?php if(!$v['zan']=='yes'): ?>
+                                      <a class="title-like" style="width:23px;margin: 4px 29px 0 12px;width:25px;height:25px"  href="javascript:void 0;" data-login="yes">
+                                        <img src="__PUBLIC__/Home/assets/Images/z2.jpg" value="one" Tid="{$v.Rp_Tid}" Rpid="{$v.id}" alt="">
+                                      </a>
+                                    <?php else: ?>
+                                      <a class="title-like" style="width:23px;margin: 4px 29px 0 12px;width:25px;height:25px"  href="javascript:void 0;" data-login="yes">
+                                        <img src="__PUBLIC__/Home/assets/Images/z1.jpg" value="two" Tid="{$v.Rp_Tid}" Rpid="{$v.id}" alt="">
+                                      </a>
+                                    <?php endif; ?>
+                              <else />
+                                  <a class="title-like" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes"><img src="__PUBLIC__/Home/assets/Images/z2.jpg" value="two" Pid="{$v['Post_Id']}" Ptd="{$v['Post_Tid']}" alt="">
+                                  </a>
+                              </if>
+                              </span>
+                          </div>
+                              <a href="javascript:void 0;" style="margin-left:470px;" Postid="{$v['Post_Id']}" Ptd="{$v['Post_Tid']}" class="jubao">举报</a>
+                      </li>
+                  </foreach>
+              </ul>
+                <div class="cmts-do" id="commentsReplyer" style="margin-bottom:70px">
+                    <h3 id="replyer">你的评论</h3>
+                    <!--未登录用户-->
+                    <div class="reply-box" style="height:150px">
+                    <if condition="$msgg eq true ">
+                        <if condition="$onn eq 1">
+                            <div class="reply-box2"><p class="reply-info">美少年啊为何无法抑制回帖冲动？</p>
+                            </div>
+                              <script id="editor" name="Post_Content" type="text/plain" style="width:650px;height:150px;display:none">
+                              </script>
+                        <elseif condition="$onn eq 3"/>
+                        
+                        <else/>
+                            <p class="reply-info">
+                              <a class="tip joingroup" value="{$res.G_id}" data-login="yes">+加入</a></li>
+                            </p>
+                        </if>
+                    <else/>
+                            <p class="reply-info">
+                                <a class="tip" id="newPostBtn" data-redirect="" class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes">+加入</a></li>
+                            </p>
+                     </if>
+
+                    </div>
+                    <if condition="$onn eq 1">
+                      <div class="cmts-submit-box gclear">
+                          <a href="javascript:void 0;" class="draft-btn" id="draftTip"></a>
+                          <input type="submit" id="fasong" class="gnbtn-primary" i="{$content['Post_Id']}" g="{$res['G_id']}" value="发布">
+                          <div class="cmts-share" id="checkAlias" style="position: relative; "><p>同时分享到：&nbsp;&nbsp;<input id="shareXl" type="checkbox" value="weibo" name="share_opts"><label class="gicon-share-lsina" for="shareXl">新浪微博</label>&nbsp;&nbsp;<input id="shareDb" type="checkbox" value="douban" name="share_opts"><label class="gicon-share-ldb" for="shareDb">豆瓣网</label>&nbsp;&nbsp;
+                          <input id="shareAc" type="checkbox" value="activity" name="share_opts"><label for="shareAc">动态</label></p></div>
+                          
+                      </div>
+                    </if>
+                </div>
+            </div>
+        </div>
+        </form>
+
+        <div class="gside" style="margin-top:50px">
+            <div id="sideSlide"></div>
+            <h2 class="side-title">小组最新帖子</h2>
+            <ul class="side-post-list">
+                <li>
+                    <a class="post-title" href="http://www.guokr.com/post/735511/" target="_blank">的温泉</a></li>
+                <li>
+                    <a class="post-title" href="http://www.guokr.com/post/735284/" target="_blank">土豪金泵</a></li>
+                <li>
+                    <a class="post-title" href="http://www.guokr.com/post/735001/" target="_blank">喂，你的节操掉了！</a></li>
+                <li>
+                    <a class="post-title" href="http://www.guokr.com/post/734813/" target="_blank">蒸汽挂烫机和蒸汽清洁机是一回事吗？</a></li>
+                <li>
+                    <a class="post-title" href="http://www.guokr.com/post/734808/" target="_blank">低碳生活百科</a></li>
+            </ul>
+            <div id="bdadm-559104" class="side-advert"></div>
+        </div>
+    </div>
+    <!--  -->
+    <div class="modal in" id="login-modal" }> <a class="close" data-dismiss="modal">×</a>
+      <h1>登录</h1>
+      <ul class="login-bind-tp">
+        <li class="qweibo"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> QQ登录</a> </li>
+        <li class="sina"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 微博登录</a> </li>
+        <li class="douban"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 豆瓣登录</a> </li>
+      </ul>
+      <p>或者使用已有帐号登陆：</p>
+      <br>
+      <form class="login-form clearfix" id="ko">
+        <!-- <div class="form-arrow"></div> -->
+        <input class="gbtxt" id="email" maxlength="40" name="email" placeholder="邮箱"  type="email" value="" readmin="请输入邮箱">
+        <span></span>
+        <p class="gform-box">
+            <input class="gbtxt" id="password" name="password" placeholder="密码"  type="password" value="" readmin="请输入密码">
+            
+        </p>
+        <button id="ko" class="button-blue login">登录</button>
+        
+
+        
+        <span class="lolo" style="color:red"></span>
+        <a class="forgot">忘记密码？</a>
+        <a class="forgot" style="float:left">
+          <div style="width:20px;float:left;display:inline-block"><input type="checkbox" value="true" id="permanent"></div>
+          <div style="float:left;line-height:20px">自动登录</div>
+        </a>
+      </form>
+    </div>
+    <!--  -->
+        <!-- 下面这个div将会被弹出显示，其内容和样式自行编写 -->  
+        <div id="envon" style=" width:600px;background-color:#FFFFFF;padding:20px; overflow:hidden; display:none;">  
+            <p style="font-size:16px;font-family:'微软雅黑'">美少年啊不留个啥,是发不出的</p>  
+            
+            <div style="float:right;"><a href="javascript:EV_closeAlert()" style="color:green">关闭</a></div>
+        </div>  
+
+        <div id="envon2" style=" width:600px;background-color:#FFFFFF;padding:20px; overflow:hidden; display:none;">  
+            <p style="font-size:16px;font-family:'微软雅黑'">举报帖子</p>  
+            <br>
+            <form id="jubaoliyou" PId="{$content['Post_Id']}" Tid="{$content['Post_Tid']}">
+              <div style="float:left;width:200px">
+                
+              <ul id="reportReasons"> 
+
+                 <li><input type="radio" name="reason" value="0"><label for="reason1">垃圾广告</label></li>                             
+                 <li><input type="radio" name="reason" value="1"><label for="reason2">敏感或淫秽色情信息</label></li>                             
+                 <li><input type="radio" name="reason" value="2"><label for="reason3">人身攻击</label></li>                             
+                 <li><input type="radio" name="reason" value="3"><label for="reason4">内容涉及抄袭及版权问题</label></li>                             
+                 <li class="block-report-reasons-o">
+                 <br>
+                
+              </div>
+                  其他理由
+                  <br>
+                  <br>
+                  <textarea name="content" id="textct" cols="50" rows="4"></textarea>
+                  <br>
+                 <button>举报</button>                         
+              </ul>
+            </form>
+            <div style="float:right;"><a href="javascript:EV_closeAlert()" style="color:green">关闭</a></div>
+        </div> 
+    <!--  -->
+    <script type="text/javascript">
+        //实例化编辑器
+      var ue = UE.getEditor('editor',{
+             toolbars: [
+                 ['fullscreen', 'source', 'undo', 'redo', 'bold']
+             ],
+   
+          autoHeightEnabled: false,
+          autoFloatEnabled: false,
+          zIndex:555
+     });
+         
+    </script>
+
+    <script>
+     var xshi=$('.reply-box2').click(function(){
+        $('#editor').show();
+        $(this).hide();
+
+     })
+
+     //回复ajax的发
+     $('#ping').submit(function(){
+
+        var val=ue.getContent();
+        // console.log(val);
+        if(val==''){
+          onload=EV_modeAlert('envon');
+          return false;
+        }
+
+        var i=$('#fasong').attr('i');
+        var g=$('#fasong').attr('g');
+        // console.log(g);
+        $.ajax({
+          url:"{:U('Home/Reply/Replyadd')}",
+          data:{Rp_Content:val,Rp_Postid:i,Rp_Tid:g},
+          type:'post',
+          success:function(data){
+            // console.log(data);
+              if(data==1){
+                location.reload();
+              }
+
+          }
+
+
+        })
+
+
+        return false;
+     })
+
+    </script>
+
+    <script>
+      $(function(){
+              var CUSER=true;
+              $('#ko').submit(function(){
+                 CUSER = true;
+                 //丧失焦点事件
+                 $('input').trigger('blur');
+                 //检验是否正确
+                 // console.log(CUSER);
+                 if(!CUSER){
+                  return false;
+                 }
+                 //阻止默认行为
+                 var email= $('#email').val();
+                 var password=$('#password').val();
+               
+                 var check=$('#permanent:checked').val();
+
+                 $.ajax({
+                   url:"{:U('Home/Login/logindo')}",
+                   data:{email:email,pass:password,checked:check},
+                   type:'post',
+                   async:false,
+                   success:function(data){
+                      if(data){
+                          location.reload();
+                      }else{
+                          $('.lolo').text('邮箱未注册或密码不正确');
+                      }
+                  }
+                 })
+                 return false;
+              })
+
+              $('#ko').find('input').focus(function(){
+                //获取属性
+                var str = $(this).attr('readmin');
+                //设置文本
+                $(this).next().html(str).css('color','green');
+                //设置样式
+                $(this).attr('style','border:solid 1px green;');
+
+              })
+
+
+              $('#email').blur(function(){
+                //检测用户名是否正确
+                var reg = /^\w+@\w+\.(com|cn|org|com.cn|net)$/;
+                //获取邮箱
+                var Email= $(this).val();
+                //检测
+                var res = reg.test(Email);
+                var t=$(this);
+                if(!res){
+                   $(this).next().html('邮箱格式不正确').css('color','rgb(243, 90, 90)');;
+                   $(this).attr('style','border:solid 1px red;');
+                   CUSER = false;
+                }else{
+                    $.ajax({
+                      url:"{:U('Home/Login/Emaildo')}",
+                      data:{email:Email},
+                      type:'get',
+                      async:false,
+                      success:function(data){
+                        if(data==1){
+                          t.next().html('邮箱不存在').css('color','rgb(243, 90, 90)');;
+                          t.attr('style','border:solid 1px red;');
+                          CUSER = false;
+                        }else{
+                          t.next().html('');
+                          t.attr('style','border:solid 1px green;');
+                        }
+                      }
+                    })
+                }
+              })
+
+              $('#password').blur(function(){
+                var pass = $(this).val();
+                var reg = /[\w\W]{6,22}/;
+                if(!reg.test(pass)){
+                  $(this).attr('style','border:solid 1px red;');
+                  CUSER = false;
+                }else{
+                  $(this).next().html('');
+                }
+              })
+
+              $('.joingroup').click(function(){
+                  var r=$(this).html();
+                  var v=$(this).attr('value');
+                  var me=$(this);
+
+                if(r=="+加入"){
+                  // console.log(v);
+                  $.ajax({
+                    url:"{:U('Home/Group/joinGroup')}",
+                    data:{G_id:v},
+                    type:'post',
+                    async:false,
+                    success:function(data){
+                      // console.log(data);
+                      if(data==1){
+                        me.html('+已加入');
+                        location.reload();
+                      }
+                    }
+                  })
+
+                }else{
+                  // console.log(v);
+                  $.ajax({
+                    url:"{:U('Home/Group/outGroup')}",
+                    data:{G_id:v},
+                    type:'post',
+                    async:false,
+                    success:function(data){
+                      // console.log(data);
+                      if(data==1){
+                        me.html('+加入');
+                        location.reload();
+                      }
+                    }
+                  })
+                }
+              })
+
+
+              $('.title-like').live('click',function(){
+                var v=$(this).children().eq(0);
+                var i=v.attr('value');  
+                var Tid=v.attr('Tid');
+                var Rpid=v.attr('Rpid');
+                // console.log(Tid);
+                // console.log(Rpid);
+
+                  if(i=='one'){
+                    $.ajax({
+                      url:"{:U('Home/Reply/zan')}",
+                      data:{zan:'jia',Tid:Tid,Rpid:Rpid},
+                      type:'post',
+                      success:function(date){
+                        if(date==1){
+                          v.attr('src','__PUBLIC__/Home/assets/Images/z1.jpg');
+                          v.attr('value','two');
+                        }
+                      }
+                    })
+                }else{
+                  $.ajax({
+                    url:"{:U('Home/Reply/zan')}",
+                    data:{zan:'out',Tid:Tid,Rpid:Rpid},
+                    type:'post',
+                    success:function(date){
+                      if(date==2){
+                        v.attr('src','__PUBLIC__/Home/assets/Images/z2.jpg');
+                        v.attr('value','one');
+                      }
+                    }
+                  })
+                   
+                }
+              })
+
+
+              $('.tieju').live('click',function(){
+                onload=EV_modeAlert('envon2');
+              })
+
+              
+              $('#jubaoliyou').submit(function(){
+                // var a=window.location.href;
+                // alert(1);
+                var Tid=$(this).attr('Tid');
+                var Postid=$(this).attr('PId');
+                console.log(Tid);
+                console.log(Postid);
+                var type=$('input[name=reason]:checked').val();
+                // console.log(type);
+                
+                var content=$('#textct').val();
+                // console.log(content);
+                $.ajax({
+                  url:"{:U('Home/Jubao/add')}",
+                  data:{RF_Content:content,RF_Type:type,RF_Post_Id:Postid,RF_A:window.location.href},
+                  type:'post',
+                  success:function(date){
+                    if(date==1){
+                      onload=EV_closeAlert('envon2');
+                      alert('感谢你的举报!等待管理员的处理');
+                    }
+                  }
+                })
+                return false;
+              })
+
+
+
+      })
+    </script>
+</block>
+<block name="js">
+
+<script src="__PUBLIC__/Home/assets/js/alert.js"></script>
+
+</block>
+</extend>
+

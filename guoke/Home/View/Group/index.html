@@ -1,0 +1,383 @@
+﻿<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f4ed78e3.index.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/ui2.css?2013032917">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/touchTouch/touchTouch.css">
+    <script src="__PUBLIC__/Home/assets/js/landing-min.js?2013032917"></script>
+</block>
+
+
+<block name="content">
+  <!--  -->
+  <div class="sub-nav">
+    <div class="sub-nav-wrap gclear">
+      <h2>
+        <a href="http://www.guokr.com/group/">
+          <span class="gnav-logo">果壳</span>小组</a></h2>
+      <ul class="sub-nav-link gfl">
+        <if condition="$msgg eq true ">
+          <li><a href="{:U('Home/Group/index',array('myid'=>$myid))}" style="line-height:30px">我的小组</a></li>
+        </if>
+        <li><a href="{:U('Home/Group/index')}" style="line-height:30px">小组热帖</a></li>
+        <li><a href="{:U('Home/Group/Gprank')}" style="line-height:30px">小组排行</a></li>
+      </ul>
+      <div class="gh-search-wrap">
+        <form id="searchGroup" action="{:U('Home/Group/soso')}" class="gh-search" method="get">
+          <p>
+            <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value="">
+            <input type="submit" value="搜索" class="gnicon-search"></p>
+        </form>
+        <ul class="dropdown-group"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="gwrap">
+    <div class="gmain">
+      <h2 class="main-title">{$name}</h2>
+      <ul class="titles">
+
+
+
+      <foreach name="tie" item="v">
+        <li class="gclear">
+        <if condition="$msgg eq true ">
+        <?php if($v['zan']=='zan'): ?>
+          <a class="title-like" style="width:23px;margin: 4px 29px 0 12px;"  href="javascript:void 0;" data-login="yes">
+            <img src="__PUBLIC__/Home/assets/Images/z1.jpg" value="two" Pid="{$v['Post_Id']}" Ptd="{$v['Post_Tid']}" alt="">
+          </a>
+        <?php else: ?>
+          <a class="title-like" style="width:23px;margin: 4px 29px 0 12px;"  href="javascript:void 0;" data-login="yes">
+            <img src="__PUBLIC__/Home/assets/Images/z2.jpg" value="one" Pid="{$v['Post_Id']}" Ptd="{$v['Post_Tid']}" alt="">
+          </a>
+        <?php endif; ?>
+         <else />
+            <a class="title-like" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes"><img src="__PUBLIC__/Home/assets/Images/z2.jpg" value="two" Pid="{$v['Post_Id']}" Ptd="{$v['Post_Tid']}" alt="">
+            </a>
+        </if>
+          <div class="title-content">
+            <h4>
+              <a class="title-link" href="{:U('Home/Reply/infolist',array('Post_Tid'=>$v['Post_Tid'],'Post_id'=>$v['Post_Id']))}" target="_blank">{$v.Post_Title}</a></h4>
+          <!-- 图片缩略图 -->
+              <?php if(empty($v['img'])): ?>
+
+              <?php else: ?>
+                    <div class="clearfix img-gather" id="thumbs" style="height:60px">
+                    <div class="content" >            
+                <?php for($i=0;$i<4;$i++):?>
+                    <!--img-gather-->
+                      <?php if ($i>=count($v['img'])): ?> 
+                        <?php continue; ?>
+                      <?php else: ?>
+                        <a href="{$v['img'][$i]}" style="background-image:url({$v['img'][$i]});" title="图片一"></a>   
+                      <?php endif ?>
+                <?php endfor ?>
+                    </div>
+                    <!--img-gather end-->
+                </div>
+              <?php endif ?>  
+              <!-- {$v['img'][1]} -->
+          <!--  -->
+              <div style="clear:both"></div>
+             
+            <div class="title-info" style="margin-top:40px;margin-left:-25px">
+              <span class="icon-user"></span>
+              <a href="http://www.guokr.com/group/i/1462294065/">{$v.User_Nickname}</a>发表于
+              <a href="/group/157/" data-group_id="157">{$v.Group_Name}</a>
+              <span class="icon-time"></span>
+              <a class="comment-link" href="http://www.guokr.com/post/732682/#commentsReplyer" target="_blank">{$v.ji}</a></div>
+             </div>
+
+          <!-- 图片缩略图 -->
+          <a class="title-comment" href="{:U('Home/Reply/infolist',array('Post_Tid'=>$v['Post_Tid'],'Post_id'=>$v['Post_Id']))}" target="_blank">
+            评论数:<?php echo empty($v['count'])?'0':$v['count']; ?></a>
+        </li>
+      </foreach>
+     
+
+      </ul>
+
+
+      <ul class="gpages">
+          <li>
+            {$pages}
+          </li>
+      </ul>
+     </div>
+  <div style="height:500px;width:300px;float:right">
+    
+  <if condition="$msgg eq true ">
+    <div class="gside">
+          <h2 class="side-title">我在果壳小组 <a href="{:U('Home/Group/join')}" style="color:#4ba733">申请小组</a></h2>
+          
+          <div class="side-mine">
+            <a href="{:U('Home/Homeinfo/index')}" target="_blank">
+              <img class="side-mine-img" src="{$tou}">
+            </a>
+            <a class="side-mine-name" href="{:U('Home/Homeinfo/index')}" target="_blank">{$username}</a>
+            <span class="span-left">发帖&nbsp;<a href="/group/i/0772575393/posts/">{$fa}</a></span><span>回帖&nbsp;<a href="/group/i/0772575393/replies/">{$hui}</a></span>
+          </div>
+          <h2 class="side-title">加入<a class="side-title-link" href="/group/i/0772575393/joined/"><?php echo count($group) ?> 个小组</a></h2>
+          <ul class="side-list-small">
+            <?php foreach ($group as $key => $value): ?>
+              
+            <li class="side-list-item">
+                <a href="" target="_blank" data-gaevent="group_my:group">
+                             <img class="item-img" src="__PUBLIC__/{$value[0]['Group_Src']}">
+                </a>
+                <a class="item-name" href="{:U('Home/Group/GpInfo/',array('id'=>$value[0]['G_id']))}">{$value[0 ]['Group_Name']}</a>
+                         
+            </li>
+            <?php endforeach ?>   
+                     
+          </ul>
+      <div id="bdadm-559140" class="side-advert"></div>
+    </div>
+  </if>  
+
+ <div class="gside">
+    <h2 class="side-title">新组榜
+      <a data-gaevent="group_join_publish_more" class="side-title-link" href="">[更多]</a></h2>
+    <ul class="side-rank">
+      <foreach name="res" item="v">
+
+      <li class="rank-group">
+      <div style="float:left"><img src="__PUBLIC__{$v['Group_Src']}" width="38px"></div>
+        <span class="rank-num icon-rank" style="margin:0px"></span>
+        <div class="rank-info">
+          <a class="group-name" href="{:U('Home/Group/GpInfo/',array('id'=>$v['G_id']))}" target="_blank">{$v.Group_Name}</a>
+          <span class="number"><?php echo empty($v['num'])?'新组':"已加入".$v['num']."人" ?></span>
+
+        <if condition="$msgg eq true ">
+        <?php if(in_array($v['G_id'],$block)): ?>
+
+        <?php else: ?>
+          <?php if(in_array($v['G_id'],$arr)):?>
+              <a class="add joingroup" style="cursor:pointer;width:50px" value="{$v.G_id}">+已加入</a></li>
+          <?php else: ?>
+              <a class="add joingroup" style="cursor:pointer;width:50px" value="{$v.G_id}">+加入</a></li>
+          <?php endif ?>
+          <?php endif ?>
+        <else />
+            <a class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes">+加入</a></li>
+        </if>
+
+      </foreach>
+    </ul>
+    <div id="bdadm-559101" class="side-advert"></div>
+  </div>
+  </div>
+
+        <div class="modal in" id="login-modal" }> <a class="close" data-dismiss="modal">×</a>
+          <h1>登录</h1>
+          <ul class="login-bind-tp">
+            <li class="qweibo"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> QQ登录</a> </li>
+            <li class="sina"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 微博登录</a> </li>
+            <li class="douban"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 豆瓣登录</a> </li>
+          </ul>
+          <p>或者使用已有帐号登陆：</p>
+          <br>
+          <form class="login-form clearfix" id="ko">
+            <div class="form-arrow"></div>
+            <input class="gbtxt" id="email" maxlength="40" name="email" placeholder="邮箱"  type="email" value="" readmin="请输入邮箱">
+            <span></span>
+            <p class="gform-box">
+                <input class="gbtxt" id="password" name="password" placeholder="密码"  type="password" value="" readmin="请输入密码">
+                
+            </p>
+            <button id="ko" class="button-blue login">登录</button>
+            <span class="lolo" style="color:red"></span>
+            <a class="forgot">忘记密码？</a>
+            <a class="forgot" style="float:left">
+              <div style="width:20px;float:left;display:inline-block"><input type="checkbox" value="true" id="permanent"></div>
+              <div style="float:left;line-height:20px">自动登录</div>
+            </a>
+          </form>
+        </div>
+
+
+    <script>
+      $(function(){
+        var CUSER=true;
+
+        $('#ko').submit(function(){
+           CUSER = true;
+           //丧失焦点事件
+           $('input').trigger('blur');
+           //检验是否正确
+           // console.log(CUSER);
+           if(!CUSER){
+            return false;
+           }
+
+           //阻止默认行为
+           var email= $('#email').val();
+           var password=$('#password').val();
+           // var md5pass=$.md5(password);
+           // console.log(md5pass);
+           var check=$('#permanent:checked').val();
+
+           $.ajax({
+             url:"{:U('Home/Login/logindo')}",
+             data:{email:email,pass:password,checked:check},
+             type:'post',
+             async:false,
+             success:function(data){
+                if(data){
+                      location.reload();
+                }else{
+                    $('.lolo').text('邮箱未注册或密码不正确');
+                }
+            }
+           })
+           return false;
+        })
+
+        $('#ko').find('input').focus(function(){
+          //获取属性
+          var str = $(this).attr('readmin');
+          //设置文本
+          $(this).next().html(str).css('color','green');
+          //设置样式
+          $(this).attr('style','border:solid 1px green;');
+
+        })
+
+
+        $('#email').blur(function(){
+          //检测用户名是否正确
+          var reg = /^\w+@\w+\.(com|cn|org|com.cn|net)$/;
+          //获取邮箱
+          var Email= $(this).val();
+          //检测
+          var res = reg.test(Email);
+          var t=$(this);
+          if(!res){
+             $(this).next().html('邮箱格式不正确').css('color','rgb(243, 90, 90)');;
+             $(this).attr('style','border:solid 1px red;');
+             CUSER = false;
+          }else{
+              $.ajax({
+                url:"{:U('Home/Login/Emaildo')}",
+                data:{email:Email},
+                type:'get',
+                async:false,
+                success:function(data){
+                  if(data==1){
+                    t.next().html('邮箱不存在').css('color','rgb(243, 90, 90)');;
+                    t.attr('style','border:solid 1px red;');
+                    CUSER = false;
+                  }else{
+                    t.next().html('');
+                    t.attr('style','border:solid 1px green;');
+                  }
+                }
+              })
+          }
+        })
+
+        $('#password').blur(function(){
+          var pass = $(this).val();
+          var reg = /[\w\W]{6,22}/;
+          if(!reg.test(pass)){
+            $(this).next().html('密码格式不正确').css('color','rgb(243, 90, 90)');;
+            $(this).attr('style','border:solid 1px red;');
+            CUSER = false;
+          }else{
+            $(this).next().html('');
+          }
+        })
+
+
+
+        $('.joingroup').click(function(){
+            var r=$(this).html();
+            var v=$(this).attr('value');
+            var me=$(this);
+
+          if(r=="+加入"){
+            // console.log(v);
+            $.ajax({
+              url:"{:U('Home/Group/joinGroup')}",
+              data:{G_id:v},
+              type:'post',
+              async:false,
+              success:function(data){
+                // console.log(data);
+                if(data==1){
+                  me.html('+已加入');
+                }
+              }
+            })
+
+          }else{
+            // console.log(v);
+            $.ajax({
+              url:"{:U('Home/Group/outGroup')}",
+              data:{G_id:v},
+              type:'post',
+              async:false,
+              success:function(data){
+                // console.log(data);
+                if(data==1){
+                  me.html('+加入');
+                }
+              }
+            })
+          }
+        })
+
+        $('.title-like').live('click',function(){
+          // alert(1);
+         var v=$(this).children().eq(0);
+         var i=v.attr('value');
+         var pid=v.attr('Pid');
+         var ptd=v.attr('Ptd');
+          if(i=='one'){
+            $.ajax({
+              url:"{:U('Home/Group/zan')}",
+              data:{zan:'jia',Post_Id:pid,Post_Tid:ptd},
+              type:'post',
+              success:function(date){
+                if(date==1){
+                  v.attr('src','__PUBLIC__/Home/assets/Images/z1.jpg');
+                  v.attr('value','two');
+                }
+              }
+            })
+            // console.log(v);
+        }else{
+            $.ajax({
+              url:"{:U('Home/Group/zan')}",
+              data:{zan:'kou',Post_Id:pid,Post_Tid:ptd},
+              type:'post',
+              success:function(date){
+                if(date==2){
+                  v.attr('src','__PUBLIC__/Home/assets/Images/z2.jpg');
+                  v.attr('value','one');
+                }
+              }
+            })
+        }
+
+        })
+
+
+        $('#thumbs a').touchTouch();
+      })
+    </script>
+</block>
+
+
+<block name="js">
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script src="__PUBLIC__/Home/assets/image-show/touchTouch/touchTouch.jquery.js"></script>
+</block>
+
+<block name="footer">
+
+</block>
+</extend>

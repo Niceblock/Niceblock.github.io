@@ -1,0 +1,85 @@
+<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/me.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/gui.css" /></block>
+<block name="content">
+       <div class="sub-nav">
+           <div class="sub-nav-wrap logged gclear">
+               <h2 class="gnav-title">
+                   <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a></h2>
+               <ul class="sub-nav-link gfl">
+                   <li>
+                       <a href="{:U('Home/Index/index')}">首页</a></li>
+               </ul>
+           </div>
+       </div>
+       <div class="gwrap-p index-page">
+           <div class="gside" style="width:250px">
+               <div class="side-wrap">
+                   <div class="gside-head">
+                       <a class="avatar" href="http://www.guokr.com/i/0772575393/">
+                           <img itemprop="image" width="160" height="160" src="__PUBLIC__/{$tiezi['Group_Src']}"></a>
+                       <p class="username">
+                           <a href="http://www.guokr.com/i/0772575393/">
+                               <span itemprop="name">{$tiezi['Group_Name']}</span></a>
+                       </p>
+                       <p itemprop="jobTitle" class="gtop-desc">{$tiezi['User_Roleid']}</p>
+                       <p class="info-location"></p>
+                   </div>
+                   <ul class="side-nav-normal">
+                       <li>
+                           <a class="side-title" href="{:U('Home/Homeinfo/Group')}">
+                               <span class="gicon-blog"></span>帖子管理
+                               <span class="side-title-more">{$count}篇</span></a>
+                       </li>
+                       <li>
+                           <a class="side-title" href="{:U('Home/Homeinfo/shezhi')}">
+                               <span class="gicon-blog"></span>小组设置
+                               <span class="side-title-more">0篇</span></a>
+                       </li>
+                   </ul>
+               </div>
+           </div>
+
+           <block name="cc">
+           <div class="gmain">
+            <div class="gmain settings-profile-page">
+                  <div class="page-titleline">
+                    <h2>小组资料</h2></div>
+                  <form class="gform" id="profile" method="post" action="{:U('Home/Homeinfo/shezhi')}" enctype="multipart/form-data">
+                    <input id="csrf_token" name="id" type="hidden" value="{$tiezi['G_id']}">
+                    <label for="nickname">小组名:</label>
+                    <div class="gform-box">
+                      <input class="gstxt" id="nickname" name="nickname" type="text" value="{$tiezi['Group_Name']}" disabled>
+                      <span class="tip"></span>
+                    </div>
+                    <label for="title">创始人</label>
+                    <div class="gform-box">
+                      <input class="gstxt" id="title" name="title" type="text" value="{$tiezi['User_Nickname']}" disabled>
+                      <span class="tip"></span>
+                    </div>
+                    <label for="title">活跃度</label>
+                    <div class="gform-box">
+                      <input class="gstxt" id="age" name="title" type="text" value="{$tiezi['Group_Hot']}" disabled>
+                      <span class="tip"></span>
+                    </div>
+
+                    <label append_br="False" for="introduction">小组介绍</label>
+                    <div class="gform-box" id="selfIntro">
+                      <textarea class="gttxt" cols="40" id="introduction" name="Group_About" rows="10">{$tiezi['Group_About']}</textarea>
+                      <div class="gform-box-count-tip tip"></div>
+                      <div class="gform-box-count" id="wordCount">
+                        <span>0</span>/250</div></div>
+                    <label for="title">上传头像</label>
+                    <div class="gform-box">
+                      <input  id="age" name="Group_Src" type="file" value="12">
+                      <span class="tip"></span>
+                    </div>
+                    <input type="submit" class="gnbtn-primary gform-submit" value="保存">
+                </form>
+                </div>
+           </div>
+           </block>
+       </div>
+</block>
+</extend>

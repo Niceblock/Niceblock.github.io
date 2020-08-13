@@ -1,0 +1,428 @@
+<extend name="Public/index"/>
+<block name="style">
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/3100651d.list.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/affa772f.main.css" />
+        <style type="text/css">
+            *{
+                list-style: none;
+            }
+            .wincon{
+                margin-top: 25px!important;
+                width: 100%!important;
+                border:1px solid #fff!important;
+
+            }
+            .wincon .wincon-list{
+                width: 1000px!important;  
+                margin: 0 auto!important;
+                border:1px solid #fff!important;
+            }
+            .uls{
+                float: left;
+                margin-right: -1px!important;
+                margin-top: -1px!important;
+            }
+            .lis{
+                border:1px solid #ccc!important;
+                /*background-color: red;*/
+                width: 292px!important;
+                padding: 20px!important;
+            }
+            .one{
+                /*float: left!important;*/
+                width: 280px!important;
+                height: 20px!important;
+                margin-bottom: 20px!important;
+            }
+            .oneclass{
+                /*float: left!important;*/
+                /*width:50px!important;*/
+                height:20px!important;
+                padding:2px 8px;
+                background:red!important;
+                line-height: 20px!important;
+                text-align: center!important;
+                margin-right: 15px!important;
+            }
+            .oneclass a{
+                color:#fff!important;
+            }
+            .twoclass{
+                /*float: left!important;*/
+                /*width:50px!important;*/
+                padding:2px 8px;
+                height:20px!important;
+                background:green;
+                line-height: 20px!important;
+                text-align: center!important;
+            }
+            .twoclass a{
+                color:#fff!important;
+            }
+            .two{
+                width: 280px!important;
+                height: 42px!important;
+                /*float: left!important;*/
+
+            }
+            .two a{
+                color: #000!important;
+                font-size: 23px!important;
+
+            }
+            .two :hover{
+                text-decoration: underline!important;
+            }
+            .three{
+                float: right!important;
+                width: 280px!important;
+                height: 20px!important;
+                margin-bottom: 20px!important;
+            }
+            .three .name{
+                /*float: left!important;*/
+                width:85px!important;
+                height:20px!important;
+                margin-left: -14px;
+                line-height: 20px!important;
+            }
+            .three .name :hover{
+                text-decoration: underline!important;
+            }
+            .three .name a{
+                color:#46B6B6!important;
+            }
+            .three .time{
+                /*float: left!important;*/
+                width:85px!important;
+                height:20px!important;
+                line-height: 20px!important;
+                color:#C6B8C6!important;
+            }
+            .four{
+                /*float: left!important;*/
+                width: 290px!important;
+                margin-bottom: 20px!important;
+            }
+            .four img{
+                width: 100%!important;
+            }
+            .five{
+                /*float: left!important;*/
+                width: 290px!important;
+            }
+            .gywm{
+                float: right!important;
+                width: 332px!important;
+                border:1px solid #ccc!important;
+                margin-left: -1px!important;
+                margin-top: -1px!important;
+            }
+            .gywm a{
+                color: #000!important;
+            }
+            .imgtext{
+                width: 282px!important;
+                height: 70px!important;
+                line-height: 70px!important;
+                padding-left: 50px!important; 
+                padding: 0 auto!important;
+                background: #F4F6F6!important;
+                margin-bottom: 10px!important;
+                font-family: "黑体"!important;
+                font-size: 25px!important;
+            }
+            .imgtext img{
+                float: left!important;
+            }
+            .imgtext p{
+                float: left!important;
+                margin-left: 30px!important;
+                width: 150px!important;
+            }
+            .mb{
+                margin-bottom: 0!important;
+            }
+            .loaddiv{
+                width: 100%!important;
+                height: 50px!important;
+                line-height: 50px!important;
+                /*float: left!important;*/
+            }
+            .loadimg{
+                margin: 0 auto!important;
+                width: 550px!important;
+                padding-left: 450px!important;
+            }
+        </style>
+</block>
+      
+
+
+
+<block name="content">
+    
+
+    <!-- 用于控制检索分类 yid分类ID,用来控制瀑布流中的内容 -->
+    <span class="yid" style="display:none">{$yid}</span>
+
+    <!-- 导航   -->
+    <div class="gh-sub-nav-wrap" id="subNav" style="margin-top:40px;">
+        <div class="gh-sub-nav">
+            <h1>
+                <a href="{:U('Home/Science/index',array('id'=>0))}" class="gh-sub-nav-title" href="/scientific/"><img src="../Picture/22bbc83e.logo.png" alt="科学人"></a>
+            </h1>
+            <ul class="gh-sub-nav-list">
+      
+
+    <!-- 遍历分类 -->
+    <foreach name="res" item="v">
+        <!-- 一级分类 -->
+        <li class="oneli">
+            <a href="{:U('Home/Science/index',array('id'=>$v['id']))}">
+            {$v['Class_Title']}
+            </a>
+            <!-- 二级分类 -->
+            <if condition="$v['sonres'] eq 1 ">
+            <a href="{:U('Home/Science/index',array('tid'=>$v['id']))}">
+                <i class="gnarrow-down"></i>
+            </a>
+            </if>
+        </li>
+
+    </foreach>            
+    
+
+            </ul>
+            
+            <div class="gh-sub-nav-hidden">
+                <a class="gh-sub-nav-btn" id="innerNavBtn" href="javascript:void 0;">
+                    
+                    <span class="icon icon-menu"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+                </div>
+    <!-- 分类 -->
+    <div class="container">
+        <div id="innerNav" class="gh-inner-nav-wrap">
+            <div class="gh-inner-nav">
+                <h2><span class="gh-inner-nav-title">{$pname}</span></h2>
+                <ul class="gh-inner-nav-list">
+
+                    <foreach name="sonval" item="v">
+                        <li class="current">
+                            <a href="{:U('Home/Science/index',array('id'=>$v['id']))}">{$v['Class_Title']}</a>
+                        </li>
+                    </foreach>
+                    
+                    
+                </ul>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="wincon">
+    <div class="wincon-list" id="parentd">
+<!-- --// -->
+<li id="clones" class="lis" style="display:none">
+    <div class="one">
+        <span class="oneclass">
+            <a>
+                
+            </a>
+        </span>
+        <span class="twoclass">
+            <a>
+                
+            </a>
+        </span>
+    </div>
+    <div class="two">
+        <a href="#">
+
+        </a>
+    </div>
+    <div class="three">
+        <span class="name">
+            <a href="#">
+                
+            </a>
+        </span>
+        <span class="time">
+        
+        </span>
+    </div>
+    <div class="four">
+        <a href="#">
+          
+        </a>
+    </div>
+    <div class="five">
+        
+    </div>
+</li>
+<!-- /// -->
+
+
+
+        
+
+        
+        
+        <ul class="gywm">
+            <a href="#"  target="_blank">
+                <div class="imgtext">
+                    <img src="__PUBLIC__/Home/assets/Images/239b2091.i-logo.png">
+                    <p>关于我们</p>
+                </div>
+            </a>
+            <a href="{:U('Home/Write/index')}" target="_blank">
+                <div class="imgtext mb">
+                    <img src="__PUBLIC__/Home/assets/Images/89e5a66b.flight-logo.png">
+                    <p>我要投稿</p>
+                </div>
+            </a>
+        </ul>
+        
+        
+        
+
+ <ul class="uls">
+ </ul>
+ <ul class="uls">
+ </ul>
+ <ul class="uls">       
+ </ul>
+
+
+</div>
+
+
+</div>
+
+<div class="loaddiv" style="display:none">
+    <div class="loadimg">
+        正在加载<img src="__PUBLIC__/Home/assets/I
+    Images/52a797de.ajax-loader.gif">
+    </div>
+</div>
+
+        
+       
+    <script src="__PUBLIC__/Home/assets/Scripts/jquery-1.8.3.min.js"></script>
+    <script src="__PUBLsIC__/Home/Science/js/aea9c4c1.base.js"></script>
+    <script src="__PUBLsIC__/Home/Science/js/2da32bc5.index.js"></script>
+    <script type="text/javascript">
+        // 全局配置
+        var p=-1;//页码信息  
+        var isLoading=false;
+
+
+        // var newLi=$('#item').clone();
+        // console.log(newLi);
+        // $('#waterfall').append(newLi);
+        // var newLi=$('#item').clone();
+        // $('#waterfall').append(newLi);
+
+        requestAjax();
+
+        //封装函数发起请求
+        function requestAjax(){
+            //加载请求是送门
+            isLoading=true;
+            //发起请求
+            //url
+            var url="{:U('Home/Science/ajaxwaterfall')}";
+                p++;
+            //取ID
+            var id=$('.yid').html();
+            //ajax
+            $.post(url,{p:p,id:id},function(data){
+                // 循环遍历创建元素
+                for (var i = 0; i < data.length; i++) {
+                    //克隆li
+                    var newLi=$('#clones').clone();
+                    // console.log(newLi);
+                    // console.log($('#parentd'));
+                    // console.log(data[i]['Time']);
+                    // $('.loaddiv').css('display','none');
+                    //淡入显示
+                    newLi.fadeIn();
+                    //判断是否为空,等于空代表是没有父分类,当前就是父分类
+                    if (data[i]['pcname']=='') {
+                        //隐藏
+                        newLi.find('.oneclass').css('display','none');
+                        //修改背景色
+                        newLi.find('.twoclass').css('backgroundColor','#f00');
+                    }else{
+                        newLi.find('.oneclass').find('a').html(data[i]['pcname']);
+                    }
+                    //URL,点击转到每个文章的文章内容页
+                    var urla="{:U('Home/Article/index')}"+"?id="+data[i]['id'];
+                    //修改li内容
+                    newLi.find('.two').find('a').attr('href',urla);
+                    //修改li内容
+                    newLi.find('.four').find('a').attr('href',urla);
+                    //修改li内容
+                    newLi.find('.twoclass').find('a').html(data[i]['Class_Title']);
+                    //修改li内容
+                    newLi.find('.two').find('a').html(data[i]['Title']);
+                    //修改li内容
+                    newLi.find('.name').find('a').html(data[i]['User_Nickname']);
+                    //修改li内容
+                    newLi.find('.time').html(data[i]['Time']);
+                    //修改li内容
+                    newLi.find('.four').find('a').html(data[i]['Img']);
+                    //修改li内容
+                    newLi.find('.five').html(data[i]['Content']);
+                    //指针
+                    var index=i%3;
+                    //插入到ul中
+                    $('.uls:eq('+index+')').append(newLi)
+                };
+                
+                // console.log(data);
+                //打开
+                isLoading=false;
+            },'json')
+        }
+
+        // 绑定滚动事件
+        $(window).scroll(function(){
+            //检测当前是否正在发起请求
+            if (isLoading) {return;};
+            //获取整个文档的高度
+            var sH=$(document).height();
+            //获取页面滚动高度
+            var sT=$(window).scrollTop();
+            //可视区别的高度
+            var cH=$(window).height();
+            if(sH==cH+sT){
+                //显示正在加载GIF
+                $('.loaddiv').css('display','inline-block');
+                //调用瀑布流函数
+                requestAjax();
+                //隐藏正在加载GIF
+                $('.loaddiv').css('display','none');
+            }
+        })
+
+        //动态控制瀑布流中图片的大小
+        $('.four').find('img').css('width','100%');
+
+
+        
+    </script>
+</block>
+    
+
+    
+
+    
+

@@ -1,0 +1,66 @@
+<extend name="Public/index"/>
+<block name="title">
+	<title> 最新问题 | 问答 | 果壳网 科技有意思</title>
+</block>
+<block name="nav">
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li>
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+		        <if condition="$uid eq '' ">
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+		        <else />
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+		        </if>
+	            <a href="{:U('Home/Question/waitque')}" data-gaevent="ask_nav_button_answer:ask" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+<div class="gwrap ask-success-page">
+        
+<div class="gmain">
+    <div style="width:650px;height:90px;background:#F1EEEE;text-align:center;padding-top:20px;font:15px 'Microsoft Yahei';">
+        <h2 style="font-size:20px;color:#178A25;">
+	    	√你的答案已经提交成功！
+        </h2>
+        <a href="{:U('Home/Question/subject',array('id'=>$sub_id))}">查看原问题</a>
+        <p style="color:#B5B5B5;">感谢你来果壳贡献智慧，因为你，果壳问答将越来越聪明。</p>
+    </div>
+    <div class="ask-txt-list">
+        <h3 style="font:18px 'Microsoft Yahei';color:#178A25;margin:12px 0;">
+            还有一些问题等待你来回答
+        </h3>
+        <ul class="ask-q-list">
+            <foreach name="que" item="vo" >
+	            <li>
+	                <span class="ask-list-right">{$vo.answer_num}回答</span>
+	                <a class="gellipsis" href="{:U('Home/Question/subject',array('id'=>$vo['id']))}">{$vo.sub_name}</a>
+	            </li>
+            </foreach>
+        </ul>
+        <a href="{:U('Home/Question/waitque')}" class="more-q-link" style="float: right;color:#858585;">查看更多问题</a>
+    </div>
+</div>
+
+</block>

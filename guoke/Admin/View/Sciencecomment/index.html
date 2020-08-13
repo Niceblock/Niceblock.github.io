@@ -1,0 +1,198 @@
+<extend name="Public/public"/>
+<block name="content">
+
+<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+
+         <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>评论管理</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-2 number">
+                      <div class="bk-margin-bottom-10">
+                        <button type="button" class="btn btn-default dropdown-toggle" 
+                           data-toggle="dropdown" style="background-color: #B8ECE5;">
+                           <if condition="$Think.get.num eq 2"> 
+                               显示条数:2
+                           <elseif condition="$Think.get.num eq 5" />
+                               显示条数:5
+                           <elseif condition="$Think.get.num eq 10" />
+                               显示条数:10
+                           <else /> 
+                               显示条数
+                           </if>
+                           <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" role="menu">
+                           <li><a href="{:U('Admin/Sciencecomment/index',array('num'=>2))}">显示条数:2</a></li>
+                           <li><a href="{:U('Admin/Sciencecomment/index',array('num'=>5))}">显示条数:5</a></li>
+                           <li><a href="{:U('Admin/Sciencecomment/index',array('num'=>10))}">显示条数:10</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="btn-group col-sm-6"></div>
+                    
+                    <div class="col-sm-4">
+                      <form class="search navbar-form"  action="{:U('Admin/Sciencecomment/index')}" method="get">
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius seekcname" name="keyword" id="q" placeholder="请输入文章标题">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+
+
+                  <?php if (empty($res)): ?>
+                    <script type="text/javascript">
+                      $('.number').remove();
+                    </script>
+                    <p>无记录</p>
+                  <?php else: ?>
+                  <foreach name="res" item="v"> 
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                      <thead>
+                        <tr>
+                          <th width="10%">评论ID</th>
+                          <th width="20%">评论用户</th>
+                          <th width="15%">所属文章ID</th>
+                          <th>所属文章标题</th>
+                          <th width="300px">评论内容</th>
+                        </tr>
+                      </thead>
+                      <tr class="gradeX">
+                        <td class="sid">{$v.id}</td>
+                        <td class="ssid edit_name classname">{$v.User_Email}</td>
+                        <td>{$v.wid}</td>
+                        <td>{$v.Title}</td>
+                        <td rowspan="3" class="cimg">{$v.Cm_Content}</td>
+                      </tr>
+                      <tr>
+                        <th>是否删除(隐藏)</th>
+                        <th>评论时间</th>
+                        <th>点赞数量</th>
+                        <th>操作(
+                        <if condition="$v.likeCount neq 0">
+                        查看点赞用户,
+                        </if>
+                        编辑，隐藏)</th>
+                      </tr>
+                      <tr>
+                        <td class="disp">{$v.Deletes}</td>
+                        <td>{$v.Cm_Time}</td>
+                        <td>{$v.likeCount}</td>
+                        <td class="actions">
+                          <if condition="$v.likeCount neq 0">
+                          <a href="{:U('Admin/Sciencecomment/see',array('id'=>$v['id']))}" class="on-default remove-row btn_del" title="查看点赞用户"><i class="fa fa-smile-o"></i></a>
+                          </if>　
+
+                          <a href="{:U('Admin/Sciencecomment/reva',array('id'=>$v['id']))}" class="on-default edit-row btn_edit compile" title="编辑评论内容"><i class="fa fa-pencil"></i></a>　
+
+                          <if condition="$v.Deletes eq '否'">
+                            <a href="javascript:love(0);" class="on-default edit-row btn_edit compile display" title="显示"><i class="fa fa-eye"></i></a>
+                            <a href="javascript:love(0);" class="on-default edit-row btn_edit compile hides" title="隐藏" style="display:none;"><i class="fa fa-eye-slash"></i></a>
+                          <else />
+                            <a href="javascript:love(0);" class="on-default edit-row btn_edit compile display" title="显示" style="display:none;"><i class="fa fa-eye"></i></a>
+                            <a href="javascript:love(0);" class="on-default edit-row btn_edit compile hides" title="隐藏"><i class="fa fa-eye-slash"></i></a>
+                          </if>
+                          　
+                          　
+                        </td>
+                      </tr>
+                    </table>
+                    <hr>
+                  </foreach>
+                  <?php endif ?>
+
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!--  compileajax删除 -->
+          <script type="text/javascript">
+            // 通过审核按钮
+            $('.del').click(function(){
+              //获取id
+              var id=$(this).parents('table').find('.ssid').html();
+              //url
+              var url="{:U('Admin/Sciencecomment/ajaxdel')}";
+              //ajax删除
+              $.post(url, {id:id});
+              //this赋值
+              var td=$(this);
+              //淡出
+              td.parents('table').fadeTo("slow", 0.01, function(){
+                //删除表格
+                td.parents('table').remove();
+              });
+            });
+            //点击显示图标
+            $('.display').click(function(){
+              //url
+              var url="{:U('Admin/Sciencecomment/ajaxupdatehide')}";
+              //id
+              var id=$(this).parents('table').find('.sid').html();
+              //赋值this
+              var td=$(this);
+              $.post(url, {id:id}, function(data) {
+                if (data==1) {
+                  //成功
+                  //隐藏当前图标
+                  td.css('display','none');
+                  //显示隐藏图标
+                  td.parents('table').find('.hides').css('display','inline-block');
+                  //修改 是否删除(隐藏) 单元格值
+                  td.parents('table').find('.disp').html('是');
+                } else if(data==0){
+                  //失败
+                  alert('系统繁忙,请稍后重试');
+                };
+              });
+            })
+            //点击隐藏图标
+            $('.hides').click(function(){
+              //url
+              var url="{:U('Admin/Sciencecomment/ajaxupdatedisplay')}";
+              //id
+              var id=$(this).parents('table').find('.sid').html();
+              //赋值this
+              var td=$(this);
+              $.post(url, {id:id}, function(data) {
+                if (data==1) {
+                  //隐藏当前图标
+                  td.css('display','none');
+                  //显示显示图标
+                  td.parents('table').find('.display').css('display','inline-block');
+                  //修改 是否删除(隐藏) 单元格值
+                  td.parents('table').find('.disp').html('否');
+                }else if(data==0){
+                  alert('系统繁忙,请稍后重试');
+                };
+              });
+            })
+            //动态更改评论内容图片大小
+            $('.cimg').find('img').css('width','200px');
+          </script>            
+
+</block>
+

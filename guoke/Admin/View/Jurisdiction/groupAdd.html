@@ -1,0 +1,149 @@
+<extend name="Public/public"/>
+<block name="content">
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>{$admin}</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>成员添加</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+        <!-- 头部结束 -->
+
+
+
+
+        <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+
+                  <form action="{:U('Admin/Jurisdiction/groupAdminSave')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+
+                    <input type="hidden" name="group_id" value="{$id}">
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="text-input">管理组名:</label>
+                      <label class="col-md-3 control-label" for="text-input">{$admin}</label>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">管理组权限快速选择</label>
+                      <div class="col-md-9">
+                        <button id="selectAll" class="bk-margin-5 btn btn-primary" type="button">全选</button>
+                        <button id="unSelect" class="bk-margin-5 btn btn-success" type="button">全不选</button>
+                        <button id="reverse" class="bk-margin-5 btn btn-warning" type="button">反选</button>
+                      </div>
+                    </div>
+
+                    <div id="list">
+                    <foreach name="adminres" item="v">
+                    <div class="form-group" style="height:20 px;">
+                      <label class="col-md-3 control-label" for="email-input">管理员{$v.A_ID}:</label>
+                      <div class="col-md-9" style="padding-top:4px;">
+                        <input type="checkbox" name="uid[]" value="{$v.A_ID}" class="checkadmin" onclick="change(this)"> {$v.Admin_name}
+                      </div>
+                    </div>
+                    </foreach>
+                    </div>
+                    
+                   
+                    
+                    
+
+
+
+
+
+                    <div class="center-block" style="width:90px">
+  
+                   <button type="submit" class="bk-margin-5 btn btn-success btn-sm subm" style="margin:0px auto;" disabled>确定</button>
+                   </div>
+                    <br>
+
+                    
+                  </form>
+                </div>
+        </div>
+
+          <!-- ajax验证 -->
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script>
+
+
+
+        //管理组权限
+        //全选
+        $("#selectAll").click(function () { 
+           $("#list :checkbox").attr("checked", true);
+           $('.subm').removeAttr('disabled');   
+        }); 
+        //全不选
+        $("#unSelect").click(function () {   
+           $("#list :checkbox").attr("checked", false);
+           $('.subm').attr({'disabled':'disabled'});   
+        });  
+        // 反选
+        $("#reverse").click(function () {  
+            $("#list :checkbox").each(function () {   
+                $(this).attr("checked", !$(this).attr("checked"));   
+            }); 
+            //获取所有复选框
+            var inputs=$('input');
+            //初始化j标志
+            var j=0;
+            //判断所有复选框是否都已经被取消
+            for(i=0;i<inputs.length;i++){
+              //如果没有取消
+                if (inputs[i].checked == true) {
+                  //j标志自增
+                  j++;                    
+                };
+            }
+            //如果j标志没自增,代表所有复选框都已取消
+            if (j==0) {
+              //禁用按钮
+              $('.subm').attr({'disabled':'disabled'});
+            }else{
+              //启用按钮
+              $('.subm').removeAttr('disabled');
+            } 
+        }); 
+
+        
+        //复选框选中事件
+        function change(obj){
+          //获取所有复选框
+          var inputs=$('input');
+          //判断当前点击的复选框是否被选中取消
+          if (obj.checked == false) {
+            //取消
+            //初始化j标志
+            var j=0;
+            //判断所有复选框是否都已经被取消
+            for(i=0;i<inputs.length;i++){
+              //如果没有取消
+                if (inputs[i].checked == true) {
+                  //j标志自增
+                  j++;                    
+                };
+            }
+            //如果j标志没自增,代表所有复选框都已取消
+            if (j==0) {
+              //禁用按钮
+              $('.subm').attr({'disabled':'disabled'});
+            }; 
+          }else{
+            //选中
+            //启用按钮
+            $('.subm').removeAttr('disabled');
+          }
+        }
+
+
+        
+
+    </script>
+
+</block>

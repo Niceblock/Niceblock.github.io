@@ -1,0 +1,312 @@
+<extend name="Public/index" />
+<block name="style">
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css"/>
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f4ed78e3.index.css"/>
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/ui2.css?2013032917"/>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/4ac1ff47.gbbcode.css"/>
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/187b1ea3.singlepage.css"/>
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f4ed78e3.index.css" />
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/ui2.css?2013032917">
+  <script src="__PUBLIC__/Home/assets/js/landing-min.js?2013032917"></script>
+</block>
+
+<block name="content">
+        <div class="sub-nav">
+          <div class="sub-nav-wrap gclear">
+            <h2><a href="http://www.guokr.com/group/"><span class="gnav-logo">果壳</span>小组</a></h2>
+            <ul class="sub-nav-link gfl">
+              <if condition="$msgg eq true ">
+              <li><a href="{:U('Home/Group/index',array('myid'=>$myid))}" style="line-height:30px">我的小组</a></li>
+              </if>
+             <li><a href="{:U('Home/Group/index')}" style="line-height:30px">小组热帖</a></li>
+                    <li><a href="{:U('Home/Group/Gprank')}" style="line-height:30px">小组排行</a></li>
+            </ul>
+            <div class="gh-search-wrap">
+              <form id="searchGroup" action="/post/search/" class="gh-search" method="get">
+                <p>
+                  <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value=""/><input type="submit" value="搜索" class="gnicon-search"/>
+                </p>
+              </form>
+              <ul class="dropdown-group">
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="gwrap">
+          <div class="group-info">
+            <div class="group-bg" style="">
+            </div>
+            <div class="group-info-inner">
+              <div style="width:100px;height:100px;float:left;margin-top:-30px;margin-left:60px">
+                <img src="__PUBLIC__/{$msg['Group_Src']}"  width="100px" style="inline-block"></a>
+              </div>
+              <div class="group-info-detail">
+            
+                <div class="group-info-name">
+                  <h3>{$msg['Group_Name']}</h3>
+                  <if condition="$msgg eq true ">
+                  <if condition="$onn eq 1">
+                        <a class="add joingroup" style="cursor:pointer;width:60px;text-align:center" value="{$msg.G_id}">+已加入</a></li>
+                  <elseif condition="$onn eq 3"/>
+                        
+                  <else/>
+                        <a class="add joingroup" style="cursor:pointer;width:60px;text-align:center" value="{$msg.G_id}">+加入</a></li>
+                  </if>
+                  <else/>
+                        <a  class="add" id="newPostBtn" data-redirect="" class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes" >+加入</a>
+                    </if>
+                </div>
+                <span class="group-members"><span id="memberCounter">
+                  </span><?php echo empty($count)?'无人加入':$count."人加入该小组" ?>
+                </span>
+                <if condition="$msgg eq true ">
+                
+
+              
+              <if condition="$msgg eq true ">
+
+              <?php if($onn==1): ?>
+                    <a href="{:U('Home/Reply/index',array('id'=>$msg['G_id']))}" class="new-post-btn" id="newPostBtn" data-redirect="" class="add">发新帖</a>
+                <?php else: ?>
+                    <a class="new-post-btn" style="background-color:#ccc;border:none" id="newPostBtn" data-redirect="" class="add">发新帖</a>
+                <?php endif ?>
+              <else/>
+                <a  class="new-post-btn" id="newPostBtn" data-redirect="" class="add" data-id="36" data-operation="join" data-method="join" data-category="UserAccount" data-action="login" data-toggle="modal" href="#login-modal" data-login="yes" >发新帖</a>
+              </if>
+
+
+              </div>
+            </div>
+            <div class="group-board" id="blackboard">
+              <a class="group-board-btn group-board-open" href="javascript:void 0;" data-operation="open">展开黑板报</a>
+              <a class="group-board-btn icon-cross" href="javascript:void 0;" data-operation="close"></a>
+              <div class="group-board-content">
+                <div itemprop="http://rdfs.org/sioc/ns#note" class="gbbcode-content">
+                  <p>
+                    <a href="http://www.guokr.com/post/527302/"><img src="http://2.im.guokr.com/HP4LgbGd1lSoZoq7M-w-6A8eJAJTfunwVC8oG2zEXLpiAgAAbgAAAEpQ.jpg" width="610" height="110" data-hashkey="" data-orig-width="610" data-orig-height="110"/></a><br/><span >{$msg['Group_About']}</span><br/>
+                  </p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="gmain">
+            <ul class="tab">
+              <li class="current"><a href="{:U('Home/Group/GpInfo',array('id'=>$msg['G_id']))}">全部</a></li>
+              <li><a href="{:U('Home/Group/GpInfo',array('id'=>$msg['G_id'],'hot'=>'yes'))}">热门</a></li>
+            </ul>
+            <ul class="titles" id="postList">
+              <foreach name="tie" item="v">
+              <li class="gclear"><a class="title-like" href="javascript:void 0;" data-post_id="700183" data-login="yes"><span class="icon-like"></span></a>
+              <div class="title-content">
+                <h4><a class="title-link" 
+                href="{:U('Home/Reply/infolist',array('Post_Tid'=>$msg['G_id'],'Post_id'=>$v['Post_Id']))}" 
+
+                target="_blank" data-post_id="700183">{$v.Post_Title}</a><span class="gicon-top"></span><span class="gicon-best"></span></h4>
+                <!--  -->
+                <!--  -->
+                <div class="title-info">
+                      <span class="icon-user"></span>
+                      <a href="http://www.guokr.com/group/i/0267077282/" data-ukey="4f0e5e" target="_blank">{$v.User_Nickname}</a>
+                    <span class="icon-time"></span>
+                        <a class="comment-link" href="" target="_blank">
+                  {$v.ji}
+                  </a>
+                </div>
+                <!--  -->
+
+              </div>
+              <a class="title-comment" href="{:U('Home/Reply/infolist',array('Post_Tid'=>$msg['G_id'],'Post_id'=>$v['Post_Id']))}" target="_blank"><span class="icon-comment"></span><?php echo empty($v['count'])?'0':$v['count']; ?></a></li>
+              </foreach>
+              
+            </ul>
+            <a href="javascript: void 0;" class="img-switch" data-operation="hideImg" data-login="yes">隐藏缩略图</a>
+            <ul class="gpages">
+                <li>
+                  {$pages}
+                </li>
+            </ul>
+          </div>
+          <div class="gside">
+            <h2 class="side-title">贴主</h2>
+            <ul class="side-list-large">
+              <li class="side-list-item"><a href="{:U('Home/Homeinfo/index')}" target="_blank" data-ukey="bd1udp"><img class="item-img" width="48" height="48" src="{$msg['User_pic']}"/></a><a class="item-name" href="{:U('Home/Homeinfo/index')}" target="_blank" data-ukey="bd1udp">{$msg['User_Nickname']}</a></li>
+            </ul>
+         
+            </p>
+           
+          </div>
+          <ul id="toolBar" class="toolBar-wrap" style="display: none;">
+            <li class="tool-gotop"><a id="gotopTool" class="gotop" href="javascript:void(0);" title="回到顶部 "></a>
+            </li>
+          </ul>
+        </div>
+        <!--  -->
+                <div class="modal in" id="login-modal" }> <a class="close" data-dismiss="modal">×</a>
+                  <h1>登录</h1>
+                  <ul class="login-bind-tp">
+                    <li class="qweibo"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> QQ登录</a> </li>
+                    <li class="sina"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 微博登录</a> </li>
+                    <li class="douban"> <a href="http://sc.chinaz.com"><em>&nbsp;</em> 豆瓣登录</a> </li>
+                  </ul>
+                  <p>或者使用已有帐号登陆：</p>
+                  <br>
+                  <form class="login-form clearfix" id="ko">
+                    <!-- <div class="form-arrow"></div> -->
+                    <input class="gbtxt" id="email" maxlength="40" name="email" placeholder="邮箱"  type="email" value="" readmin="请输入邮箱">
+                    <span></span>
+                    <p class="gform-box">
+                        <input class="gbtxt" id="password" name="password" placeholder="密码"  type="password" value="" readmin="请输入密码">
+                        
+                    </p>
+                    <button id="ko" class="button-blue login">登录</button>
+                    
+
+                    
+                    <span class="lolo" style="color:red;"></span>
+                    <a class="forgot">忘记密码？</a>
+                    <a class="forgot" style="float:left">
+                      <div style="width:20px;float:left;display:inline-block"><input type="checkbox" value="true" id="permanent"></div>
+                      <div style="float:left;line-height:20px">自动登录</div>
+                    </a>
+                  </form>
+
+
+                  
+        </div>
+        <script>
+          $(function(){
+                  var CUSER=true;
+                  $('#ko').submit(function(){
+                     CUSER = true;
+                     //丧失焦点事件
+                     $('input').trigger('blur');
+                     //检验是否正确
+                     // console.log(CUSER);
+                     if(!CUSER){
+                      return false;
+                     }
+                     //阻止默认行为
+                     var email= $('#email').val();
+                     var password=$('#password').val();
+                     var check=$('#permanent:checked').val();
+
+                     $.ajax({
+                       url:"{:U('Home/Login/logindo')}",
+                       data:{email:email,pass:password,checked:check},
+                       type:'post',
+                       async:false,
+                       success:function(data){
+                          if(data){
+                              location.reload();
+                          }else{
+                              $('.lolo').text('邮箱未注册或密码不正确');
+                          }
+                      }
+                     })
+                     return false;
+                  })
+
+                  $('#ko').find('input').focus(function(){
+                    //获取属性
+                    var str = $(this).attr('readmin');
+                    //设置文本
+                    $(this).next().html(str).css('color','green');
+                    //设置样式
+                    $(this).attr('style','border:solid 1px green;');
+
+                  })
+
+
+                  $('#email').blur(function(){
+                    //检测用户名是否正确
+                    var reg = /^\w+@\w+\.(com|cn|org|com.cn|net)$/;
+                    //获取邮箱
+                    var Email= $(this).val();
+                    //检测
+                    var res = reg.test(Email);
+                    var t=$(this);
+                    if(!res){
+                       $(this).next().html('邮箱格式不正确').css('color','rgb(243, 90, 90)');;
+                       $(this).attr('style','border:solid 1px red;');
+                       CUSER = false;
+                    }else{
+                        $.ajax({
+                          url:"{:U('Home/Login/Emaildo')}",
+                          data:{email:Email},
+                          type:'get',
+                          async:false,
+                          success:function(data){
+                            if(data==1){
+                              t.next().html('邮箱不存在').css('color','rgb(243, 90, 90)');;
+                              t.attr('style','border:solid 1px red;');
+                              CUSER = false;
+                            }else{
+                              t.next().html('');
+                              t.attr('style','border:solid 1px green;');
+                            }
+                          }
+                        })
+                    }
+                  })
+
+                  $('#password').blur(function(){
+                    var pass = $(this).val();
+                    var reg = /[\w\W]{6,22}/;
+                    if(!reg.test(pass)){
+                      $(this).attr('style','border:solid 1px red;');
+                      CUSER = false;
+                    }else{
+                      $(this).next().html('');
+                    }
+                  })
+
+                  $('.joingroup').click(function(){
+                      var r=$(this).html();
+                      var v=$(this).attr('value');
+                      var me=$(this);
+
+                    if(r=="+加入"){
+                      // console.log(v);
+                      $.ajax({
+                        url:"{:U('Home/Group/joinGroup')}",
+                        data:{G_id:v},
+                        type:'post',
+                        async:false,
+                        success:function(data){
+                          // console.log(data);
+                          if(data==1){
+                            me.html('+已加入');
+                            location.reload();
+                          }
+                        }
+                      })
+
+                    }else{
+                      // console.log(v);
+                      $.ajax({
+                        url:"{:U('Home/Group/outGroup')}",
+                        data:{G_id:v},
+                        type:'post',
+                        async:false,
+                        success:function(data){
+                          // console.log(data);
+                          if(data==1){
+                            me.html('+加入');
+                            location.reload();
+                          }
+                        }
+                      })
+                    }
+                  })
+
+
+          })
+        </script>
+        <!--  -->
+</block>
+
+<block name="js">
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+</block>

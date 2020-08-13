@@ -1,0 +1,163 @@
+<extend name="Public/index"/>
+<block name="style">
+        <!-- <title>用文字展现科学，给我投稿吧！ |  果壳网 科技有意思</title> -->
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/Content/6e7bcd6e.main.css" />
+        <!--[if lt IE 9]><link rel="stylesheet" href="__PUBLIC__/Home/Write/css/e43d2adb.ie678.css" /><![endif]-->
+    
+    <!-- <link rel="stylesheet" href="__PUBLIC__/Home/Science/css/affa772f.main.css" /> -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Content/7a149cf0.skin.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Content/26b86cdf.post.css" />
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Content/26b86cdf.post.css" />
+</block>
+
+
+
+<block name="content">
+
+    <div class="gheader-wrap">
+
+    <div id="move" class="side-qr-code" style="position:fixed;top:500px;right:150px;z-index:999;">                                    
+        <img src="/Public/Home/assets/Images/zqkqb0rvqhnvbjpa4qqsm5sstypta0t3gnay_b2vwgqyaaaasgaaaepq.jpg">        
+    </div>
+        
+    <!-- 引入百度编辑器     -->
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    
+    <!-- jquery -->
+    <script src="__PUBLIC__/Home/assets/Scripts/jquery-1.8.3.min.js"></script>
+
+            
+
+    <form action="{:U('Home/Write/update')}" method="post" nctype="multipart/form-data">
+
+
+
+
+    <!-- 后期在此传入SESSION用户ID -->
+    <input type="hidden" name="User_Id" value="<?php echo $_SESSION['Home']['Uid'] ?>">
+    <!-- -- -->
+
+
+
+
+
+    <div class="gwrap">
+        <div class="group-info-small">
+            <div class="group-info-inner">
+                <div class="group-info-detail">
+                    <div class="group-info-name">
+                        <h3>选择分类　</h3>
+                            <select onchange="change(this)" name="Fid" style="border:1px solid #ccc">
+                                <!-- 取出顶级分类 -->
+                                <option value="">--请选择--</option>
+                                <foreach name="res" item="v">
+                                    <option class="opt" value="{$v.id}">{$v.Class_Title}</option>
+                                </foreach>
+                            </select>
+                            <!-- 取出次级分类,默认隐藏,name名一样,如果选择了次级,次级分覆盖父级 -->
+                            <select id="city" name="Fid" style="display:none;border:1px solid #ccc">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="gmain">
+                    <div class="post">
+                        <div class="group-title-header gclear">
+                            <h1 id="articleTitle">
+                                用文字展现科学，给我投稿吧！
+                            </h1>
+                        </div>
+                        <div class="group-title-header gclear">
+                            <h1 id="articleTitle">
+                                文章名:
+                            </h1>
+                            <h1 id="articleTitle">
+                                <input type="text" name="Title" style="border:1px solid #ccc;width:150px;height:25px;">
+                            </h1>
+                        </div>
+                        
+                        
+                        <div class="group-title-header gclear" style="margin-top:-30px;margin-bottom:-1px;">
+                            <h3 id="articleTitle">
+                                格式规范:文章内容中必须带有一张及以上图片,请选择合适的分类.
+                            </h3>
+                        </div>
+
+
+                        <div class="post-txt">
+                           
+                            
+                        <!-- 百度文本编辑骂     -->
+                        <script id="editor" name="Content" type="text/plain" style="width:638px;height:400px;">
+                        </script>
+                        <br>    
+                        <button type="submit" style="border:1px solid green;background:#47B5E7;width:100px;height:30px;line-height:25px;cursor:pointer" ><span class="icon-write"></span>发表</button>
+
+                            
+                        </div>
+
+
+
+                        <div class="side">
+        
+
+
+      
+        
+        
+    
+
+
+
+                    </div>
+                <div class="gbottom">
+            </form>
+        
+    </div>
+        
+        
+    
+
+    <script type="text/javascript">
+        //实例化编辑器
+            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('editor');
+    </script>
+    <script>
+
+        // 顶级分类改变值触发
+        function change(obj){
+            // 获取顶级分类值
+            var sid=obj.value;
+            //ajaxurl
+            var url="{:U('Home/Write/ajaxclass')}";
+            //ajax
+            $.post(url, {Class_Pid:sid}, function(data){
+                //没有子类的情况
+                if (data==0) {
+                    $('#city').css('display','none');
+                } else{
+                    //有子类的情况
+                    //显示次级文本框
+                    $('#city').css('display','inline-block');
+                    //清空文本框中内容
+                    $('#city').html('');
+                    var val='';
+                    //循环遍历次级分类
+                    for (var i = 0; i < data.length; i++) {
+                        //取出组合拼接
+                        val+="<option value='"+data[i].id+"'>"+data[i].Class_Title+"</option>";
+                    };
+                    //插入
+                    $('#city').append(val);
+                };
+                //返回json
+            },'json');
+        }
+    </script>
+
+    
+</block>

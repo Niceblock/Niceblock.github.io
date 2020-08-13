@@ -1,0 +1,84 @@
+<extend name="Public/public"/>
+<block name="content">
+	<div class="row" >
+	                    
+        <div class="col-sm-2">
+          <div class="bk-margin-bottom-10">
+            <a href="/Admin/Group/add.html" class="btn btn-info">Add<i class="fa fa-plus"></i></a>
+          </div>
+        </div>
+        
+        <div class="btn-group col-sm-6">
+
+           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="background-color: #B8ECE5;">
+               
+                  显示条数                    <span class="caret"></span>
+           </button>
+           <ul class="dropdown-menu" role="menu">
+              <li><a href="/Admin/group/index/page/8.html">8</a></li>
+              <li><a href="/Admin/group/index/page/12.html">12</a></li>
+              <li><a href="/Admin/group/index/page/32.html">32</a></li>
+           </ul>
+        </div>
+        
+        <div class="col-sm-4">
+          <form class="search navbar-form" action="/Admin/group/index.html" method="get">
+              <div class="input-group input-search">
+                <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                <span class="input-group-btn" style="width:0px">
+                  <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                </span>
+              </div>            
+          </form>
+        </div>
+      </div>
+
+
+
+
+<div class="media-gallery" style="margin-top:-20px" >
+	<div class="mg-main" >							
+		<div class="row mg-files" data-sort-id="media-gallery" style="position: relative; height: 0px;">
+			<foreach name="res" item="v" key="k" >
+				<div class="isotope-item document col-sm-6 col-md-4 col-lg-3" >
+				<div class="thumbnail">
+					<div class="thumb-preview">
+						<a class="thumb-image" href="">
+							<img src="__PUBLIC__{$v.Group_Src}" class="img-responsive" alt="Project">
+						</a>
+						<div class="mg-thumb-options">
+							<div class="mg-zoom"><a href="{:U('Admin/Group/Audit',array(id=>$v['G_id']))}"><i class="fa fa-search"></i></a></div>
+							<div class="mg-toolbar">
+							</div>
+						</div>
+					</div>
+					<h6 class="ziti" style='font-size:16px;color:#abcdef'>{$v.Group_Name}</h6>
+					<div class="mg-description" style="margin-top:15px">
+						<small class="pull-left text-muted bk-fg-warning">创始人: {$v.User_Nickname}</small>
+						<small class="pull-right text-muted bk-fg-primary">{$v.Group_Ctime|date="Y-m-d",###}</small>
+					</div>
+				</div>
+				</div>
+				<if condition="($k+1)%4==0 ">
+					<div style="clear:both"></div>
+					<div style="width:100%;height:1px;"></div>
+				</if>
+			</foreach>
+			
+				<div style="clear:both"></div>
+				<div class="col-md-offset-4 mt">
+				<div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+				     <div id="pages">
+				       {$pages}
+				     </div>
+				 </div>
+				 </div>
+		</div>
+	</div>
+</div>
+
+      
+</block>
+
+      
+

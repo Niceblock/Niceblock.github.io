@@ -1,0 +1,73 @@
+<extend name="Public/public"/>
+<block name="content">
+
+      <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>用户表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+
+                      <form class="search navbar-form"  action="{:U('Admin/Group/tiezi')}" method="get">
+
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                  </div>
+
+
+
+
+                  <table class="table table-bordered table-striped mb-none ziti lh" id="datatable-editable" style="text-align:center">
+                    <thead>
+                      <tr>
+                        <th class="ct">ID</th>
+                        <th class="ct">主题</th>
+                        <th class="ct">小组</th>
+                        <th class="ct">评论数</th>
+                        <th class="ct">查看评论</th>
+                      </tr>
+                    </thead>
+ 
+                    <foreach name="tie" item="v"> 
+                      <tr class="gradeX">
+                        <td width="10%" style="line-height:40px">{$v.Post_Id}</td>
+                        <td id="sid" width="10%" class="lh">{$v.Post_Title}</td>
+                        <td class="edit_name lh" width="10%" height="45px">{$v.Group_Name}</td>
+                        <td class="edit_name lh" width="10%" height="45px">
+                        <?php echo empty($v['count'])?0:$v['count'] ?></td>
+                        <td width="5%"  id="edit_sex" class="lh"><a style="color:#666" 
+                        href="{:U('Admin/Group/pingdel',array('id'=>$v['Post_Id']))}">点击查看</a></td>
+                      </tr>
+                    </foreach>
+                  </table>
+
+
+                   <div class="col-md-offset-4 mt">
+                   <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                        <div id="pages">
+                          {$pages}
+                        </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+          <!-- ajax删除 -->
+      
+
+</block>
+

@@ -1,0 +1,158 @@
+<extend name="Public/index"/>
+<block name="title">
+	<title> 等待回答 | 问答 | 果壳网 科技有意思</title>
+</block>
+<block name="nav">
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li>
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li class="current">
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+		        <if condition="$uid eq '' ">
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+		        <else />
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+		        </if>
+	            <a href="{:U('Home/Question/waitque')}" data-gaevent="ask_nav_button_answer:ask" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+<div class="gwrap tag-square-page">
+<div class="gmain">
+    <div class="page-title">
+        <h2>等待回答</h2>
+    </div>
+    <ul class="ask-list-cp">
+    	<foreach name="que" item="vo" >
+	        <li>
+		        <div class="ask-list-nums">
+		            <p class="ask-focus-nums">
+		            <span class="num">{$vo.follow_num}</span>关注
+		            </p>
+		            <p class="ask-answer-nums">
+		            <span class="num">{$vo.answer_num}</span>回答
+		            </p>
+		            
+		        </div>
+		        <div class="ask-list-detials">
+		            <h2>
+		            	<a target="_blank" href="{:U('Home/Question/subject',array('id'=>$vo['id']))}">
+							{$vo.sub_name}
+		            	</a>
+		            </h2>
+		            <div class="ask-list-legend">
+		                <p class="tags">
+		                <span class="tag-title">标签：</span>
+				    	<foreach name="vo['tag_name']" item="v" >
+		                    <a target="_blank" href="{:U('Home/Quetag/tag',array('tag_id'=>$v['tag_id']))}" class="tag">
+		                    	{$v.tag_name}
+		                    </a>
+	                    </foreach>
+		                <span class="ask-list-time">
+		                    {$vo.sub_time}
+		                </span>
+		                </p>
+		            </div>
+		        </div>
+	        </li>
+    	</foreach>
+    </ul>
+
+	<ul class="gpages">
+        <div id="pages" style="margin-left:300px;">
+           {$pages}
+        </div>
+	</ul>
+</div>
+</div>
+	<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		// 绑定关注单击事件
+		$('#follow').live('click',function(){
+			// 获取标签id
+			var tagid=$(this).attr('tagid');
+
+			// 设置url
+			var url='{:U("Home/Quetag/follow")}';
+
+			var follow=$(this);
+			// 发送ajax
+			$.get(url,{tag_id:tagid},function(data){
+				if(data==1){
+					follow.parent('div').html('<a id="isfollow" tagid='+tagid+' ><span style="font-size:12px;color:red;margin-right:5px;">-</span>取消</a>');
+				}else{
+					alert('请登入');
+				}
+			})
+		})
+
+		// 绑定取消关注单击事件
+		$('#isfollow').live('click',function(){
+			// 获取标签id
+			var tagid=$(this).attr('tagid');
+
+			// 设置url
+			var url='{:U("Home/Quetag/isfollow")}';
+
+			var isfollow=$(this);
+			$.get(url,{tag_id:tagid},function(data){
+				if(data==1){
+					isfollow.parent('div').html('<a id="follow" class="gnbtn-plat follow-btn" tagid='+tagid+'><span>+</span>关注</a>');
+				}else{
+					alert('取消失败');
+				}
+			})
+		})
+	</script>
+
+	<style type="text/css">
+	    #pages a,#pages span{ background-color: #fff;
+            border: 1px solid #ddd;
+            color: #337ab7;
+            float: left;
+            line-height: 1.42857;
+            margin-left: -1px;
+            padding: 6px 12px;
+            position: relative;
+            text-decoration: none;}
+	    #pages span {
+          background-color: #337ab7;
+          border-color: #337ab7;
+          color: #fff;
+          cursor: default;
+          z-index: 2;}
+		.gnbtn-plat:hover{
+			cursor:pointer;
+		}
+		#follow{
+			font:12px 'Microsuft Yahei';line-height:30px;position:absolute;right:10px;top:0px;
+		}
+		#isfollow{
+			position:absolute;right:20px;top:5px;
+		}
+		#isfollow:hover{
+			text-decoration:none;
+			cursor:pointer;
+		}
+	</style>
+</block>

@@ -1,0 +1,257 @@
+<extend name="Public/public"/>
+<block name="content">
+  <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+  <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <!-- 回复 -->
+    <div class="panel panel-default bk-bg-white" id="fram" style="position:fixed;width:600px;right:350px;top:150px;z-index:100;background:black;display:none;">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-indent red"></i>回复框</h6>              
+                  <div class="panel-actions">
+                    <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
+                    <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <form class="form-horizontal " method="post" action="{:U('Admin/Email/reply')}">
+                    <input type="hidden" name="uid">
+                    <div class="form-group">
+                      <label for="input-small" class="col-sm-7 control-label"><h4>给<span id="uname"></span>回复</h4></label>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="input-large" class="col-sm-3 control-label">回复信息</label>
+                      <div class="col-sm-8">
+                        <textarea rows="3" cols="150" class="form-control elastic" name="msg"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-offset-10">
+                        <button id="send" class="btn btn-success">发送</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>          
+              </div>
+
+        <!-- 发信 -->
+         <div class="panel panel-default bk-bg-white" id="sendframe" style="position:fixed;width:600px;right:350px;top:150px;z-index:100;background:black;display:none;">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-indent red"></i>发送框</h6>              
+                  <div class="panel-actions">
+                    <a class="btn-minimize" href="#"><i class="fa fa-caret-up"></i></a>
+                    <a class="btn-close" href="#"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <form class="form-horizontal " method="post" action="{:U('Admin/Email/send')}">
+                    <select id="sel" name="state" style="height:25px;">
+                      <option value="1">指定用户</option>
+                      <option value="0">所有用户</option>
+                    </select>
+                    <div class="form-group">
+                      <label for="input-large" class="col-sm-3 control-label">发送用户</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control elastic" id="addname" name="uname" placeholder="输入用户名"></input>
+                      </div>
+                    </div>
+                    <span id="nmsg" class="col-md-offset-4" style="color:red;"></span>
+                    <div class="form-group">
+                      <label for="input-large" class="col-sm-3 control-label">发送信息</label>
+                      <div class="col-sm-8">
+                        <textarea rows="3" cols="150" class="form-control elastic" id="smsg" name="msg"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-offset-10">
+                        <button id="sendmsg" class="btn btn-success">发送</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>          
+              </div>
+      <div class="row">
+        
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>站内信箱</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body" id="prent">
+                 <!--  <div id="detailed">
+                    sda
+                  </div> -->
+                  <div class="row">
+                    
+                    <div class="btn-group col-sm-10">
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background-color: #B8ECE5;">
+                          <if condition="$Think.get.page eq 5"> 
+                              5
+                          <elseif condition="$Think.get.page eq 10"/>
+                              10
+                          <elseif condition="$Think.get.page eq 15"/>
+                              15
+                          <else />
+                              显示条数
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                    
+                       <ul class="dropdown-menu" role="menu">
+                          <li><a href="{:U('Admin/Email/index',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/Email/index',array('page'=>10))}">10</a></li>
+                          <li><a href="{:U('Admin/Email/index',array('page'=>15))}">15</a></li>
+                       </ul>
+                    </div>
+                  <div class="col-sm-2 ">
+                    <button id="sendemail" class="bk-margin-5 btn btn-success active" type="button">发信</button>
+                    </div>
+                  <hr>  
+                  
+                  <foreach name="res" item="vo" key="k" >
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable" style="margin-top:15px;">
+                      <thead>
+                        <tr>
+                          <th class="text-center" width="150px">发送用户</th>
+                          <td><h4>{$vo.User_Nickname}</h4></td>
+                          <th class="text-center" width="150px">操作</th>
+                        </tr>
+                        <tr class="id">
+                          <th class="text-center">内容</th>
+                          <td><h4>{$vo.msg}</h4></td>
+                          <td  rowspan="2" class="text-center" style="vertical-align: middle;">
+                            <a id="reply" num="{$vo.uid}" uname="{$vo.User_Nickname}" class="btn btn-warning">回复</a>
+                            <a num="{$vo.id}" id="del" class="btn btn-danger">删除</a>
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <th class="text-center" style="vertical-align: middle;">发送时间</th>
+                          <td >
+                            <h4>{$vo.time}</h4>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </foreach>
+                     <div class="col-md-offset-4 mt">
+                     <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                          <div id="pages">
+                            {$pages}
+                          </div>
+                      </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+          <style type="text/css">
+            #detailed{width:900px;height:auto;position:absolute;background:rgba(0,0,0,0.3);
+              z-index:10;}
+          </style>
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+          $('#sel').change(function(){
+            // 获取当前值
+            var sel=$(this).val();
+            // 判断
+            if(sel==0){
+              $('#addname').attr('readonly','true');
+              $('#addname').attr('placeholder','直接输入信息');
+                $('#nmsg').html('');
+
+            }else{
+              $('#addname').attr('placeholder','请输入用户名');
+              $('#addname').removeAttr('readonly');
+              $('#addname').val('');
+            }
+          })
+          // 绑定回复
+          $('#reply').live('click',function(){
+            // 获取当前id
+            var id=$(this).attr('num');
+            // 获取名字
+            var name=$(this).attr('uname');
+            // 放入
+            $('#uname').html(name);
+            $('input[type="hidden"][name="uid"]').val(id);
+            $('#fram').css('display','block');
+
+          })
+
+          // 用户名失去焦点
+          $('#addname').blur(function(){
+              var val=$(this).val();
+              var url="{:U('Admin/Email/ajaxname')}";
+              if(val==''){
+                $('#nmsg').html('用户名不能为空');
+              }else{
+              $.post(url,{name:val},function(data){
+                  if(data==1){
+                    $('#nmsg').html('');
+                  }else{
+                    $('#nmsg').html('用户名不存在');
+                  }
+                })
+              }
+          })
+          // 绑定删除
+          $('#del').live('click',function(){
+            var url="{:U('Admin/Email/del')}";
+            var id=$(this).attr('num');
+            // 获取当前$this
+            var del=$(this);
+            $.get(url,{id:id},function(data){
+              if(data==1){
+                del.parents('table').remove();
+              }else{
+                alert('删除失败');
+              }
+            })
+          })
+
+         // 绑定发送
+         $('#send').click(function(){
+            var msg=$('textarea[name="msg"]').val();
+            if(msg==''){
+              alert('回复信息不能为空');
+              return false;
+            }
+         })
+
+         // 绑定发送
+         $('#sendmsg').click(function(){
+            var msg=$('#smsg').val();
+            if(msg==''){
+              alert('发送信息不能为空');
+              return false;
+            }
+         })
+
+         // 绑定发信
+         $('#sendemail').click(function(){
+            $('#sendframe').css('display','block');
+            $('#nmsg').html('');
+            $('#addname').val('');
+            $('#smsg').val('');
+         })
+          </script>
+      <script type="text/javascript">
+          //实例化编辑器
+          //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+          var ue = UE.getEditor('editor',{
+           toolbars: [
+               ['fullscreen', 'source', 'undo', 'redo'],
+               ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+           ]
+          });
+      </script>
+</block>
+

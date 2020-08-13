@@ -1,0 +1,58 @@
+<extend name="Sign/index"/>
+<block name="conect">
+	<div class="wrap grow gpack">
+	     <div class="gspan-25 gprefix-2 main">
+	                 <h1>邮件已发送</h1>
+	                 <div class="msg-box">
+	                 	<input type="hidden" value="{$email}">
+	                     <p>已向你的邮箱{$email}发送了一封验证邮件。<!--<a href="#nogo">去邮箱收信&gt;&gt;</a>--></p>
+	                     <p>没收到<a href="javascript:void(0); " id="sx">再次发送验证邮件&gt;&gt;</a></p>
+	                 </div>
+	     </div>	
+	</div>
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+	<script>
+$(function(){
+$.ajax({
+	async:false
+})
+	var e=$('input[type=hidden]').val();
+	var i=1;
+	var ord=0;
+
+	$('#sx').click(function(){
+	if(i<4){
+		$.post(
+			"{:U('Home/Sign/Email')}",
+			{email:e},
+			function (data){
+				i++;			
+				 newd=new Date();
+				 t=newd.getTime();
+				console.log(t,ord);
+				ord=t;
+
+			}
+		)
+	}else{
+		alert('果果好累,消息30秒');
+		//新秒
+		newTT=new Date();
+		tt=newTT.getSeconds();
+		// console.log(tt);
+		//旧秒
+		ords=new Date(ord);
+		kk=ords.getSeconds();
+		// console.log(tt-kk);
+		if(tt-kk>10){
+			i=1;
+		}
+		return false;
+	}
+		return false;
+	})
+
+})
+	</script>
+</block>
+</extend>

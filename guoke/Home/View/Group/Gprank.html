@@ -1,0 +1,132 @@
+<extend name="Public/index" />
+<block name="style">
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/f4ed78e3.index.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/ui2.css?2013032917">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/css/base.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/image-show/touchTouch/touchTouch.css">
+        <link rel="stylesheet" href="__PUBLIC__/Home/assets/6e7bcd6e.main.css" />
+        <!--[if lt IE 9]><link rel="stylesheet" href="Content/e43d2adb.ie678.css" /><![endif]-->
+    
+    <link rel="stylesheet" href="__PUBLIC__/Home/assets/4582832c.rank.css" />
+    <script src="__PUBLIC__/Home/assets/js/landing-min.js?2013032917"></script>
+</block>
+
+
+<block name="content">
+  <!--  -->
+  <div class="sub-nav">
+    <div class="sub-nav-wrap gclear">
+      <h2>
+        <a href="http://www.guokr.com/group/">
+          <span class="gnav-logo">果壳</span>小组</a></h2>
+      <ul class="sub-nav-link gfl">
+        <if condition="$msgg eq true ">
+          <li><a href="{:U('Home/Group/index',array('myid'=>$myid))}" style="line-height:30px">我的小组</a></li>
+        </if>
+        <li><a href="{:U('Home/Group/index')}" style="line-height:30px">小组热帖</a></li>
+        <li><a href="{:U('Home/Group/Gprank')}" style="line-height:30px">小组排行</a></li>
+      </ul>
+      <div class="gh-search-wrap">
+        <form id="searchGroup" action="{:U('Home/Group/soso')}" class="gh-search" method="get">
+          <p>
+            <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value="">
+            <input type="submit" value="搜索" class="gnicon-search"></p>
+        </form>
+        <ul class="dropdown-group"></ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="gwrap">
+      <div class="gmain">
+          <ul class="tab">
+              <li >
+                  <a href="{:U('Home/Group/Gprank',array('rk'=>'huo'))}">活跃榜</a>
+              </li>
+              
+              <li>
+                  <a href="{:U('Home/Group/Gprank')}">实力榜(全部小组)</a>
+              </li>
+              
+          </ul>
+
+          <br>
+          <br>
+          <p class="rank-tip">
+              本榜单由系统实时生成
+          </p>
+          <ul class="ranks">
+              <foreach name="res" item="v" key="k">
+              <li style="border-bottom:1px dashed #ccc;padding-bottom:20px;margin-top:20px">
+                  <span class="rank-left">
+                      <span class="rank-num-top">{$k+1}</span>
+                      <a class="group-head" href="{:U('Home/Group/GpInfo/',array('id'=>$v['G_id']))}" data-group_id="36">
+                          <img src="__PUBLIC__{$v.Group_Src}" class="" width="48" height="48">
+                      </a>
+                      
+                      <a class="super-group-name"target="_blank" href="{:U('Home/Group/GpInfo/',array('id'=>$v['G_id']))}">{$v.Group_Name}</a>
+                      <a class="gicon-super" title="此小组处于高维空间，拥有更多功能与玩法" href="http://www.guokr.com/question/495009/" target="_blank"></a>
+                      
+                  </span>
+                  <span style="float:right">
+                  <span class="group-members" style="float:right">活跃度:{$v['Group_Hot']}</span><br><br>
+                      <span class="group-members">
+                      <?php echo empty($v['count'])?'0':$v['count']; ?>
+                        人加入</span>
+                          <?php if(in_array($v['G_id'],$arr)): ?>
+                                          <?php elseif(!array_key_exists('play',$v)): ?>
+
+                                             <a class="joinBtn joingroup"  data-operation="join" data-method="join"  value="{$v.G_id}" data-login="yes" style="cursor:pointer;">+加入</a>
+                                          <?php else: ?>
+                                <a class="joinBtn joingroup" data-operation="join" data-method="join"  value="{$v.G_id}" data-login="yes" style="cursor:pointer;">+已加入</a>
+                                          <?php endif; ?>
+                        
+                  </span>
+
+              </li>
+            </foreach>
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+  <script>
+  $(function(){
+
+    $('.joingroup').click(function(){
+        var r=$(this).html();
+        var v=$(this).attr('value');
+        var me=$(this);
+
+      if(r=="+加入"){
+        console.log(v);
+        $.ajax({
+          url:"{:U('Home/Group/joinGroup')}",
+          data:{G_id:v},
+          type:'post',
+          async:false,
+          success:function(data){
+            // console.log(data);
+            if(data==1){
+              me.html('+已加入');
+            }
+          }
+        })
+      }else{
+        console.log(v);
+        $.ajax({
+          url:"{:U('Home/Group/outGroup')}",
+          data:{G_id:v},
+          type:'post',
+          async:false,
+          success:function(data){
+            // console.log(data);
+            if(data==1){
+              me.html('+加入');
+            }
+          }
+        })
+      }
+    })
+  })
+  </script>            
+ </block>
+</extend>

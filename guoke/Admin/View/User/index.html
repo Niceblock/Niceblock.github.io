@@ -1,0 +1,115 @@
+<extend name="Public/public"/>
+<block name="content">
+
+      <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>用户表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body">
+                  <div class="row">
+                    
+                    <div class="col-sm-2">
+                      <div class="bk-margin-bottom-10">
+
+                        <a href="{:U('Admin/User/add')}" id="addToTable" class="btn btn-info">Add<i class="fa fa-plus"></i></a>
+
+                      </div>
+                    </div>
+                    
+                    <div class="btn-group col-sm-6">
+
+                       <button type="button" class="btn btn-default dropdown-toggle" 
+                          data-toggle="dropdown" style="background-color: #B8ECE5;">
+                          <if condition="$Think.get.page eq 2"> 
+                              2
+                          <elseif condition="$Think.get.page eq 5"/>
+                              5
+                          <elseif condition="$Think.get.page eq 10"/>
+                              10
+                          <else /> 
+                              显示条数
+                          </if>
+                          <span class="caret"></span>
+                       </button>
+                       <ul class="dropdown-menu" role="menu">
+
+                          <li><a href="{:U('Admin/User/index',array('page'=>2))}">2</a></li>
+                          <li><a href="{:U('Admin/User/index',array('page'=>5))}">5</a></li>
+                          <li><a href="{:U('Admin/User/index',array('page'=>10))}">10</a></li>
+
+                       </ul>
+                    </div>
+                    
+                    <div class="col-sm-4">
+
+                      <form class="search navbar-form"  action="{:U('Admin/User/index')}" method="get">
+
+                          <div class="input-group input-search">
+                            <input type="text" class="form-control bk-radius" name="keyword" id="q" placeholder="Search...">
+                            <span class="input-group-btn" style="width:0px">
+                              <button class="btn btn-default" id="formm" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                          </div>            
+                      </form>
+                    </div>
+                  </div>
+
+
+
+
+                  <table class="table table-bordered table-striped mb-none ziti lh" id="datatable-editable" style="text-align:center">
+                    <thead>
+                      <tr>
+                        <th class="ct">头像</th>
+                        <th class="ct">ID</th>
+                        <th class="ct">用户邮箱</th>
+                        <th class="ct">年龄</th>
+                        <th class="ct">用户昵称</th>
+                        <th class="ct">地址</th>
+                      </tr>
+                    </thead>
+ 
+                    <foreach name="res" item="v"> 
+                      <tr class="gradeX">
+                        <td width="10%">
+                        <?php if(strpos($v['User_pic'],'U')==1): ?>
+                        <img src="__PUBLIC__/{$v.User_pic}" width="50px" alt="">
+                        <?php else: ?>
+                        <img src="{$v.User_pic}" width="50px" alt="">
+                        <?php endif; ?>
+                        </td>
+                        <td id="sid" width="10%" class="lh">{$v.U_id}</td>
+                        <td class="edit_name lh" width="30%" height="45px">{$v.User_Email}</td>
+                        <td width="5%" id="edit_sex" class="lh">{$v.User_Age}</td>
+                        <td width="15%" id="edit_NK" class="lh">{$v.User_Nickname}</td>
+                        <td width="15%"id="edit_Addre" class="lh">{$v.User_Address}</td>
+                     
+
+                      </tr>
+                    </foreach>
+                  </table>
+
+
+                   <div class="col-md-offset-4 mt">
+                   <div class="dataTables_paginate paging_bs_normal" id="datatable-editable_paginate">
+                        <div id="pages">
+                          {$pages}
+                        </div>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+          <!-- ajax删除 -->
+      
+
+</block>
+

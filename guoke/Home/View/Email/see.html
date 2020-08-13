@@ -1,0 +1,137 @@
+
+<extend name="Public/index"/>
+	<block name="content">
+    
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/gui.css">
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/settings.css">
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <div class="container ">
+        <div class="gheader-wrap">
+          
+
+        
+    <div class="sub-nav">
+        <div class="sub-nav-wrap logged gclear">
+            <h2 class="gnav-title">
+                <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a>
+            </h2>
+            <ul class="sub-nav-link gfl">
+                
+				<li >
+                	<a href="http://www.guokr.com/">首页</a>
+                </li>
+
+				<li >
+                	<a href="http://www.guokr.com/user/feeds/">动态</a>
+                </li>
+
+				<li>
+                	<a href="http://www.guokr.com/nuts/">果壳达人</a>
+                </li>
+				<li>
+                	<a href="http://www.guokr.com/i/1875258233/">我的果壳</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="gwrap-m message-new-page">
+        <div class="gside">
+            <h1>消息中心</h1>
+            <ul class="m-nav">
+        
+            <li class="gactived"><span class="gicon-message"></span>站内信</li>
+        	<li><span class="gicon-notice"></span><a href="{:U('Home/Email/been')}">已发送信箱</a></li>
+            <li><span class="gicon-notice"></span><a href="http://www.guokr.com/user/notice/">通知</a></li>
+            <li><span class="gicon-notice"></span><a href="http://www.guokr.com/user/notice/">聊天会话</a></li>
+            <li><span class="gicon-notice"></span><a href="http://www.guokr.com/user/notice/">被打回的文章</a></li>
+        
+    
+            </ul>
+        </div>
+        
+<div class="gmain">
+    <div class="page-titleline">
+        <h2>
+            {$res.User_Nickname}发我的信息
+            <a href="{:U('Home/Email/index')}" class="page-title-back">[返回站内信]</a>
+        </h2>
+    </div>
+ 
+        <br>
+        <br>
+        
+        <ul class="main-message" id="msgList">
+            
+            
+            <li class="sent">
+                <div class="main-message-avatar">
+                    <a href="http://www.guokr.com/i/1875258233/" target="_blank" title="古文_3854">
+                         <if condition="$vo.User_pic eq '' ">
+                            <img src="__PUBLIC__/Home/assets/Images/himg.png" width="48" height="48">
+                        <else />
+                            <img src="__PUBLIC__{$vo.User_pic}" width="48" height="48">
+                        </if>
+                    </a>
+                    <b class="arrow"><s class="arrow"></s></b>
+                </div>
+                <div class="main-message-content">
+                    <p><a href="http://www.guokr.com/i/1875258233/" target="_blank">{$res.User_Nickname}</a>：{$res.msg}</p>
+                    <p class="main-message-content-do">
+                    <span class="gfl">{$res.time}</span>
+                    </p>
+                </div>
+            </li>
+            
+            
+        </ul>
+        
+
+
+
+    </div>
+</div>
+	<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+		$('#sel').change(function(){
+			// 获取当前值
+			var sel=$(this).val();
+			// 判断
+			if(sel==0){
+				$('#addname').attr('readonly','true');
+				$('#addname').val('管理员直接输入信息');
+			}else{
+				$('#addname').removeAttr('readonly');
+				$('#addname').val('');
+			}
+		})
+	</script>
+
+    <script>
+        var g_page_name = "settingMessageIndexPage",
+            GJS_VERSION = 'doom',
+            GJS_PRELOAD = ['ga', 'jQuery', 'GUtils', 'api', 'share'],
+            ukey = "v0haih",
+            client_id = 32353,
+            douban_signin = "https:\/\/account.guokr.com\/douban\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Fuser%252Fmessages%252F";
+    </script>
+    <script src="__PUBLIC__/Home/assets/Scripts/I.js"></script>
+    <script src="__PUBLIC__/Home/assets/Scripts/main.js"></script>
+    <script src="__PUBLIC__/Home/assets/Scripts/setting.js"></script>
+	<script type="text/javascript">
+	    //实例化编辑器
+	    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+	    var ue = UE.getEditor('editor',{
+	     toolbars: [
+	         ['fullscreen', 'source', 'undo', 'redo'],
+	         ['bold', 'italic','insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
+	     ]
+	    });
+	</script>
+	</block>	
+</extends>
+

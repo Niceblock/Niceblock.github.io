@@ -1,0 +1,170 @@
+
+<extend name="Public/index"/>
+	<block name="content">
+    
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/gui.css">
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/settings.css">
+
+</head>
+<body>
+    <div class="container ">
+        <div class="gheader-wrap">
+          
+
+        
+    <div class="sub-nav">
+        <div class="sub-nav-wrap logged gclear">
+            <h2 class="gnav-title">
+                <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a>
+            </h2>
+            <ul class="sub-nav-link gfl">
+                
+				<li >
+                	<a href="http://www.guokr.com/">首页</a>
+                </li>
+
+				<li >
+                	<a href="http://www.guokr.com/user/feeds/">动态</a>
+                </li>
+				<li>
+                	<a href="http://www.guokr.com/nuts/">果壳达人</a>
+                </li>
+				<li>
+                	<a href="http://www.guokr.com/i/1875258233/">我的果壳</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="gwrap-m message-index-page">
+        <div class="gside">
+            <h1>消息中心</h1>
+            <ul class="m-nav">
+        
+                <li class="gactived"><span class="gicon-message"></span>站内信</li>
+                 <li><span class="gicon-draft"></span><a href="{:U('Home/Email/been')}">已发送信箱</a></li>
+        
+                <li><span class="gicon-notice"></span><a href="">通知</a></li>
+                <li><span class="gicon-notice"></span><a href="http://www.guokr.com/user/notice/">聊天会话</a></li>
+                <li><span class="gicon-notice"></span><a href="http://www.guokr.com/user/notice/">被打回的文章</a></li>
+            </ul>
+        </div>
+        
+<div class="gmain">
+    <div class="page-titleline">
+        <a href="{:U('Home/Email/add')}" class="gnbtn-primary gfr">写信</a>
+        <h2>站内信</h2>
+        <a href="javascript: void 0;" class="msg_now" id="msgNow">
+            <if condition="$num eq 1"> 
+                全部
+            <elseif condition="$num eq 2"/>
+                已读
+            <else /> 
+                未读
+            </if>
+            <span class="gicon-msg"></span>
+        </a>
+    </div>
+    <div class="msg_filter" id="msgFilter">
+        <a href="{:U('Home/Email/index',array('num'=>1))}">全部</a>
+        <a href="{:U('Home/Email/index',array('num'=>2))}">已读</a>
+        <a href="{:U('Home/Email/index',array('num'=>3))}">未读</a>
+    </div>
+
+    <ul class="main-message" id="msgList">
+        
+        <foreach name="res" item="vo" >
+        
+        <li>
+            <div class="pt-pic">
+                <a href="http://www.guokr.com/i/1007513324/" target="_blank" title="果壳网服务生">
+                <if condition="$vo.User_pic eq '' ">
+                    <img src="__PUBLIC__/Home/assets/Images/himg.png" width="48" height="48">
+                <else />
+                    <img src="__PUBLIC__{$vo.User_pic}" width="48" height="48">
+                </if>
+                </a>
+                
+            </div>
+            <div class="pt-txt">
+                <p><a href="http://www.guokr.com/i/1007513324/" target="_blank">{$vo.User_Nickname}</a>发来：{$vo.msg}</p>
+                <p class="pt-txt-d">
+                    <span class="gfl">{$vo.time}</span>
+                    <span class="gfr">
+                        <a href="javascript: void 0;" id="del" eid="{$vo.id}" class="msg-hover">删除</a>
+                        <span class="gsplit msg-hover">|</span>
+                        <if condition="$vo.state eq 0 ">
+                            <a>未读</a>
+                        <else />
+                            <a>已读</a>
+                        </if>
+                        <span class="gsplit">|</span>
+                        <a href="{:U('Home/Email/see',array('id'=>$vo['id'],'uid'=>$vo['uid']))}">查看</a>
+                        <span class="gsplit">|</span>
+                        <a href="{:U('Home/Email/add',array('pid'=>$vo['uid']))}">回复</a>
+                    </span>
+                </p>
+            </div>
+        </li>
+        </foreach>     
+    </ul>
+    <ul class="gpages">
+        <div id="pages" style="margin-left:300px;">
+           {$pages}
+        </div>
+    </ul>
+</div>
+
+<script src="__PUBLIC__/Home/assets/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        $('#del').live('click',function(){
+            // 获取当前id
+            var id=$(this).attr('eid');
+            var url="{:U('Home/Email/waitdel')}";
+
+            var del=$(this);
+            // 发送ajax处理
+            $.post(url,{id:id},function(data){
+                if(data==1){
+                    del.parents('li').remove();
+                }else{
+                    alert('删除失败');
+                }
+            })
+        })
+    </script>
+<style type="text/css">
+        #pages a,#pages span{ background-color: #fff;
+            border: 1px solid #ddd;
+            color: #337ab7;
+            float: left;
+            line-height: 1.42857;
+            margin-left: -1px;
+            padding: 6px 12px;
+            position: relative;
+            text-decoration: none;}
+        #pages span {
+          background-color: #337ab7;
+          border-color: #337ab7;
+          color: #fff;
+          cursor: default;
+          z-index: 2;}
+</style>
+    <script>
+        var g_page_name = "settingMessageIndexPage",
+            GJS_VERSION = 'doom',
+            GJS_PRELOAD = ['ga', 'jQuery', 'GUtils', 'api', 'share'],
+            ukey = "v0haih",
+            client_id = 32353,
+            douban_signin = "https:\/\/account.guokr.com\/douban\/sign_in\/?success=http%3A%2F%2Fwww.guokr.com%2Fsso%2F%3Fsuppress_prompt%3D1%26lazy%3Dy%26success%3Dhttp%253A%252F%252Fwww.guokr.com%252Fuser%252Fmessages%252F";
+    </script>
+    <script src="__PUBLIC__/Home/assets/Scripts/I.js"></script>
+    <script src="__PUBLIC__/Home/assets/Scripts/main.js"></script>
+    <script src="__PUBLIC__/Home/assets/Scripts/setting.js"></script>
+
+
+	</block>	
+</extends>
+

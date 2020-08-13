@@ -1,0 +1,66 @@
+<extend name="Public/public"/>
+<block name="content">
+
+<!-- 引入百度编辑器 -->
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>科学人评论管理</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>评论内容修改</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+        <!-- 头部结束 -->
+
+
+
+
+        <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+                  <form action="{:U('Admin/Sciencecomment/update')}" method="post" class="form-horizontal">
+                    
+                    <input type="hidden" name="id" value="{$res.id}">
+
+                    <div class="form-group text-center">
+                      <h3>评论内容</h3>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-12">
+                        <!-- 百度文本编辑骂     -->
+                        <script id="editor" name="Cm_Content" type="text/plain" style="width:605px;height:400px;">
+                          {$res.Cm_Content}
+                        </script>
+                      </div>
+                    </div>
+                   
+                    <div class="center-block text-center">
+
+                   <button type="submit" class="bk-margin-5 btn btn-success btn-sm subm">提交</button>
+                   <a class="bk-margin-5 btn btn-success btn-sm subm reset">清除</a>
+                   </div>
+                    <br>
+                  </form>
+                </div>
+        </div>
+
+          <!-- ajax验证 -->
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script>
+      //实例化编辑器
+          //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+          var ue = UE.getEditor('editor');
+
+          $('.reset').click(function(){
+            UE.getEditor('editor').setContent('');
+          })
+    </script>
+</block>

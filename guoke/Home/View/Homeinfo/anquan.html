@@ -1,0 +1,168 @@
+<extend name="Public/index" />
+<block name="style">
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/me.css" />
+  <link rel="stylesheet" href="__PUBLIC__/Home/assets/css/gui.css" />
+  <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+  <style>
+
+  #clipArea {
+    margin: 20px;
+    height: 300px;
+  }
+  #file,
+  #clipBtn {
+    margin: 20px;
+  }
+  #view {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+  }
+  </style>
+</block>
+<block name="content">
+  <div class="sub-nav">
+    <div class="sub-nav-wrap logged gclear">
+      <h2 class="gnav-title">
+        <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a></h2>
+      <ul class="sub-nav-link gfl">
+        <li>
+          <a href="http://www.guokr.com/">首页</a></li>
+        <li>
+          <a href="http://www.guokr.com/user/feeds/">动态</a></li>
+        <li>
+          <a href="http://www.guokr.com/nuts/">果壳达人</a></li>
+        <li>
+          <a href="http://www.guokr.com/i/0772575393/">我的果壳</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="gwrap-m">
+    <div class="gside">
+      <h1>设置</h1>
+      <ul class="m-nav" style="font-family:微软雅黑">
+        <li >
+          <a href="{:U('Home/Homeinfo/userinfo')}"><span>个人资料</span></a></li>
+        <li class="gactived">
+          <a href="{:U('Home/Homeinfo/Touxiang')}">设置头像</a></li>
+        <li>
+          <a href="{:U('Home/Homeinfo/anquan')}">安全</a></li>
+        <li>
+          <a href="https://account.guokr.com/settings/external_account/">绑定帐号</a></li>
+        <li>
+          <a href="https://account.guokr.com/settings/security/email/change/">更改邮箱</a></li>
+      </ul>
+    </div>
+    <div class="gmain settings-profile-page">
+      <div class="page-titleline">
+        <h2>安全</h2></div>
+        <form id="myform" class="gsuffix-2 gform" method="POST" action="{:U('Home/Homeinfo/anquan')}" novalidate="true">
+          <label for="password_old">原始密码</label>
+          <div class="gform-box">
+            <input class="gstxt" id="password_old" name="password_old" type="password" value="">
+            <span class="tip1 tip"></span>
+          </div>
+          <label for="password">新密码</label>
+          <div class="gform-box">
+            <input class="gstxt" id="password-input" name="password" type="password" value="">
+            <span class="tip"></span>
+          </div>
+          <label for="password_confirm">确认密码</label>
+          <div class="gform-box">
+            <input class="gstxt" id="pwd-input" name="password_confirm" type="password" value="">
+            <span class="tip"></span>
+          </div>
+          <p class="buttons">
+            <input class="gnbtn-primary gform-submit" type="submit" value="保存">
+            <a class="gnbtn-cancel" href="http://www.guokr.com/i/0772575393/">取消</a></p>
+        </form>
+        </div>
+    </div>
+  </div>
+  <!--  -->
+
+<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+<script>
+
+  $(function(){
+
+
+    var CUSER=true;
+
+    $('#myform').submit(function(){
+       CUSER = true;
+       //丧失焦点事件
+       $('input').trigger('blur');
+       //检验是否正确
+       if(!CUSER){
+        return false;
+       }
+       var ord=$('#password_old').val();
+       var npwd=$('#pwd-input').val();
+       $.ajax({
+
+        url:"{:U('Home/Homeinfo/anquan')}",
+        data:{pwd:ord,User_Pwd:npwd},
+        type:'post',
+        success:function(data){
+          if(data==1){
+            alert('成功');
+            location.href="{:U('Home/Login/index')}";
+          }else{
+            $('.tip1').css('color','red');
+            $('.tip1').html('密码错误!');
+          }
+        }
+       })
+
+
+       //阻止默认行为
+       return  false;
+      
+    })
+
+    $('input').focus(function(){
+      //获取属性
+      var str = $(this).attr('readmin');
+      //设置文本
+      $(this).next().html(str).css('color','green');
+      //设置样式
+      $(this).attr('style','border:solid 1px green;');
+
+    })
+
+
+    $('#password-input').blur(function(){
+      var pass = $(this).val();
+      var reg = /^\w{6,18}$/;
+      if(!reg.test(pass)){
+        $(this).next().html('密码安全过低').css('color','rgb(243, 90, 90)');;
+        $(this).attr('style','border:solid 1px red;');
+        CUSER = false;
+      }else{
+        $(this).next().html('密码可以使用').css('color','green');
+        $(this).attr('style','border:solid 1px green;');
+      }
+    })
+
+    //密码
+    $('#pwd-input').blur(function(){
+      var pass = $(this).val();
+      var password = $('#password-input').val();
+      if(pass == password){
+        $(this).next().html('密码一致').css('color','green');
+        $(this).attr('style','border:solid 1px green;');
+      }else{
+        $(this).next().html('两次密码不正确').css('color','rgb(243, 90, 90)');;
+        $(this).attr('style','border:solid 1px red;');
+        CUSER = false;
+      }
+    })
+  
+
+    
+  })
+
+</script>
+</block>
+</extend>

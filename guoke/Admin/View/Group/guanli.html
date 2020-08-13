@@ -1,0 +1,128 @@
+<extend name="Public/public"/>
+<block name="content">
+
+	<div class="panel bk-widget bk-border-off">
+		<div class="panel-body">
+			<div class="text-left bk-bg-white bk-padding-top-15 bk-padding-bottom-15">
+				<div class="row">
+					<div class="col-xs-2">
+						<div class="bk-avatar">
+							<img src="__PUBLIC__/{$img}"  class="img-circle bk-img-100 bk-border-info bk-border-3x">
+						</div>
+					</div>
+						<h4 class="ziti" style="font-size:25px;line-height:100px;float:left">{$name}</h4>
+						<div class="col-md-3" style="float:right">
+							<div class="panel bk-widget bk-border-off">
+								<a class="panel-body bk-fg-primary bk-bg-white bk-ltr bk-padding-15">
+									<div class="row">
+										
+										<div class="col-xs-8 text-center bk-vcenter">
+											<h3 class="bk-margin-off">成员:{$count}</h3>
+										</div>
+									</div>
+									<div class="progress progress-xs bk-margin-off-bottom bk-margin-top-10">
+										<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{$count}%;">
+										</div>
+									</div>
+									
+								</a>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="bk-bg-white">
+				<blockquote><p>{$About}</p></blockquote>
+			</div>
+				<!--  -->
+	<div>
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">组员:</a></li>
+	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">最近动态</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	  <!-- 操作 好友列表 -->
+	  <input type="hidden" value='{$Gid}'>
+	    <div role="tabpanel" class="tab-pane active" id="home">
+	    	
+	    	
+	    	<table class="table table-bordered table-striped mb-none dataTable no-footer" id="datatable-editable" role="grid" aria-describedby="datatable-editable_info">
+	    											<thead>
+	    												<tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="datatable-editable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Template: activate to sort column ascending" style="width: 30px;">头像</th>
+	    												<th class="sorting" tabindex="0" aria-controls="datatable-editable" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 47px;">用户</th>
+	    												<th class="sorting" tabindex="0" aria-controls="datatable-editable" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 58px;">发帖</th>
+	    												<th class="sorting" tabindex="0" aria-controls="datatable-editable" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 58px;">回帖</th>
+	    												<th class="sorting_disabled" rowspan="1" colspan="1" aria-label="Actions" style="width:50px;">操作</th>
+	    												</tr>
+	    											</thead>
+	    											<tbody>
+	    												
+	    												<foreach name="res" item="v" >
+	    											<tr class="gradeA odd" role="row">
+	    													<td class="sorting_1">
+	    														<div class="bk-avatar huoqu" data-toggle="modal" value="{$v['Au_Uid']}" data-target="#myModal" style="cursor:pointer">
+	    															<img src="{$v['User_Pic']}" title="{$v['User_Nickname']}" class="img-circle bk-img-60 bk-border-primary bk-border-2x bk-border-darken User_Nickname">
+	    														</div>
+	    													</td>
+	    													<td>{$v['User_Nickname']}</td>
+	    													<td>{$v['fa']}</td>
+	    													<td>{$v['hui']}</td>
+	    													<td class="actions">
+	    														<?php if($v['Au_State']<3): ?> 
+	    														<button type="button" value="{$v['id']}" biao="one" class="bk-margin-5 btn btn-primary btn-sm">加入黑名单</button>
+	    														<?php else: ?>
+	    														<button type="button" value="{$v['id']}" biao="two" class="bk-margin-5 btn btn-primary btn-sm">存在黑名单</button>
+	    														<?php endif; ?>
+	    													</td>
+	    											</tr>
+													</foreach>
+	    											</tbody>
+	    										</table>
+	    </div>
+	  <!-- 结束1 -->
+	
+		
+
+		<!-- Modal -->
+	<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+	<script>
+		$('.bk-margin-5').click(function(){
+			var b=$(this).attr('biao');
+			var me=$(this);
+			var id=$(this).val();
+			// console.log(id);
+			if(b=='one'){
+			$.ajax({
+				url:"{:U('Admin/Group/block')}",
+				data:{id:id,biao:b},
+				type:'post',
+				success:function(date){
+					if(date==1){
+						me.html('存在黑名单');
+						me.attr('biao','two');
+					}
+				}
+			})
+		}else{
+			$.ajax({
+				url:"{:U('Admin/Group/block')}",
+				data:{id:id,biao:b},
+				type:'post',
+				success:function(date){
+					if(date==1){
+						me.html('加入黑名单');
+						me.attr('biao','two');
+					}
+				}
+			})
+		}
+
+		})
+
+	</script>
+</block>
+
+      
+

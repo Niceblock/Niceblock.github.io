@@ -1,0 +1,117 @@
+<extend name="Public/index"/>
+<block name="style">
+    
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Content/gui.css">
+    
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/Content/settings.css">
+
+</block>
+
+<block name="content">
+
+    
+    <!-- 引入百度编辑器 -->
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+    <div class="sub-nav">
+        <div class="sub-nav-wrap logged gclear">
+            <h2 class="gnav-title">
+                <a href="http://www.guokr.com/" class="gnav-logo-big">果壳网</a>
+            </h2>
+            <ul class="sub-nav-link gfl">
+                
+<li >
+                <a href="http://www.guokr.com/">首页</a>
+                </li>
+
+                
+                
+<li >
+                <a href="http://www.guokr.com/user/feeds/">动态</a>
+                </li>
+
+                
+                
+<li >
+                <a href="http://www.guokr.com/nuts/">果壳达人</a>
+                </li>
+
+                
+                
+                
+<li >
+                <a href="http://www.guokr.com/i/0482234484/">我的果壳</a>
+                </li>
+
+                
+            </ul>
+        </div>
+    </div>
+    <div class="gwrap-m ">
+        <div class="gside">
+            <h1>被打回的文章</h1>
+            <ul class="m-nav">
+                
+        
+            
+        
+            <!-- 遍历 -->
+                
+            <foreach name="titleres" item="v">
+            <li><span class="gicon-draft"></span><a href="{:U('Home/Repulse/repulse',array('wid'=>$v['id']))}">{$v.Title}</a></li>
+            </foreach>
+    
+                
+        
+            
+        
+    
+            </ul>
+        </div>
+        
+    <div class="gmain notice-page">
+        <div class="page-titleline">
+            <h2>打回原因</h2>
+        </div>
+        <ul class="titles">
+            
+                    
+                    <li>
+                
+                        <h3>
+                            {$res.Text}        
+                        </h3>
+                    </li>
+                
+            
+        </ul>           
+                        上次上传时间:{$res.Time}
+                        <br>
+                        <br>
+                        <form action="{:U('Home/Repulse/upload')}" method="post">
+                        <input type="hidden" name="id" value="{$res.id}">
+                        <div style="font-size:20px;">
+                        文章标题:<input style="border:1px solid #ccc;" type="text" name="Title" value="{$res.Title}">
+                        </div>
+                        <br>
+                        <script id="editor" name="Content" type="text/plain" style="width:650px;height:400px;">
+                        {$res.Content}
+                        </script>
+                        <button style="border:1px solid green;background:#47B5E7;width:100px;height:30px;line-height:25px;cursor:pointer;margin-top:10px;" type="submit"><span class="icon-write"></span>再次上传</button>
+                        </form>
+
+    </div>
+
+    </div>
+
+    <script type="text/javascript">
+    //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+        var ue = UE.getEditor('editor'/*,{toolbars:[['bold','simpleupload']]}*/);
+    </script>
+
+</block>

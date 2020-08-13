@@ -1,0 +1,49 @@
+   #pages a,#pages span{ background-color: #fff;
+     border: 1px solid #ddd;
+     color: #337ab7;
+     float: left;
+     line-height: 1.42857;
+     margin-left: -1px;
+     padding: 6px 12px;
+     position: relative;
+     text-decoration: none;}
+
+     
+   #pages span {
+   background-color: #337ab7;
+   border-color: #337ab7;
+   color: #fff;
+   cursor: default;
+   z-index: 2;
+   }
+  
+
+  .mt{
+   margin-top:50px;
+  }
+
+  .ct{
+    text-align:center;
+  }
+
+  .ziti{
+    font-family: '微软雅黑';
+  }
+
+  .lh{
+    line-height: 40px !important;
+  }
+
+  .lh2{
+    line-height: 30px !important;
+  }
+
+  
+  .cu{
+    cursor: pointer;
+  }
+
+  .mb50{
+    margin-bottom: 50px;
+  }
+

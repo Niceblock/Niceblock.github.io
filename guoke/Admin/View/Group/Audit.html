@@ -1,0 +1,209 @@
+<extend name="Public/public"/>
+<block name="content">
+
+	<div class="panel bk-widget bk-border-off">
+		<div class="panel-body">
+			<div class="text-left bk-bg-white bk-padding-top-15 bk-padding-bottom-15">
+				<div class="row">
+					<div class="col-xs-2">
+						<div class="bk-avatar">
+							<img src="__PUBLIC__/{$img}"  class="img-circle bk-img-100 bk-border-info bk-border-3x">
+						</div>
+					</div>
+						<h4 class="ziti" style="font-size:25px;line-height:100px;float:left">{$name}</h4>
+						<div class="col-md-3" style="float:right">
+							<div class="panel bk-widget bk-border-off">
+								<a class="panel-body bk-fg-primary bk-bg-white bk-ltr bk-padding-15">
+									<div class="row">
+										
+										<div class="col-xs-8 text-center bk-vcenter">
+											<h3 class="bk-margin-off">成员:{$count}</h3>
+										</div>
+									</div>
+									<div class="progress progress-xs bk-margin-off-bottom bk-margin-top-10">
+										<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:{$count}%;">
+										</div>
+									</div>
+									
+								</a>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="bk-bg-white">
+				<blockquote><p>{$About}</p></blockquote>
+			</div>
+				<!--  -->
+	<div>
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">组员:</a></li>
+	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">最近动态</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	  <!-- 操作 好友列表 -->
+	  <input type="hidden" value='{$Gid}'>
+	    <div role="tabpanel" class="tab-pane active" id="home">
+	    	<foreach name="res" item="v" >
+	    	<div class="bk-avatar huoqu"  data-toggle="modal" value="{$v['Au_Uid']}" data-target="#myModal" style="display:inline-block;margin-right:20px;margin-bottom:20px;cursor:pointer">
+	    		<img src="{$v['User_Pic']}" title="{$v['User_Nickname']}" class="img-circle bk-img-60 bk-border-primary bk-border-2x bk-border-darken User_Nickname">
+	    	</div>
+	    	</foreach>
+	   	</div>
+	  <!-- 结束1 -->
+
+		<div role="tabpane1" class="tab-pane" id="profile">
+			<foreach name="tie" item="v" >
+			<div class="alert alert-warning">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4 class="alert-heading">{$v.Post_Title}</h4>
+				<p>{$v.User_Nickname}</p>
+				<p>{$v.ji}</p>
+			</div>
+			</foreach>
+	  	</div>
+				<!--  -->
+			<div class="bk-bg-white bk-padding-top-15 bk-padding-bottom-15">
+				<form role="form" action="javascript:">
+					<div class="input-group">
+						<input type="text" class="form-control zz">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"><i class="fa fa-send-o"></i></button>
+						</span>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div>
+		<!-- Button trigger modal -->
+		
+
+		<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title ziti" id="myModalLabel">用户的信息</h4>
+		      </div>
+		      <div class="modal-body">
+		       	<div class="text-left bk-bg-white bk-padding-top-40 bk-padding-bottom-10">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bk-vcenter text-center">                                
+							<div class="bk-avatar">
+								<img src="" alt=""  class="jk img-circle bk-img-120 bk-border-light-gray bk-border-3x">
+							</div>
+							<h4 class="bk-margin-top-10 bk-docs-font-weight-300 nameinfo"></h4>
+						</div>
+						<hr class="bk-margin-off">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">														
+							<a class="col-xs-4 bk-bg-white bk-fg-primary bk-padding-top-20 bk-padding-bottom-20 text-center">
+								<i class="fa fa-facebook"></i>
+							</a>
+							<a class="col-xs-4 bk-bg-white bk-fg-success bk-padding-top-20 bk-padding-bottom-20 text-center">
+								<i class="fa fa-twitter"></i>
+							</a>
+							<a class="col-xs-4 bk-bg-white bk-fg-danger bk-padding-top-20 bk-padding-bottom-20 text-center">
+								<i class="fa fa-google-plus"></i>
+							</a>
+						</div>	
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left bk-vcenter text-center">
+							<hr class="bk-margin-off">
+							<small class="b1"></small>
+							<div class="progress bk-margin-bottom-10" style="height: 8px;">
+								<div class="progress thin progress-striped active">
+									<div class="progress-bar progress-bar-primary bt1" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">
+										<span class="sr-only">60% Complete</span>
+									</div>
+								</div>
+							</div>
+							<small class="b2"></small>
+							<div class="progress bk-margin-bottom-10" style="height: 8px;">
+								<div class="progress thin progress-striped active">
+									<div class="progress-bar progress-bar-danger bt2" role="progressbar" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100" style="width: 88%;">
+										<span class="sr-only">88% Complete</span>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+
+	<script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+	<script>
+	//代做
+		$('.huoqu').live('click',function(){
+			var val=$(this).attr('value');
+			var bq=$('input[type="hidden"]').val();
+			// alert(val);
+			// 'Post_Hot' => string '111' (length=3)
+   //    'User_Nickname' => string '萧山张国荣' (length=15)
+   //    'User_Pic' => string '/Uploads/2016-05-20/573e5e15dd40a.jpg' (length=37)
+			// 
+			$.post(
+				"{:U('Admin/Group/Userinfo')}",
+				{id:val,bq:bq},
+				function(data){
+					// console.log(data.length);
+					$('.jk').attr('src',data[0].User_Pic);
+					var name=data[0].User_Nickname;
+					var email=data[0].User_Email;
+					//发帖
+					var fatie=data[0].fatie;
+					var count=data[0].count;
+					//回复
+					var hcount=data[0].hcount;
+					var hfu=data[0].hfu;
+					// console.log(hcount);
+					// console.log(hfu);
+					// console.log(name);
+					if(name==null){
+					$('.nameinfo').html(email);
+					}else{
+					$('.nameinfo').html(name);
+					}
+
+					var b1=Math.round((fatie/count)*100)+"%";
+					var b2=Math.round((hfu/hcount)*100)+"%";
+
+				
+					$('.b1').html('发帖度:'+b1);
+					$('.bt1').attr('style','width:'+b1);
+
+					$('.b2').html('回复度:'+b2);
+					$('.bt2').attr('style','width:'+b2);
+				}
+			)
+		})
+
+		$('.btn-default').click(function(){
+			// alert(1);
+			var z=$('.zz').val();
+			var bq=$('input[type="hidden"]').val();
+			$.get(
+				"{:U('Admin/Group/findUser')}",
+				{name:z,Gid:bq},
+				function(data){
+					// console.log(data);
+					$('.tab-pane').children().remove();
+					for(var i=0;i<data.length;i++){
+						var f=$('<div class="bk-avatar huoqu"data-toggle="modal" value="'+data[i].Au_Uid+'" data-target="#myModal" style="display:inline-block;margin-right:20px;margin-bottom:20px;cursor:pointer"><img src="'+data[i].User_Pic+'" title="'+data[i].User_Nickname+'" class="img-circle bk-img-60 bk-border-primary bk-border-2x bk-border-darken User_Nickname"></div>');
+						$('.tab-pane').append(f);
+					}
+				}
+			)
+		})
+	</script>
+</block>
+
+      
+

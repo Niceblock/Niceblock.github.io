@@ -1,0 +1,132 @@
+<extend name="Public/index" />
+<block name="style">
+	<link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/0084858c.groupsearch.css" />
+</block>
+<block name="content">
+	    <div class="sub-nav">
+	        <div class="sub-nav-wrap gclear">
+	            <h2>
+	                <a href="http://www.guokr.com/group/">
+	                    <span class="gnav-logo">果壳</span>小组
+	                </a>
+	            </h2>
+	            <ul class="sub-nav-link gfl">
+	                
+	                
+
+	<li >
+
+	    <a href="{:U('Home/Group/index')}">小组热帖</a>
+	</li>
+
+	                
+
+	<li >
+
+	    <a href="http://www.guokr.com/group/rank/">小组排行</a>
+	</li>
+
+	            </ul>
+	            <div class="gh-search-wrap">
+	               <form id="searchGroup" action="{:U('Home/Group/soso')}" class="gh-search" method="get">
+	                 <p>
+	                   <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value="">
+	                   <input type="submit" value="搜索" class="gnicon-search"></p>
+	               </form>
+	                <ul class="dropdown-group"></ul>
+	            </div>
+	        </div>
+	    </div>
+	<div class="gwrap">
+	    
+	    <div class="gmain">
+	    <if condition="$name eq '' ">
+
+	    <else />
+			<h2 class="main-title">搜索小组:{$name}</h2>
+	    </if>
+			<ul class="tab">
+				<li class="current">
+					<a href="{:U('Home/Group/soso',array('wd'=>$name))}">小组</a>
+				</li>
+				<li>
+					<a href="{:U('Home/Group/sotie',array('wd'=>$name))}">帖子</a>
+				</li>
+			</ul>
+	        
+	        <ul class="group-list">
+
+			<?php if (empty($res)): ?>
+
+				<p class="search_result">没有相关结果</p>
+			<?php else: ?>
+	            <foreach name="res" item="v">
+	            <li class="group-item"> 
+	                <a class="group-img" href="http://www.guokr.com/group/422/">
+	                    <img src="__PUBLIC__{$v.Group_Src}" width="48" height="48">
+	                </a>
+					<div class="group-info">
+	                    
+						<a class="group-name" href="http://www.guokr.com/group/422/" target="_blank">{$v.Group_Name}</a>
+	                    
+						<span class="number">{$v.count}人</span>
+						{$v.play}
+	                    	<?php if(!array_key_exists('play',$v)): ?>
+	                        <a class="joinBtn joingroup"  data-operation="join" data-method="join"  value="{$v.G_id}" data-login="yes" style="cursor:pointer;">+加入</a>
+	                    	<?php else: ?>
+							<a class="joinBtn joingroup" data-operation="join" data-method="join"  value="{$v.G_id}" data-login="yes" style="cursor:pointer;">+已加入</a>
+	                    	<?php endif; ?>
+					</div>
+	                <p class="group-desc">{$v.Group_About}</p>
+	            </li>
+	            </foreach>
+	        <?php endif; ?>
+	            
+	        </ul>
+	    </div>
+	</div>
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+
+	<script>
+	$(function(){
+
+		$('.joingroup').click(function(){
+		    var r=$(this).html();
+		    var v=$(this).attr('value');
+		    var me=$(this);
+
+		  if(r=="+加入"){
+		    console.log(v);
+		    $.ajax({
+		      url:"{:U('Home/Group/joinGroup')}",
+		      data:{G_id:v},
+		      type:'post',
+		      async:false,
+		      success:function(data){
+		        // console.log(data);
+		        if(data==1){
+		          me.html('+已加入');
+		        }
+		      }
+		    })
+		  }else{
+		    console.log(v);
+		    $.ajax({
+		      url:"{:U('Home/Group/outGroup')}",
+		      data:{G_id:v},
+		      type:'post',
+		      async:false,
+		      success:function(data){
+		        // console.log(data);
+		        if(data==1){
+		          me.html('+加入');
+		        }
+		      }
+		    })
+		  }
+		})
+	})
+	</script>
+</block>
+</extend>

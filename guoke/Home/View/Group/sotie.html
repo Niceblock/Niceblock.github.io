@@ -1,0 +1,79 @@
+<extend name="Public/index" />
+<block name="style">
+	<link rel="stylesheet" href="__PUBLIC__/Home/assets/css/6e7bcd6e.main.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/0084858c.groupsearch.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/assets/css/54cb5e34.postsearch.css" />
+</block>
+<block name="content">
+	    <div class="sub-nav" style="margin-top:-42px;">
+	        <div class="sub-nav-wrap gclear">
+	            <h2>
+	                <a href="http://www.guokr.com/group/">
+	                    <span class="gnav-logo">果壳</span>小组
+	                </a>
+	            </h2>
+	            <ul class="sub-nav-link gfl">
+	                
+	                
+
+	<li >
+
+	    <a href="{:U('Home/Group/index')}">小组热帖</a>
+	</li>
+
+	                
+
+	<li >
+
+	    <a href="http://www.guokr.com/group/rank/">小组排行</a>
+	</li>
+
+	            </ul>
+	            <div class="gh-search-wrap">
+	               <form id="searchGroup" action="{:U('Home/Group/soso')}" class="gh-search" method="get">
+	                 <p>
+	                   <input id="searchGroupInput" type="text" class="gh-search-txt" name="wd" maxlength="30" placeholder="搜索小组、帖子" autocomplete="off" value="">
+	                   <input type="submit" value="搜索" class="gnicon-search"></p>
+	               </form>
+	                <ul class="dropdown-group"></ul>
+	            </div>
+	        </div>
+	    </div>
+	<div class="gwrap">
+	    
+	    <div class="gmain">
+	    <if condition="$name eq '' ">
+
+	    <else />
+			<h2 class="main-title">搜索小组:{$name}</h2>
+	    </if>
+			<ul class="tab">
+				<li >
+					<a href="{:U('Home/Group/soso',array('wd'=>$name))}">小组</a>
+				</li>
+				<li class="current">
+					<a href="{:U('Home/Group/sotie',array('wd'=>$name))}">帖子</a>
+				</li>
+			</ul>
+	        
+	        <ul class="group-list">
+	        <foreach name="res" item="v">
+				<li class="post-item" style="margin-top:30px;font-size:17px;font-family:宋体;border-bottom:1px dashed #ccc;padding-bottom:20px">
+				                    <span>[帖子]</span>
+				                    <a href="{:U('Home/Reply/infolist',array('Post_Tid'=>$v['Post_Tid'],'Post_id'=>$v['Post_Id']))}">{$v.Post_Title}</a>
+				                <br>
+				                <br>
+				                <p class="post-desc">{$v.Post_Content}</p>
+				                <br>
+				                <div class="post-info">
+				                  <span>来自:</span>
+				                  <a target="_blank" href="{:U('Home/Group/GpInfo',array('id'=>$v['Post_Tid']))}">{$v.Group_Name}</a>&nbsp;小组&nbsp;&nbsp;{$v.ji}
+				                </div>
+				</li>
+	            </foreach>
+	        </ul>
+	    </div>
+	</div>
+
+</block>
+</extend>

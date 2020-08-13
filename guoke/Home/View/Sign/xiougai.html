@@ -1,0 +1,99 @@
+<extend name="Sign/index"/>
+<block name="conect">
+<div class="wrap grow gmt30 gpack">
+    
+    <div class="gspan-21 gprefix-2 main">
+                <h1>找回密码</h1>
+                <form class="gform" id="forgotPassword" action="" method="POST" novalidate="true">
+                    <input id="csrf_token" name="csrf_token" type="hidden" value="1464792154.07##998992bf4eacf10e11317f92bcebf01df21830eb">
+                    <p class="reg-summary">请输入你的注册邮箱，系统将发出一封验证邮件，通过验证邮件就可以重新设置密码了</p>
+                    <p class="gform-box">
+                        <input class="gbtxt" id="email" maxlength="40" name="email" placeholder="邮箱" required="" type="email" value="">
+                        <span class="tip">
+                        </span>
+                    </p>
+                    <div>
+                <div class="row gclear clearfix">
+                </div>
+                        <span class="tip">
+                        </span>
+                    </div>
+                    <p class="gform-box">
+                        <input type="submit" class="gform-submit gbtn-primary" value="确定">
+                        <div id="opop" style="color:green"></div>
+                    </p>
+                </form>
+            </div>
+    </div>
+</block>
+<block name="js">
+<script>
+$(function(){
+
+    var CUSER=true;
+
+
+
+
+    $('#forgotPassword').submit(function(){
+
+    var email=$('#email').val();
+    var opop=$('#opop');
+    if(!CUSER){
+     return false;
+    }
+
+    $.ajax({
+      url:"{:U('Home/sign/xiougai')}",
+      data:{email:email},
+      type:'post',
+      async:false,
+      success:function(data){
+         if(data==1){
+            opop.html('已发送邮件,请到邮件验证');
+         }
+     }
+    })
+
+    return false;
+    })
+
+    $('#email').blur(function(){
+      //检测用户名是否正确
+      var reg = /^\w+@\w+\.(com|cn|org|com.cn|net)$/;
+      //获取邮箱
+      var Email= $(this).val();
+      //检测
+      var res = reg.test(Email);
+      var t=$(this);
+      if(!res){
+         $(this).next().html('邮箱格式不正确').css('color','rgb(243, 90, 90)');;
+         $(this).attr('style','border:solid 1px red;');
+         CUSER = false;
+      }else{
+          $.ajax({
+            url:"{:U('Home/Login/Emaildo')}",
+            data:{email:Email},
+            type:'get',
+            async:false,
+            success:function(data){
+              if(data==1){
+                t.next().html('邮箱不存在').css('color','rgb(243, 90, 90)');;
+                t.attr('style','border:solid 1px red;');
+                CUSER = false;
+              }else{
+                t.next().html('');
+                t.attr('style','border:solid 1px green;');
+              }
+            }
+          })
+      }
+    })
+
+
+
+
+})
+</script>
+</block>
+</extend>

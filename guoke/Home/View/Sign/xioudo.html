@@ -1,0 +1,87 @@
+<extend name="Sign/index"/>
+<block name="conect">
+  <div class="gmain settings-profile-page" style="margin-left:200px">
+        <div class="page-titleline">
+          <h2>修改密码</h2></div>
+          <form id="myform" class="gsuffix-2 gform" method="POST" action="{:U('Home/Sign/xioudo')}" novalidate="true">
+            <input type="hidden" name="email" value="{$email}">
+            <label for="password">新密码</label>
+            <div class="gform-box">
+              <input class="gstxt" id="password-input" name="password" type="password" value="">
+              <span class="tip"></span>
+            </div>
+            <label for="password_confirm">确认密码</label>
+            <div class="gform-box">
+              <input class="gstxt" id="pwd-input" name="password_confirm" type="password" value="">
+              <span class="tip"></span>
+            </div>
+            <p class="buttons">
+              <input class="gnbtn-primary gform-submit" type="submit" value="修改">
+          </form>
+          </div>
+</block>
+
+<block name="js">
+  <script>
+    $(function(){
+
+      var CUSER=true;
+
+      $('#myform').submit(function(){
+         CUSER = true;
+         //丧失焦点事件
+         $('input').trigger('blur');
+         //检验是否正确
+         if(!CUSER){
+          return false;
+         }
+         //阻止默认行为
+         return  true;
+        
+      })
+
+      $('input').focus(function(){
+        //获取属性
+        var str = $(this).attr('readmin');
+        //设置文本
+        $(this).next().html(str).css('color','green');
+        //设置样式
+        $(this).attr('style','border:solid 1px green;');
+
+      })
+
+
+      $('#password-input').blur(function(){
+        var pass = $(this).val();
+        var reg = /^\w{6,18}$/;
+        if(!reg.test(pass)){
+          $(this).next().html('密码安全过低').css('color','rgb(243, 90, 90)');;
+          $(this).attr('style','border:solid 1px red;');
+          CUSER = false;
+        }else{
+          $(this).next().html('密码可以使用').css('color','green');
+          $(this).attr('style','border:solid 1px green;');
+        }
+      })
+
+      //密码
+      $('#pwd-input').blur(function(){
+        var pass = $(this).val();
+        var password = $('#password-input').val();
+        if(pass == password){
+          $(this).next().html('密码一致').css('color','green');
+          $(this).attr('style','border:solid 1px green;');
+        }else{
+          $(this).next().html('两次密码不正确').css('color','rgb(243, 90, 90)');;
+          $(this).attr('style','border:solid 1px red;');
+          CUSER = false;
+        }
+      })
+    
+
+      
+    })
+
+  </script>
+</block>
+</extend>

@@ -1,0 +1,148 @@
+<extend name="Public/public"/>
+<block name="content">
+
+<!-- 引入百度编辑器 -->
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>用户管理</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>用户添加</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+        <!-- 头部结束 -->
+
+
+
+
+        <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+                  <form action="{:U('Admin/Sciencearticle/update')}" method="post" class="form-horizontal">
+                    
+                    <input type="hidden" name="id" value="{$res.id}">
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="text-input">所属分类</label>
+                      <div class="col-md-9">
+
+                        <select onchange="change(this)" name="Fid"  size="1"  style="width:70%"  class="form-control" id="select">
+                            <!-- 取出顶级分类 -->
+                            <foreach name="ress" item="v">
+                                <option class="opt" value="{$v.id}"<?php echo $res['Class_Title']==$v['Class_Title']?'
+                                selected':'' ?>>{$v.Class_Title}</option>
+                            </foreach>
+                        </select>
+                        <span class="help-block" style="height:2px;"></span>
+                      </div>
+                    </div>
+                      
+                    <div class="form-group">
+                     <label class="col-md-3 control-label" for="text-input"></label> 
+                      <div class="col-md-9">
+                        <!-- 取出次级分类,默认隐藏,name名一样,如果选择了次级,次级分覆盖父级 -->
+                        <!-- 判断是否有子类 -->
+                        <?php if (isset($res['subclass_title'])): ?>
+                          <select  size="1"  style="width:70%;margin-bottom:10px;"  class="form-control" id="city" name="Fid">
+                            <!-- 所有子类遍历 -->
+                            <foreach name="ressss" item="val">
+                              <!-- 选中当前子类 -->
+                              <option value="{$val.id}"<?php echo $val['Class_Title']==$res['subclass_title']?'
+                                selected':'' ?>>
+                                {$val.Class_Title}
+                              </option>
+                            </foreach>
+                          </select>
+                        <?php else: ?>
+                          <select  size="1"  style="width:70%;display:none;margin-bottom:10px;"  class="form-control" id="city" name="Fid">
+                          </select>
+                        <?php endif ?>
+
+                      <span class="help-block" style="height:5px;"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">文章名</label>
+                      <div class="col-md-9">
+                        <input type="text" style="width:70%" id="password-input" name="Class_Title" value="{$res.Title}" class="form-control">
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-12">
+                        <!-- 百度文本编辑骂     -->
+                        <script id="editor" name="Content" type="text/plain" style="width:605px;height:400px;">
+                          {$res.Content}
+                        </script>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">是否上线</label>
+                     <div class="col-md-9">
+                        <div class="radio-custom radio-inline">
+                          <input type="radio" value="1" name="Display" id="inline-radio1" <?php echo $res['Display']==1?'checked':'' ?>> 
+                          <label for="inline-radio1">上线</label>
+                        </div>
+                        <div class="radio-custom radio-inline">
+                          <input type="radio" value="0" name="Display" id="inline-radio2" <?php echo $res['Display']==0?'checked':'' ?>> 
+                          <label for="inline-radio2">下线</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="center-block" style="width:90px">
+
+                   <button type="submit" class="bk-margin-5 btn btn-success btn-sm subm" style="margin:0px auto">提交</button>
+                   </div>
+                    <br>
+                  </form>
+                </div>
+        </div>
+
+          <!-- ajax验证 -->
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script>
+      //实例化编辑器
+          //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+          var ue = UE.getEditor('editor');
+
+          // 顶级分类改变值触发
+          function change(obj){
+              // 获取顶级分类值
+              var sid=obj.value;
+              //ajaxurl
+              var url="{:U('Home/Write/ajaxclass')}";
+              //ajax
+              $.post(url, {Class_Pid:sid}, function(data){
+                  //没有子类的情况
+                  if (data==0) {
+                      $('#city').css('display','none');
+                  } else{
+                      //有子类的情况
+                      //显示次级文本框
+                      $('#city').css('display','inline-block');
+                      //清空文本框中内容
+                      $('#city').html('');
+                      var val='';
+                      //循环遍历次级分类
+                      for (var i = 0; i < data.length; i++) {
+                          //取出组合拼接
+                          val+="<option value='"+data[i].id+"'>"+data[i].Class_Title+"</option>";
+                      };
+                      //插入
+                      $('#city').append(val);
+                  };
+                  //返回json
+              },'json');
+          }
+
+    </script>
+</block>

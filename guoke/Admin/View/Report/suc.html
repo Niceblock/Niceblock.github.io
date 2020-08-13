@@ -1,0 +1,131 @@
+<extend name="Public/public"/>
+<block name="content">
+
+      <div class="row">
+        
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="panel panel-default bk-bg-white">
+                <div class="panel-heading bk-bg-white">
+                  <h6><i class="fa fa-table red"></i><span class="break"></span>以处理举报列表</h6>              
+                  <div class="panel-actions">
+                    <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                    <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+                  </div>
+                </div>
+                  
+                <div class="panel-body" id="prent">
+                 <!--  <div id="detailed">
+                    sda
+                  </div> -->
+                  <div class="row">
+                    
+                    <div class="btn-group col-sm-8">
+                       
+                    </div>
+                    
+                    <div class="col-sm-4">
+                      
+                    </div>
+                  </div>
+                  <hr> 
+                  <if condition="$res eq '' "><h3>暂无信息</h3></if>
+                  <foreach name="res" item="vo" key="k" >
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable" style="margin-top:15px;">
+                      <thead>
+                        <tr>
+                          <th class="text-center">类型</th>
+                          <th class="text-center" width="150px">举报人</th>
+                          <th class="text-center" width="150px">举报基本理由</th>
+                          <th class="text-center">举报其他理由</th>
+                          <th class="text-center">被举报人</th>
+                          <th class="text-center" width="150px">操作</th>
+                        </tr>
+                        <tr class="text-center id">
+                          <td>
+                            <if condition="$vo.r_type eq 1 ">
+                              <a class="btn btn-default">问题</a>
+                            <elseif condition="$vo.r_type eq 2" />
+                              <a class="btn btn-info">回答</a>
+                            </if>
+                          </td>
+                          <td><h4>{$vo['u'][0]['User_Nickname']}</h4></td>
+                          <td><h4>{$vo.b_r}</h4></td>
+                          <td><h4>{$vo.o_r}</h4></td>
+                          <td>
+                              {$vo['bu'][0]['User_Nickname']}
+                          </td>
+                          <td class="text-center" style="vertical-align: middle;" rowspan="2">
+                              <a class="btn btn-danger" id="delr" rid="{$vo.r_id}">删除</a>
+
+                          </td>
+                        </tr>
+                        <tr class="text-center">
+                          <th class="text-center" style="vertical-align: middle">举报时间</th>
+                          <td colspan="4"><h4>{$vo.r_time}</h4></td>
+                          
+                        </tr>
+                        <tr class="text-center">
+                          <th class="text-center" style="vertical-align: middle;" colspan="6">举报内容</th>
+                        </tr>
+
+                          <td colspan="5">
+                            <if condition="$vo.r_type eq 1 ">
+                              {$vo.r_msg}
+                            <elseif condition="$vo.r_type eq 2" />
+                              {$vo.r_msg|substr=0,500}
+                            </if>
+                          </td>
+                          <td class="text-center" style="vertical-align: middle;">
+                            <a class="btn btn-info" id="msg" data-msg="{$vo.msg}">详细描述</a>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </foreach>
+                    
+                </div>
+              </div>
+            </div>
+          </div> 
+          
+          <style type="text/css">
+            #detailed{width:900px;height:auto;position:absolute;background:rgba(0,0,0,0.3);
+              z-index:10;}
+          </style>
+          <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+          <script type="text/javascript">
+          // 绑定详细描述
+          $('#msg').live('click',function(){
+            var top = $(this).offset().top;
+
+              // 获取msg
+              var msg=$(this).attr('data-msg');
+              var div=$('<div id="detailed" style="top:'+top+'px">'+msg+'</div>');
+              top=top-336;
+              $('#prent').append(div);
+              div.animate({
+                top:+top+"px",
+              },1300);
+            $('#detailed').click(function(){
+              $(this).remove();
+            })
+          })
+
+         // 删除举报信息
+          $('#delr').live('click',function(){
+              // 获取id
+              var rid=$(this).attr('rid');
+              var del=$(this);
+              var url="{:U('Admin/Report/delr')}";
+              $.post(url,{id:rid},function(data){
+                if(data==1){
+                  del.parents('table').remove();
+                }else{
+                  alert('删除失败');
+                }
+              })
+          })
+          </script>
+          
+</block>
+

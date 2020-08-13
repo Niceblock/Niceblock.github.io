@@ -1,0 +1,94 @@
+<extend name="Public/public"/>
+<block name="content">
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>小组模块</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>帖子举报</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+
+      <?php if(empty($mm)): ?>
+        暂无举报
+      <?php else: ?>
+      <foreach name="mm" item="v">
+        <div class="col-sm-4">    
+          <div class="panel panel-default bk-bg-white">
+            <div class="panel-heading bk-bg-white">
+              <h6><i class="fa fa-indent red"></i>举报</h6>              
+              <div class="panel-actions">
+                <a href="#" class="btn-minimize"><i class="fa fa-caret-up"></i></a>
+                <a href="#" class="btn-close"><i class="fa fa-times"></i></a>
+              </div>
+            </div>
+            <div class="panel-body">
+              <!--内容  -->
+              <address>
+                <br>
+                举报类型:<?php 
+                switch ($v['RF_Type']) {
+                  case 0:
+                    echo '垃圾广告';
+                    break;
+                  case 1:
+                    echo '敏感或淫秽色情信息';
+                    break;
+                  case 2:
+                    echo '人身攻击';
+                    break;
+                  case 3:
+                    echo '内容涉及抄袭及版权问题';
+                    break;
+                }
+                 ?><br><br>
+                举报简介:
+                <textarea name="" id="" cols="34" rows="4">{$v.RF_Content}</textarea>
+                <br><br>
+                举报人:{$v.User_Nickname}
+                <br>
+               
+              </address>
+              <address>
+              </address>
+                举报链接:<a href="{$v.RF_A}">点击查看</a>
+                <a class="btn btn-success" val="{$v['id']}"style="float:right">已审阅</a>
+              <!--  -->
+            </div>
+          </div>
+        </div><!--/.col-->
+        <if condition="($k+1)%3==0 ">
+          <div style="clear:both"></div>
+          <div style="width:100%;height:1px;"></div>
+        </if>
+
+
+        </foreach>
+        <?php endif; ?>
+        <!-- 头部结束 -->
+
+        <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+        <script>
+        $('.btn-success').click(function(){
+          // alert(1);
+          var id=$(this).attr('val');
+          $.ajax({
+            url:"{:U('Admin/Group/jubao')}",
+            data:{id:id},
+            type:'post',
+            success:function(data){
+              if(data==1){
+                // alert(1);
+                location.reload();
+              }
+            }
+          })
+          
+        })
+
+        </script>
+</block>

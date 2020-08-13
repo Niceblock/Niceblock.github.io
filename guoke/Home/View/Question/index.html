@@ -1,0 +1,297 @@
+<extend name="Public/index"/>
+<block name="nav">
+	<div class="sub-nav">
+	    <div class="sub-nav-wrap gclear">
+	        <h2>
+	            <a href="/ask/"><span class="gnav-logo">果壳</span>问答</a>
+	        </h2>
+	        <ul class="sub-nav-link gfl">
+	            <li class="current">
+	                <a href="{:U('Home/Question/index')}">问答首页</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/question')}">发现问答</a>
+	            </li>
+	            <li>
+	                <a href="{:U('Home/Question/waitque')}">等待回答</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Question/newque')}">最新问题</a>
+	            </li>
+	            <li >
+	                <a href="{:U('Home/Quetag/index')}">标签广场</a>
+	            </li>
+	        </ul>
+	        <div class="sub-nav-btn gfr">
+	            <if condition="$uid eq '' ">
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Login/index')}">提问</a>
+		        <else />
+		            <a data-gaevent="ask_nav_button_ask:ask" class="gnbtn-primary" href="{:U('Home/Question/add')}">提问</a>
+		        </if>
+	            <a data-gaevent="ask_nav_button_answer:ask" href="{:U('Home/Question/waitque')}" class="gnbtn-primary">我要回答</a>
+	        </div>
+	    </div>
+	</div>
+</block>
+<block name="content">
+	<div class="gwrap ask-index-page">
+	<div class="gmain">
+		<div class="ask-index-list ask-wait ask-list-border">
+		        <h3>等待回答
+		            <a href="{:U('Home/Question/waitque')}" class="ask-list-all" target="_blank">[全部]</a>
+		        </h3>
+		        <ul class="ask-q-list">
+		            <foreach name="wait" item="v" key="k" >
+			            <li>
+			            <span class="ask-list-right">{$v.answer_num}回答</span>
+			            <a data-gaevent="ask_main_wait:ask" class="gellipsis" href="{:U('Home/Question/subject',array('id'=>$v['id']))}" target="_blank">
+			                {$v.sub_name}
+		                </a>
+			            </li>
+		            </foreach>
+		        </ul>
+		    </div>
+	    <div class="ask-qa ask-list-border gclear">
+	        <div class="ask-index-list ask-hot">
+	            <h3>热门问答
+	                <a href="{:U('Home/Question/question',array('num'=>'1'))}" class="ask-list-all" target="_blank">[全部]</a>
+	            </h3>
+	            <ul class="ask-q-list">
+	                <foreach name="hot" item="v" key="k">
+	                <li>
+	                    <a data-gaevent="ask_main_hot:ask" class="gellipsis" href="{:U('Home/Question/subject',array('id'=>$v['id']))}" target="_blank">
+	                        {$v.sub_name}
+	                    </a>
+	                </li>
+	                </foreach>
+	            </ul>
+	        </div>
+	        <div class="ask-index-list ask-hot">
+	            <h3>精彩问答
+	                <a href="{:U('Home/Question/question',array('num'=>'2'))}" class="ask-list-all" target="_blank">[全部]</a>
+	            </h3>
+	            <ul class="ask-q-list">
+	                <foreach name="wonderful" item="v" key="k">
+	                <li>
+	                    <a data-gaevent="ask_main_good:ask" class="gellipsis" href="{:U('Home/Question/subject',array('id'=>$v['id']))}" target="_blank">
+	                        {$v.sub_name}
+	                    </a>
+	                </li>
+	                </foreach>
+	            </ul>
+	        </div>
+	    </div>
+	    <div class="ask-index-list ask-list-border" id="askLikeChange">
+	        <h3>
+	           
+	            大家都喜欢
+	            <a href="/ask/popular/" class="ask-list-all" target="_blank">[全部]</a>
+	        </h3>
+	        
+	        <ul class="ask-multi-list ask-multi-current">
+	            <foreach name="likeans" item="vo" >
+		            <li class="gclear ">
+		                <span class="ask-multi-up">
+		                    <span class="ask-support-num">{$vo.zan}</span>
+		                </span>
+		                <div class="gfl">
+		                    
+		                    <h4 class="gellipsis">
+		                        <a data-gaevent="ask_main_like:ask" href="" target="_blank">{$vo.User_Nickname}</a>&nbsp;回答&nbsp;<a href="{:U('Home/Question/subject',array('id'=>$vo['id']))}" target="_blank">{$vo.sub_name}</a>
+		                    </h4>
+		                    
+		                    <p class="gellipsis">
+		                        {$vo.ans_msg}
+		                    </p>
+		                </div>
+		                <span class="gfr">{$vo.ans_time}</span>
+		            </li>
+	            </foreach>
+	            
+
+	            
+	        </ul>
+	        
+	    </div>
+	    <div class="ask-index-list ask-list-border">
+	        <h3>
+	            <a href="/question/461319/" class="gfr" target="_blank">什么是等待支持？</a>
+	            等待支持
+	            <a href="/ask/potential/" class="ask-list-all" target="_blank">[全部]</a>
+	        </h3>
+	        <ul class="ask-multi-list ask-multi-current">
+	            
+	            <foreach name="waitans" item="vo" >
+		            <li class="gclear ">
+		                <span class="ask-multi-up">
+		                    <span class="ask-support-num">{$vo.zan}</span>
+		                </span>
+		                <div class="gfl">
+		                    
+		                    <h4 class="gellipsis">
+		                        <a data-gaevent="ask_main_like:ask" href="" target="_blank">{$vo.User_Nickname}</a>&nbsp;回答&nbsp;<a href="{:U('Home/Question/subject',array('id'=>$vo['id']))}" target="_blank">{$vo.sub_name}</a>
+		                    </h4>
+		                    
+		                    <p class="gellipsis">
+		                        {$vo.ans_msg}
+		                    </p>
+		                </div>
+		                <span class="gfr">{$vo.ans_time}</span>
+		            </li>
+	            </foreach>
+	            
+	            
+	            
+	        </ul>
+	    </div>
+	    <div class="ask-index-list ask-hot-tags gclear">
+	        <h3>
+	            热门标签
+	            <a href="{:U('Home/Quetag/index')}" class="ask-list-all" target="_blank">[全部]</a>
+	        </h3>
+	        
+	        
+	        <div class="ask-hot-tag">
+	            <a href="{:U('Home/Quetag/index',array('state'=>2,'num'=>'2'))}" class="ask-tag-link" target="_blank">人文 ▪ 社科</a>
+	            <foreach name="renwen" item="vo" >
+		            <dl>
+		                <dt>
+		                <a data-gaevent="ask_main_tag:ask" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">
+		                <if condition="$vo.tag_img eq '' ">
+		                	<img width="24" src="__PUBLIC__/Home/assets/Images/tagimg.png"/></a>
+	                	<else />
+		                	<img width="24" src="__PUBLIC__{$vo.tag_img}"/></a>
+	                	</if>
+		                </a>
+		                </dt>
+		                <dd>
+		                    <a data-gaevent="ask_main_tag:ask" class="gellipsis" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">{$vo.tag_name}</a>
+		                </dd>
+		            </dl>
+				</foreach>
+	            
+	        </div>
+	        
+	        <div class="ask-hot-tag">
+	            <a href="{:U('Home/Quetag/index',array('state'=>3,'num'=>'3'))}" class="ask-tag-link" target="_blank">科学 ▪ 技术</a>
+	            <foreach name="kexue" item="vo" >
+	            <dl>
+	                <dt>
+	                <a data-gaevent="ask_main_tag:ask" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">
+	                	<if condition="$vo.tag_img eq '' ">
+		                	<img width="24" src="__PUBLIC__/Home/assets/Images/tagimg.png"/></a>
+	                	<else />
+		                	<img width="24" src="__PUBLIC__{$vo.tag_img}"/></a>
+	                	</if>
+	                </dt>
+	                <dd>
+	                    <a data-gaevent="ask_main_tag:ask" class="gellipsis" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">{$vo.tag_name}</a>
+	                </dd>
+	            </dl>
+	            </foreach>
+
+	            
+	        </div>
+	        
+	        <div class="ask-hot-tag">
+	            <a href="{:U('Home/Quetag/index',array('state'=>4,'num'=>'4'))}" class="ask-tag-link" target="_blank">生活 ▪ 娱乐</a>
+	            <foreach name="life" item="vo" >
+	            <dl>
+	                <dt>
+	                <a data-gaevent="ask_main_tag:ask" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">
+	                	<if condition="$vo.tag_img eq '' ">
+		                	<img width="24" src="__PUBLIC__/Home/assets/Images/tagimg.png"/></a>
+	                	<else />
+		                	<img width="24" src="__PUBLIC__{$vo.tag_img}"/></a>
+	                	</if>
+	                </dt>
+	                <dd>
+	                    <a data-gaevent="ask_main_tag:ask" class="gellipsis" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">{$vo.tag_name}</a>
+	                </dd>
+	            </dl>
+	            </foreach>
+
+	            
+	        </div>
+    	        <div class="ask-hot-tag">
+        <a href="{:U('Home/Quetag/index',array('state'=>4,'num'=>'4'))}" class="ask-tag-link" target="_blank">自然 ▪ 生态</a>
+        <foreach name="ziran" item="vo" >
+        <dl>
+            <dt>
+            <a data-gaevent="ask_main_tag:ask" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">
+            	<if condition="$vo.tag_img eq '' ">
+                	<img width="24" src="__PUBLIC__/Home/assets/Images/tagimg.png"/></a>
+            	<else />
+                	<img width="24" src="__PUBLIC__{$vo.tag_img}"/></a>
+            	</if>
+            </dt>
+            <dd>
+                <a data-gaevent="ask_main_tag:ask" class="gellipsis" href="{:U('Home/Quetag/tag',array('tag_id'=>$vo['tag_id']))}" target="_blank">{$vo.tag_name}</a>
+            </dd>
+        </dl>
+        </foreach>
+        </div>
+	      </div>
+	</div>
+	<div class="gside">
+	  
+	    <div class="ask-index-ad">
+	        <div id="bdadm-664451" class="side-advert"></div>
+	    </div>
+	    <div id="askNewAnswer" class="ask-index-list ask-index-new">
+	        <h3>新增答案</h3>
+	        <ul>
+	        	<foreach name="newans" item="vo" >
+		        	<li>
+		        		<p class="gellipsis">
+		        			<a href="" target="_blank">{$vo.User_Nickname}</a>
+		        			&nbsp;回答&nbsp;
+		        			<a target="_blank" href="{:U('Home/Question/subject',array('id'=>$vo['id']))}">{$vo.sub_name}</a>
+		        		</p>
+		        		<span>{$vo.ans_time}</span>
+		        	</li>
+	        	</foreach>
+	        </ul>
+	    </div>
+	    <div class="ask-index-list ask-index-best" id="askBestChange">
+	        <h3>
+	            <div class="ask-change-tab gfr" id="askBestChangeBtns">
+	               
+	            </div>
+	            最佳回答者
+	        </h3>
+	        
+	        <ul class="current">
+	            
+	        	<foreach name="optimum" item="vo" >
+	            <li class="gclear ">
+	                <a data-gaevent="ask_main_best_people:ask" href="" class="pt-pic" target="_blank">
+	                	<if condition="$vo.User_pic eq '' ">
+	                    	<img src="__PUBLIC__/Home/assets/Images/himg.png" width="48px" height="48px" />
+	                	<else /> 
+	                    	<img src="__PUBLIC__{$vo.User_pic}" width="48px" height="48px"/>
+	                	</if>
+	                </a>
+	                <div class="pt-txt">
+	                    <a data-gaevent="ask_main_best_people:ask" href="" target="_blank">{$vo.User_Nickname}</a>
+	                    <p class="gellipsis">
+	                    </p>
+	                </div>
+	                <span class="ask-side-up">
+	                    {$vo.zan}
+	                </span>
+	            </li>
+	            
+	            </foreach>
+	            
+	         
+	        </ul>
+	    </div>
+	</div>
+	        <!-- 广告位：问答首页-底通 -->
+	        <div style="clear: both;">
+		<script type="text/javascript" >BAIDU_CLB_SLOT_ID = "887341";</script>
+		<script type="text/javascript" src="__PUBLIC__/Home/assets/Scripts/o.js"></script>
+	</div>
+
+</block>

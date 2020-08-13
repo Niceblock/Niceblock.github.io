@@ -1,0 +1,154 @@
+<extend name="Public/public"/>
+<block name="content">
+        <!-- 头部 -->
+        <div class="page-header">
+            <div class="pull-left">
+              <ol class="breadcrumb visible-sm visible-md visible-lg">                
+                <li><a href="{:U('User/index')}"><i class="icon fa fa-home"></i>用户管理</a></li>
+                <li class="active"><i class="fa fa-laptop"></i>用户添加</li>
+              </ol>           
+            </div>
+            <div class="pull-right">
+              <h2>Dashboard</h2>
+            </div>          
+        </div>
+        <!-- 头部结束 -->
+
+
+
+
+        <div style="background-color: white;width:60%;" class="center-block">
+          <div class="panel-body">
+
+                  <form action="{:U('Admin/User/add')}" method="post" class="form-horizontal" enctype="multipart/form-data">
+
+                    
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="text-input">邮箱</label>
+                      <div class="col-md-9">
+
+                        <input type="text" style="width:70%" id="text-input" name="User_Email" readmin="请输入有效的电子邮箱" class="form-control" placeholder="Email">
+
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">密码</label>
+                      <div class="col-md-9">
+                        <input type="password" style="width:70%" id="password-input" name="User_Pwd" readmin="请输入密码" class="form-control" placeholder="password">
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="email-input">确认密码</label>
+                      <div class="col-md-9">
+                        <input type="password" style="width:70%" id="pwd-input" name="User_Cpwd" readmin="请确认密码" class="form-control" placeholder="password">
+                        <span class="help-block" style="height:20px;"></span>
+                      </div>
+                    </div>
+
+
+                    <div class="form-group">
+                      <label class="col-md-3 control-label" for="file-input">上传头像</label>
+                      <div class="col-md-9">
+                        <input type="file" id="file-input" name="myfile">
+                      </div>
+                    </div>
+
+
+
+                    <div class="center-block" style="width:90px">
+  
+                   <button type="submit" class="bk-margin-5 btn btn-success btn-sm" style="margin:0px auto">Add User</button>
+                   </div>
+                    <br>
+
+                    
+                  </form>
+                </div>
+        </div>
+
+          <!-- ajax验证 -->
+    <script src="__PUBLIC__/Admin/assets/js/jquery-1.8.3.min.js"></script>
+    <script>
+
+      $(function(){
+
+
+        var CUSER=true;
+
+        $('form').submit(function(){
+           CUSER = true;
+           //丧失焦点事件
+           $('input').trigger('blur');
+           //检验是否正确
+           if(!CUSER){
+            return false;
+           }
+           //阻止默认行为
+           return  true;
+          
+        })
+
+        $('input').focus(function(){
+          //获取属性
+          var str = $(this).attr('readmin');
+          //设置文本
+          $(this).next().html(str).css('color','green');
+          //设置样式
+          $(this).attr('style','border:solid 1px green;width:70%');
+
+        })
+
+
+        $('#text-input').blur(function(){
+          //检测用户名是否正确
+          var reg = /^\w+@\w+\.(com|cn|org|com.cn|net)$/;
+          //获取邮箱
+          var Email= $(this).val();
+          //检测
+          var res = reg.test(Email);
+          if(!res){
+             $(this).next().html('用户名格式不正确').css('color','rgb(243, 90, 90)');;
+             $(this).attr('style','border:solid 1px red;width:70%');
+             CUSER = false;
+          }else{
+             $(this).next().html('邮箱可以使用').css('color','green');
+             $(this).attr('style','border:solid 1px green;width:70%');
+          }
+        })
+
+        $('#password-input').blur(function(){
+          var pass = $(this).val();
+          var reg = /^\w{6,18}$/;
+          if(!reg.test(pass)){
+            $(this).next().html('密码格式不正确').css('color','rgb(243, 90, 90)');;
+            $(this).attr('style','border:solid 1px red;width:70%');
+            CUSER = false;
+          }else{
+            $(this).next().html('密码可以使用').css('color','green');
+            $(this).attr('style','border:solid 1px green;width:70%');
+          }
+        })
+
+        //密码
+        $('#pwd-input').blur(function(){
+          var pass = $(this).val();
+          var password = $('#password-input').val();
+          if(pass == password){
+            $(this).next().html('密码一致').css('color','green');
+            $(this).attr('style','border:solid 1px green;width:70%');
+          }else{
+            $(this).next().html('两次密码不正确').css('color','rgb(243, 90, 90)');;
+            $(this).attr('style','border:solid 1px red;width:70%');
+            CUSER = false;
+          }
+        })
+      
+
+        
+      })
+
+    </script>
+
+</block>
