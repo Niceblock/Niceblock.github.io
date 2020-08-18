@@ -1,5 +1,5 @@
 # Niceblock.github.io
 
-<a href="https://Niceblock.github.io">My Website</a>
+<a href="https://niceblock.works">My Website</a>
 
 Hello Words ~~~~
